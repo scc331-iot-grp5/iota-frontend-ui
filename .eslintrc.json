@@ -31,8 +31,6 @@
     ".prettierrc.json",
     "next-env.d.ts",
     "tsconfig.json",
-    "types.d.ts",
-    "jest.config.js",
-    "jest.setup.js"
+    "types.d.ts"
   ]
 }
