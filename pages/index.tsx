@@ -1,9 +1,12 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '@/pages/index.module.css';
 
-import styles from '@/pages/index.module.css'
-
-export default function Home() {
+/**
+ * The index page
+ * @return {JSX.Element} The Home page
+ */
+export default function Home(): JSX.Element {
   return (
     <div className={styles.container}>
       <Head>
@@ -61,5 +64,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }

@@ -1,7 +1,14 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals"],
-  "plugins": ["testing-library"],
+  "extends": [
+    "next/core-web-vitals",
+    "google",
+    "prettier"
+  ],
+  "plugins": [
+    "testing-library",
+    "prettier"
+  ],
   "overrides": [
     // Only uses Testing Library lint rules in test files
     {
@@ -9,7 +16,12 @@
         "**/__tests__/**/*.[jt]s?(x)",
         "**/?(*.)+(spec|test).[jt]s?(x)"
       ],
-      "extends": ["plugin:testing-library/react"]
+      "extends": [
+        "plugin:testing-library/react"
+      ]
     }
-  ]
+  ],
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }
