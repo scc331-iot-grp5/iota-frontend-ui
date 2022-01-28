@@ -3,7 +3,6 @@ import Image from 'next/image';
 import styles from '@/pages/index.module.css';
 
 /**
- * The index page
  * @return {JSX.Element} The Home page
  */
 export default function Home(): JSX.Element {
