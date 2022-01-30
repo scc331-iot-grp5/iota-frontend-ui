@@ -1,67 +1,159 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from '@/pages/index.module.css';
 
+import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Box from '@mui/material/Box';
+import { ArrowRight } from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import { UserDetails, isUserDetails } from '../types/user-details';
+import { useRouter } from 'next/router';
+
+interface State {
+  showPassword: boolean;
+  password: string;
+  username: string;
+  loading: boolean;
+  userDetails: UserDetails | null;
+}
+
 /**
+ * @param { {'iota-app-bar': JSX.Element} } props props
  * @return {JSX.Element} The Home page
  */
-export default function Home(): JSX.Element {
+export default function Home(props: {
+  'iota-app-bar': JSX.Element;
+}): JSX.Element {
+  const router = useRouter();
+  const [values, setValues] = React.useState<State>({
+    showPassword: false,
+    password: '',
+    username: '',
+    loading: false,
+    userDetails: null,
+  });
+
+  const handleChange =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  React.useEffect(() => {
+    localStorage.setItem('user_details', JSON.stringify(values.userDetails));
+  }, [values.userDetails]);
+
+  const handleLogin = () => {
+    // TODO: spinner
+    fetch('http://localhost:1880/log-in', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: values.username,
+        password: values.password,
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (res) => {
+          console.log('login response', res);
+          if (isUserDetails(res)) {
+            values.userDetails = res;
+            router.push('dash');
+          } else {
+            console.log('did not receive user details response');
+          }
+        },
+        (err) => console.log('log-in fetch failed', err)
+      );
+    // TODO stop spinner
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>IOTA: Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
+        <h1 className={styles.title}>Welcome to IOTA</h1>
+        <p className={styles.description}>Please log in</p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <a className={styles.card}>
+            <div>
+              <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                <InputLabel htmlFor="outlined-username">Username</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-username"
+                  type="text"
+                  value={values.username}
+                  onChange={handleChange('username')}
+                  label="Username"
+                />
+              </FormControl>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+              <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.password}
+                  onChange={handleChange('password')}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a href="https://vercel.com/new" className={styles.card}>
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+              <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  sx={{ m: 1 }}
+                  variant="outlined"
+                  endIcon={<ArrowRight />}
+                  onClick={handleLogin}
+                >
+                  Login
+                </Button>
+              </Box>
+            </div>
           </a>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }

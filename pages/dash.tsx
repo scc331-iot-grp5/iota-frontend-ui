@@ -4,7 +4,7 @@ import { Login as LoginIcon } from '@mui/icons-material';
 /**
  * @return {JSX.Element} the login page
  */
-export default function Login(): JSX.Element {
+export default function Dash(): JSX.Element {
   return (
     <div>
       <Button variant="contained" endIcon={<LoginIcon />}>
