@@ -8,9 +8,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { UserDetails } from '../types/user-details';
-
+import {
+  UserDetails,
+  getUserDetails,
+  setUserDetails,
+} from '../types/user-details';
+import { useRouter } from 'next/router';
 interface State {
+  showMenu: boolean;
+  showProfileDetails: boolean;
   userDetails: UserDetails | null;
 }
 
@@ -18,9 +24,12 @@ interface State {
  * @return {JSX.Element} the App Bar
  */
 export default function IOTAAppBar(): JSX.Element {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [values] = React.useState<State>({
-    userDetails: null,
+    showMenu: false,
+    showProfileDetails: false,
+    userDetails: getUserDetails(),
   });
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,6 +38,13 @@ export default function IOTAAppBar(): JSX.Element {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+
+    setUserDetails(null);
+    router.push('/');
   };
 
   return (
@@ -49,16 +65,19 @@ export default function IOTAAppBar(): JSX.Element {
           </Typography>
 
           {values.userDetails && (
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            <React.Fragment>
+              <Typography>{values.userDetails.username}</Typography>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </React.Fragment>
           )}
           <Menu
             id="menu-appbar"
@@ -75,8 +94,7 @@ export default function IOTAAppBar(): JSX.Element {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

@@ -10,7 +10,7 @@ export type UserDetails = {
  * @return {bool} if the object is UserDetails
  */
 export function isUserDetails(o: any): o is UserDetails {
-  if (typeof o !== 'object') {
+  if (typeof o !== 'object' || o === undefined || o === null) {
     return false;
   }
 
@@ -21,4 +21,22 @@ export function isUserDetails(o: any): o is UserDetails {
       (n) => n === 'username' // || n === 'displayName' || n === 'email'
     )
   );
+}
+
+/**
+ * @return {UserDetails | null} the retrieved user details
+ */
+export function getUserDetails(): UserDetails | null {
+  const ud = JSON.parse(
+    window.sessionStorage.getItem('user_details') ?? 'null'
+  );
+  return isUserDetails(ud) ? ud : null;
+}
+
+/**
+ * @param {UserDetails | null} ud
+ * @return {void} nothing
+ */
+export function setUserDetails(ud: UserDetails | null): void {
+  return window.sessionStorage.setItem('user_details', JSON.stringify(ud));
 }

@@ -24,12 +24,9 @@ interface State {
 }
 
 /**
- * @param { {'iota-app-bar': JSX.Element} } props props
  * @return {JSX.Element} The Home page
  */
-export default function Home(props: {
-  'iota-app-bar': JSX.Element;
-}): JSX.Element {
+export default function Home(): JSX.Element {
   const router = useRouter();
   const [values, setValues] = React.useState<State>({
     showPassword: false,
@@ -57,12 +54,9 @@ export default function Home(props: {
     event.preventDefault();
   };
 
-  React.useEffect(() => {
-    localStorage.setItem('user_details', JSON.stringify(values.userDetails));
-  }, [values.userDetails]);
-
   const handleLogin = () => {
     // TODO: spinner
+    window?.sessionStorage.setItem('user_details', 'null');
     fetch('http://localhost:1880/log-in', {
       method: 'POST',
       body: JSON.stringify({
@@ -75,9 +69,11 @@ export default function Home(props: {
         (res) => {
           console.log('login response', res);
           if (isUserDetails(res)) {
+            console.log('are user details');
             values.userDetails = res;
+            window?.sessionStorage.setItem('user_details', JSON.stringify(res));
             router.push('dash');
-          } else {
+          } else if (res === {}) {
             console.log('did not receive user details response');
           }
         },
