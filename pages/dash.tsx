@@ -10,6 +10,8 @@ import { DashboardData } from 'types/dash-queries';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Typography } from '@material-ui/core';
 import MapView from '@/components/map-view';
+import { Refresh } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 interface State {
   dashData: DashboardData;
@@ -101,6 +103,29 @@ function dashToPlaceables(
 }
 
 /**
+ * @param {State} values vals
+ * @param {React.Dispatch<React.SetStateAction<State>>} setValues setters
+ */
+function fetchValues(
+  values: State,
+  setValues: React.Dispatch<React.SetStateAction<State>>
+): void {
+  fetch('http://localhost:1880/dash')
+    .then((res) => res.json())
+    .then(
+      (res) => {
+        console.log('dash data fetched');
+        if (res === {}) {
+          console.log('no data retrieved');
+          return;
+        }
+        setValues({ ...values, dashData: res });
+      },
+      (err) => console.log('dashboard data fetch failed', err)
+    );
+}
+
+/**
  * @return {JSX.Element} the login page
  */
 export default function Dash(): JSX.Element {
@@ -114,21 +139,7 @@ export default function Dash(): JSX.Element {
     },
   });
 
-  React.useEffect(() => {
-    fetch('http://localhost:1880/dash')
-      .then((res) => res.json())
-      .then(
-        (res) => {
-          console.log('dash data fetched');
-          if (res === {}) {
-            console.log('no data retrieved');
-            return;
-          }
-          setValues({ ...values, dashData: res });
-        },
-        (err) => console.log('dashboard data fetch failed', err)
-      );
-  }, []);
+  React.useEffect(() => fetchValues(values, setValues), []);
 
   // check logged in
   const userDetails = getUserDetails();
@@ -152,6 +163,14 @@ export default function Dash(): JSX.Element {
       </Head>
 
       <AppBar />
+
+      <IconButton
+        aria-label="refresh"
+        size="small"
+        onClick={() => fetchValues(values, setValues)}
+      >
+        <Refresh fontSize="small" />
+      </IconButton>
 
       <Box sx={{ flexGrow: 1 }} margin={2}>
         <Grid container spacing={2}>
