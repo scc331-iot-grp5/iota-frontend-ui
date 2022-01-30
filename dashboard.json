@@ -1,197 +1,165 @@
 [
-    {
-        "id": "c27f7b3109553ca2",
-        "type": "tab",
-        "label": "Dash",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "758544f7ecc07878",
-        "type": "debug",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 830,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "cacaaf85853ee5df",
-        "type": "http in",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "url": "dash",
-        "method": "get",
-        "upload": true,
-        "swaggerDoc": "",
-        "x": 80,
-        "y": 100,
-        "wires": [
-            [
-                "1dc52eb8f777fa74"
-            ]
-        ]
-    },
-    {
-        "id": "1dc52eb8f777fa74",
-        "type": "function",
-        "z": "c27f7b3109553ca2",
-        "name": "Record Lookup",
-        "func": "msg.topic = \"SELECT mb.microbitID as microbitID, o.name as name, \" +\n\"r1.temp as temp, r1.acc as acc, r1.direction as direction, \" +\n\"'' microB, '' as date, '' as time, '1' as qry \" +\n\"FROM Microbits mb, Object o, Readings r1, \" +\n\"(SELECT r2.microbitID, max(r2.heartbeat) as maxhb \" +\n\"FROM Readings r2 \"+\n\"GROUP BY r2.microbitID) as mr \" +\n\"WHERE o.objectID = mb.objectID \" +\n\"AND mb.MicrobitID = r1.microbitID \" +\n\"AND mr.MicrobitID = r1.microbitID \" +\n\"AND mr.maxhb = r1.heartbeat \" +\n\"UNION \" +\n\"SELECT '' as microbitID, '' as name, \" +\n\"'' as temp, '' as acc, '' as direction, \" +\n\"microbitID as microB, date, time, '2' as qry \" +\n\"FROM Crash \" +\n\"ORDER BY 9\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 280,
-        "y": 100,
-        "wires": [
-            [
-                "33ec0ebc44418eea"
-            ]
-        ]
-    },
-    {
-        "id": "33ec0ebc44418eea",
-        "type": "mysql",
-        "z": "c27f7b3109553ca2",
-        "mydb": "6956152fdeb741d3",
-        "name": "DataGrow DB",
-        "x": 460,
-        "y": 100,
-        "wires": [
-            [
-                "3acaeec5e98b70b1"
-            ]
-        ]
-    },
-    {
-        "id": "50bb7004ca6c06af",
-        "type": "http response",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "x": 1190,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "3acaeec5e98b70b1",
-        "type": "json",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "property": "payload,name",
-        "action": "str",
-        "pretty": true,
-        "x": 690,
-        "y": 100,
-        "wires": [
-            [
-                "44e501d513f883a0",
-                "f3b2be9d5cb46753"
-            ]
-        ]
-    },
-    {
-        "id": "8bd5d45a9f5e2dc1",
-        "type": "inject",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 150,
-        "y": 240,
-        "wires": [
-            [
-                "1dc52eb8f777fa74"
-            ]
-        ]
-    },
-    {
-        "id": "44e501d513f883a0",
-        "type": "template",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<HTML>\n    <head>\n    <style>\n    table {\n      font-family: arial, sans-serif;\n      border-collapse: collapse;\n      width: 100%;\n    }\n    \n    td, th {\n      border: 1px solid #dddddd;\n      text-align: left;\n      padding: 5px;\n    }\n    \n    tr:nth-child(even) {\n      background-color: #E9F6FE;\n    }\n    tr:nth-child(odd) {\n      background-color: #C6DAE6;\n    }\n    tr:first-child {\n      background-color: #03476E;\n      color: #EBF2F6;\n    }\n    </style>\n    </head>\n        <body>\n    \n        <div style=\"width:100%;height:10%;border:1px solid #000;\">\n            <h2>Autonomous Vehicle System</h2>\n        </div>\n        <div style=\"width:100%;height:50%;border:1px solid #000;\">Map goes here\n        </div>\n        <div style=\"width:50%;height:40%;float:left;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Devices</th>\n                <th>Temperature</th>\n                <th>Acceleration</th>\n                <th>Direction</th>\n              </tr>\n                {{#payload}}\n                    <tr>\n                        <td> {{microbitID}} </td>\n                        \n                        <SCRIPT>\n                            let param = {{{payload.name}}};\n                            if (param = 'Person'){\n                                document.body.innerHTML = \"<td> \" + param + \" </td> \"\n                            }\n                        </SCRIPT>\n                        \n                        <td> {{temp}} </td>\n                        <td> {{acc}} </td>\n                        <td> {{direction}} </td>\n                    </tr>\n                {{/payload}}   \n            </TABLE>\n        </div>\n        \n        <div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Date</th>\n                <th>Time</th>\n              </tr>\n                {{#payload2}}    \n                    <tr>\n                        <td> {{microbitID}} </td>\n                        <td> {{date}} </td>\n                        <td> {{time}} </td>\n                    </tr>\n                {{/payload2}}   \n            </TABLE>\n        </div>\n        \n    </body>\n</HTML>\n",
-        "output": "str",
-        "x": 920,
-        "y": 100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f3b2be9d5cb46753",
-        "type": "function",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "func": "var myStr=\"\";\nvar counter_qry1 = 0;\nvar counter_qry2 = 0;\nfor(var i=0;i<=msg.payload.length-1;i++){\n    var row=msg.payload[i];\n    if(row){\n        if (row.qry == 1 && row.microbitID != null){\n            if (counter_qry1 == 0){\n                counter_qry1++;\n                \n            }\n            myStr +=\"<tr>\";\n            myStr +=\"<td>\"+row.microbitID+\"</td>\";\n            myStr +=\"<td>\"+row.name+\"</td>\";\n            myStr +=\"<td>\"+row.temp+\"</td>\";\n            myStr +=\"<td>\"+row.acc+\"</td>\";\n            myStr +=\"<td>\"+row.direction+\"</td>\";\n            myStr +=\"</tr>\";\n        }\n        if (row.qry == 2 && counter_qry2 ==0){\n                myStr +=\"</table>\";\n                myStr +=\"</div>\";\n        }\n        if (row.qry == 2 && row.microB != null){\n            if (counter_qry2 ==0){\n                counter_qry2++;\n                myStr +=\"</table>\";\n                myStr +=\"</div>\";\n                myStr +='<div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">';\n                myStr +=\"<TABLE><tr><th>Microbit Id</th><th>Date</th><th>Time</th></tr>\"\n                myStr +=\"<tr>\";\n                myStr +=\"<td>\"+row.microB+\"</td>\";\n                myStr +=\"<td>\"+row.date+\"</td>\";\n                myStr +=\"<td>\"+row.time+\"</td>\";\n                myStr +=\"</tr>\";\n            }\n            else\n            {\n                myStr +=\"<tr>\";\n                myStr +=\"<td>\"+row.microB+\"</td>\";\n                myStr +=\"<td>\"+row.date+\"</td>\";\n                myStr +=\"<td>\"+row.time+\"</td>\";\n                myStr +=\"</tr>\";\n                \n            }\n        }\n    }else{\n        myStr+=\"no object at index \"+i.toString();\n    }\n}\nif (counter_qry2 > 0){\n    myStr +=\"</table>\";\n    myStr +=\"</div>\";\n}\n\nif (counter_qry2 ==0){\n    myStr +=\"</table>\";\n    myStr +=\"</div>\";\n    myStr +='<div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">';\n    myStr +=\"<TABLE><tr><th>Microbit Id</th><th>Date</th><th>Time</th></tr></TABLE></div>\"\n}\n\nmsg.payload=myStr;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 180,
-        "wires": [
-            [
-                "acc6e97926dcbd28",
-                "758544f7ecc07878"
-            ]
-        ]
-    },
-    {
-        "id": "acc6e97926dcbd28",
-        "type": "template",
-        "z": "c27f7b3109553ca2",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<HTML>\n    <head>\n    <style>\n    table {\n      font-family: arial, sans-serif;\n      border-collapse: collapse;\n      width: 100%;\n    }\n    \n    td, th {\n      border: 1px solid #dddddd;\n      text-align: left;\n      padding: 5px;\n    }\n    \n    tr:nth-child(even) {\n      background-color: #E9F6FE;\n    }\n    tr:nth-child(odd) {\n      background-color: #C6DAE6;\n    }\n    tr:first-child {\n      background-color: #03476E;\n      color: #EBF2F6;\n    }\n    </style>\n    </head>\n        <body>\n    \n        <div style=\"width:100%;height:10%;border:1px solid #000;\">\n            <h2>Autonomous Vehicle System</h2>\n        </div>\n        <div style=\"width:100%;height:50%;border:1px solid #000;\">Map goes here\n        </div>\n        <div style=\"width:50%;height:40%;float:left;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Devices</th>\n                <th>Temperature</th>\n                <th>Acceleration</th>\n                <th>Direction</th>\n              </tr>\n        {{{payload}}}\n    </body>\n</HTML>\n",
-        "output": "str",
-        "x": 1040,
-        "y": 220,
-        "wires": [
-            [
-                "50bb7004ca6c06af"
-            ]
-        ]
-    },
-    {
-        "id": "6956152fdeb741d3",
-        "type": "MySQLdatabase",
-        "name": "",
-        "host": "sql4.freesqldatabase.com",
-        "port": "3306",
-        "db": "sql4467174",
-        "tz": "",
-        "charset": "UTF8"
-    }
+  {
+    "id": "c27f7b3109553ca2",
+    "type": "tab",
+    "label": "Dash",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "758544f7ecc07878",
+    "type": "debug",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 830,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "cacaaf85853ee5df",
+    "type": "http in",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "url": "dash",
+    "method": "get",
+    "upload": true,
+    "swaggerDoc": "",
+    "x": 80,
+    "y": 100,
+    "wires": [["1dc52eb8f777fa74"]]
+  },
+  {
+    "id": "1dc52eb8f777fa74",
+    "type": "function",
+    "z": "c27f7b3109553ca2",
+    "name": "Record Lookup",
+    "func": "msg.topic = \"SELECT mb.microbitID as microbitID, o.name as name, \" +\n\"r1.temp as temp, r1.acc as acc, r1.direction as direction, \" +\n\"'' microB, '' as date, '' as time, '1' as qry \" +\n\"FROM Microbits mb, Object o, Readings r1, \" +\n\"(SELECT r2.microbitID, max(r2.heartbeat) as maxhb \" +\n\"FROM Readings r2 \"+\n\"GROUP BY r2.microbitID) as mr \" +\n\"WHERE o.objectID = mb.objectID \" +\n\"AND mb.MicrobitID = r1.microbitID \" +\n\"AND mr.MicrobitID = r1.microbitID \" +\n\"AND mr.maxhb = r1.heartbeat \" +\n\"UNION \" +\n\"SELECT '' as microbitID, '' as name, \" +\n\"'' as temp, '' as acc, '' as direction, \" +\n\"microbitID as microB, date, time, '2' as qry \" +\n\"FROM Crash \" +\n\"ORDER BY 9\";\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 280,
+    "y": 100,
+    "wires": [["33ec0ebc44418eea"]]
+  },
+  {
+    "id": "33ec0ebc44418eea",
+    "type": "mysql",
+    "z": "c27f7b3109553ca2",
+    "mydb": "6956152fdeb741d3",
+    "name": "DataGrow DB",
+    "x": 460,
+    "y": 100,
+    "wires": [["3acaeec5e98b70b1"]]
+  },
+  {
+    "id": "50bb7004ca6c06af",
+    "type": "http response",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "x": 1190,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "3acaeec5e98b70b1",
+    "type": "json",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "property": "payload,name",
+    "action": "str",
+    "pretty": true,
+    "x": 690,
+    "y": 100,
+    "wires": [["44e501d513f883a0", "f3b2be9d5cb46753"]]
+  },
+  {
+    "id": "8bd5d45a9f5e2dc1",
+    "type": "inject",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 240,
+    "wires": [["1dc52eb8f777fa74"]]
+  },
+  {
+    "id": "44e501d513f883a0",
+    "type": "template",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "<HTML>\n    <head>\n    <style>\n    table {\n      font-family: arial, sans-serif;\n      border-collapse: collapse;\n      width: 100%;\n    }\n    \n    td, th {\n      border: 1px solid #dddddd;\n      text-align: left;\n      padding: 5px;\n    }\n    \n    tr:nth-child(even) {\n      background-color: #E9F6FE;\n    }\n    tr:nth-child(odd) {\n      background-color: #C6DAE6;\n    }\n    tr:first-child {\n      background-color: #03476E;\n      color: #EBF2F6;\n    }\n    </style>\n    </head>\n        <body>\n    \n        <div style=\"width:100%;height:10%;border:1px solid #000;\">\n            <h2>Autonomous Vehicle System</h2>\n        </div>\n        <div style=\"width:100%;height:50%;border:1px solid #000;\">Map goes here\n        </div>\n        <div style=\"width:50%;height:40%;float:left;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Devices</th>\n                <th>Temperature</th>\n                <th>Acceleration</th>\n                <th>Direction</th>\n              </tr>\n                {{#payload}}\n                    <tr>\n                        <td> {{microbitID}} </td>\n                        \n                        <SCRIPT>\n                            let param = {{{payload.name}}};\n                            if (param = 'Person'){\n                                document.body.innerHTML = \"<td> \" + param + \" </td> \"\n                            }\n                        </SCRIPT>\n                        \n                        <td> {{temp}} </td>\n                        <td> {{acc}} </td>\n                        <td> {{direction}} </td>\n                    </tr>\n                {{/payload}}   \n            </TABLE>\n        </div>\n        \n        <div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Date</th>\n                <th>Time</th>\n              </tr>\n                {{#payload2}}    \n                    <tr>\n                        <td> {{microbitID}} </td>\n                        <td> {{date}} </td>\n                        <td> {{time}} </td>\n                    </tr>\n                {{/payload2}}   \n            </TABLE>\n        </div>\n        \n    </body>\n</HTML>\n",
+    "output": "str",
+    "x": 920,
+    "y": 100,
+    "wires": [[]]
+  },
+  {
+    "id": "f3b2be9d5cb46753",
+    "type": "function",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "func": "var myStr=\"\";\nvar counter_qry1 = 0;\nvar counter_qry2 = 0;\nfor(var i=0;i<=msg.payload.length-1;i++){\n    var row=msg.payload[i];\n    if(row){\n        if (row.qry == 1 && row.microbitID != null){\n            if (counter_qry1 == 0){\n                counter_qry1++;\n                \n            }\n            myStr +=\"<tr>\";\n            myStr +=\"<td>\"+row.microbitID+\"</td>\";\n            myStr +=\"<td>\"+row.name+\"</td>\";\n            myStr +=\"<td>\"+row.temp+\"</td>\";\n            myStr +=\"<td>\"+row.acc+\"</td>\";\n            myStr +=\"<td>\"+row.direction+\"</td>\";\n            myStr +=\"</tr>\";\n        }\n        if (row.qry == 2 && counter_qry2 ==0){\n                myStr +=\"</table>\";\n                myStr +=\"</div>\";\n        }\n        if (row.qry == 2 && row.microB != null){\n            if (counter_qry2 ==0){\n                counter_qry2++;\n                myStr +=\"</table>\";\n                myStr +=\"</div>\";\n                myStr +='<div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">';\n                myStr +=\"<TABLE><tr><th>Microbit Id</th><th>Date</th><th>Time</th></tr>\"\n                myStr +=\"<tr>\";\n                myStr +=\"<td>\"+row.microB+\"</td>\";\n                myStr +=\"<td>\"+row.date+\"</td>\";\n                myStr +=\"<td>\"+row.time+\"</td>\";\n                myStr +=\"</tr>\";\n            }\n            else\n            {\n                myStr +=\"<tr>\";\n                myStr +=\"<td>\"+row.microB+\"</td>\";\n                myStr +=\"<td>\"+row.date+\"</td>\";\n                myStr +=\"<td>\"+row.time+\"</td>\";\n                myStr +=\"</tr>\";\n                \n            }\n        }\n    }else{\n        myStr+=\"no object at index \"+i.toString();\n    }\n}\nif (counter_qry2 > 0){\n    myStr +=\"</table>\";\n    myStr +=\"</div>\";\n}\n\nif (counter_qry2 ==0){\n    myStr +=\"</table>\";\n    myStr +=\"</div>\";\n    myStr +='<div style=\"width:50%;height:40%;float:right;border:0px solid #000;\">';\n    myStr +=\"<TABLE><tr><th>Microbit Id</th><th>Date</th><th>Time</th></tr></TABLE></div>\"\n}\n\nmsg.payload=myStr;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 850,
+    "y": 180,
+    "wires": [["acc6e97926dcbd28", "758544f7ecc07878"]]
+  },
+  {
+    "id": "acc6e97926dcbd28",
+    "type": "template",
+    "z": "c27f7b3109553ca2",
+    "name": "",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "<HTML>\n    <head>\n    <style>\n    table {\n      font-family: arial, sans-serif;\n      border-collapse: collapse;\n      width: 100%;\n    }\n    \n    td, th {\n      border: 1px solid #dddddd;\n      text-align: left;\n      padding: 5px;\n    }\n    \n    tr:nth-child(even) {\n      background-color: #E9F6FE;\n    }\n    tr:nth-child(odd) {\n      background-color: #C6DAE6;\n    }\n    tr:first-child {\n      background-color: #03476E;\n      color: #EBF2F6;\n    }\n    </style>\n    </head>\n        <body>\n    \n        <div style=\"width:100%;height:10%;border:1px solid #000;\">\n            <h2>Autonomous Vehicle System</h2>\n        </div>\n        <div style=\"width:100%;height:50%;border:1px solid #000;\">Map goes here\n        </div>\n        <div style=\"width:50%;height:40%;float:left;border:0px solid #000;\">\n            <TABLE>\n              <tr>\n                <th>Microbit Id</th>\n                <th>Devices</th>\n                <th>Temperature</th>\n                <th>Acceleration</th>\n                <th>Direction</th>\n              </tr>\n        {{{payload}}}\n    </body>\n</HTML>\n",
+    "output": "str",
+    "x": 1040,
+    "y": 220,
+    "wires": [["50bb7004ca6c06af"]]
+  },
+  {
+    "id": "6956152fdeb741d3",
+    "type": "MySQLdatabase",
+    "name": "",
+    "host": "sql4.freesqldatabase.com",
+    "port": "3306",
+    "db": "sql4467174",
+    "tz": "",
+    "charset": "UTF8"
+  }
 ]
