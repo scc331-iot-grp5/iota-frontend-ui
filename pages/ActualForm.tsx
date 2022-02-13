@@ -8,13 +8,13 @@ function MyForm() {
   const [inputs, setInputs] = useState({});
   const [myObject, setobject] = useState('object');
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({ ...values, [name]: value }));
+    setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     console.log(inputs);
     setobject(event.target.value);
@@ -26,7 +26,7 @@ function MyForm() {
   const checkList = ['Location', 'Compass', 'Accelerometer', 'Temperature'];
 
   // Add/Remove checked item from list
-  const handleCheck = event => {
+  const handleCheck = (event) => {
     var updatedList = [...checked];
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
@@ -44,7 +44,7 @@ function MyForm() {
     : '';
 
   // Return classes based on whether item is checked
-  var isChecked = item =>
+  var isChecked = (item) =>
     checked.includes(item) ? 'checked-item' : 'not-checked-item';
 
   const styleObj = {
@@ -59,7 +59,7 @@ function MyForm() {
 
   const styleHeadText = {
     fontSize: 14,
-    
+
     textDecorationLine: 'underline',
   };
 
@@ -73,9 +73,8 @@ function MyForm() {
     border: '1px solid rgba(0, 0, 0, 0.05)',
   };
 
-
   const styleTextbox = {
-    color: 'gray'
+    color: 'gray',
   };
 
   return (
@@ -86,30 +85,27 @@ function MyForm() {
         <p>Please add or configure your Microbit</p>
       </div>
 
-
-
-      
       <form onSubmit={handleSubmit}>
         <div style={styleAdding}>
-        <h3 style={styleHeadText}>Adding</h3>
+          <h3 style={styleHeadText}>Adding</h3>
           <div>
-            Enter Microbit's Numbers: 
+            Enter Microbit's Numbers:
             <input
               // style={styleTextbox}
               placeholder="eg 4753"
-              type='text'
-              name='Microbit'
+              type="text"
+              name="Microbit"
               value={inputs.Microbit || ''}
               onChange={handleChange}
             />
           </div>
 
           <div>
-            Enter Object/Description: 
+            Enter Object/Description:
             <input
               placeholder="eg Trolley"
-              type='text'
-              name='Object'
+              type="text"
+              name="Object"
               value={inputs.Object || ''}
               onChange={handleChange}
             />
@@ -119,24 +115,24 @@ function MyForm() {
             {' '}
             Preset Objects:
             <select value={myObject} onChange={handleChange}>
-              <option value='object'>Object</option>
-              <option value='Human'>Human</option>
-              <option value='car'>Car</option>
+              <option value="object">Object</option>
+              <option value="Human">Human</option>
+              <option value="car">Car</option>
             </select>
           </div>
-          <input type='submit' />
+          <input type="submit" />
         </div>
 
         <div style={styleConfig}>
-          <div className='app'>
-            <div className='checkList'>
-            <h3 style={styleHeadText}>Configuration</h3>
-              <div className='list-container'>
+          <div className="app">
+            <div className="checkList">
+              <h3 style={styleHeadText}>Configuration</h3>
+              <div className="list-container">
                 {checkList.map((item, index) => (
                   <div key={index}>
                     <input
                       value={item}
-                      type='checkbox'
+                      type="checkbox"
                       onChange={handleCheck}
                     />
                     <span className={isChecked(item)}>{item}</span>
