@@ -1,9 +1,9 @@
-import React from 'react';
-import { render } from 'react-dom';
+import * as React from 'react';
+// import { render } from 'react-dom';
 // import styles from '@/pages/index.module.css';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
-// import AppBar from '@/components/app-bar';
+import AppBar from '@/components/app-bar';
 function MyForm() {
   const [inputs, setInputs] = useState({});
   const [myObject, setobject] = useState('object');
@@ -23,7 +23,7 @@ function MyForm() {
   //checkbox CONFIGURATION
   // State with list of all checked item
   const [checked, setChecked] = useState([]);
-  const checkList = ['Location', 'Compass', 'Accelerometer', 'Temperature'];
+  const checkList = ['Location', 'Compass', 'Accelerometer', 'Temperature', 'sound'];
 
   // Add/Remove checked item from list
   const handleCheck = (event) => {
@@ -78,7 +78,7 @@ function MyForm() {
   };
 
   return (
-    // <AppBar />
+    <><AppBar />
     <main style={styleObj}>
       <div style={styleHeadText}>
         <h1>Adding/Configuration</h1>
@@ -96,8 +96,7 @@ function MyForm() {
               type="text"
               name="Microbit"
               value={inputs.Microbit || ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
           </div>
 
           <div>
@@ -107,8 +106,7 @@ function MyForm() {
               type="text"
               name="Object"
               value={inputs.Object || ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
           </div>
 
           <div>
@@ -123,7 +121,18 @@ function MyForm() {
           <input type="submit" />
         </div>
 
+
+
         <div style={styleConfig}>
+          <div>
+            {' '}
+            Preset Objects:
+            <select value={myObject} onChange={handleChange}>
+              <option value="Example">Example</option>
+              <option value="Human">Human</option>
+              <option value="car">Car</option>
+            </select>
+          </div>
           <div className="app">
             <div className="checkList">
               <h3 style={styleHeadText}>Configuration</h3>
@@ -133,8 +142,7 @@ function MyForm() {
                     <input
                       value={item}
                       type="checkbox"
-                      onChange={handleCheck}
-                    />
+                      onChange={handleCheck} />
                     <span className={isChecked(item)}>{item}</span>
                   </div>
                 ))}
@@ -145,7 +153,7 @@ function MyForm() {
           </div>
         </div>
       </form>
-    </main>
+    </main></>
   );
 }
 
