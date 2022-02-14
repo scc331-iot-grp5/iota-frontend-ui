@@ -23,7 +23,13 @@ function MyForm() {
   //checkbox CONFIGURATION
   // State with list of all checked item
   const [checked, setChecked] = useState([]);
-  const checkList = ['Location', 'Compass', 'Accelerometer', 'Temperature', 'sound'];
+  const checkList = [
+    'Location',
+    'Compass',
+    'Accelerometer',
+    'Temperature',
+    'sound',
+  ];
 
   // Add/Remove checked item from list
   const handleCheck = (event) => {
@@ -78,82 +84,85 @@ function MyForm() {
   };
 
   return (
-    <><AppBar />
-    <main style={styleObj}>
-      <div style={styleHeadText}>
-        <h1>Adding/Configuration</h1>
-        <p>Please add or configure your Microbit</p>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div style={styleAdding}>
-          <h3 style={styleHeadText}>Adding</h3>
-          <div>
-            Enter Microbit's Numbers:
-            <input
-              // style={styleTextbox}
-              placeholder="eg 4753"
-              type="text"
-              name="Microbit"
-              value={inputs.Microbit || ''}
-              onChange={handleChange} />
-          </div>
-
-          <div>
-            Enter Object/Description:
-            <input
-              placeholder="eg Trolley"
-              type="text"
-              name="Object"
-              value={inputs.Object || ''}
-              onChange={handleChange} />
-          </div>
-
-          <div>
-            {' '}
-            Preset Objects:
-            <select value={myObject} onChange={handleChange}>
-              <option value="object">Object</option>
-              <option value="Human">Human</option>
-              <option value="car">Car</option>
-            </select>
-          </div>
-          <input type="submit" />
+    <>
+      <AppBar />
+      <main style={styleObj}>
+        <div style={styleHeadText}>
+          <h1>Adding/Configuration</h1>
+          <p>Please add or configure your Microbit</p>
         </div>
 
-
-
-        <div style={styleConfig}>
-          <div>
-            {' '}
-            Preset Objects:
-            <select value={myObject} onChange={handleChange}>
-              <option value="Example">Example</option>
-              <option value="Human">Human</option>
-              <option value="car">Car</option>
-            </select>
-          </div>
-          <div className="app">
-            <div className="checkList">
-              <h3 style={styleHeadText}>Configuration</h3>
-              <div className="list-container">
-                {checkList.map((item, index) => (
-                  <div key={index}>
-                    <input
-                      value={item}
-                      type="checkbox"
-                      onChange={handleCheck} />
-                    <span className={isChecked(item)}>{item}</span>
-                  </div>
-                ))}
-              </div>
+        <form onSubmit={handleSubmit}>
+          <div style={styleAdding}>
+            <h3 style={styleHeadText}>Adding</h3>
+            <div>
+              Enter Microbit's Numbers:
+              <input
+                // style={styleTextbox}
+                placeholder="eg 4753"
+                type="text"
+                name="Microbit"
+                value={inputs.Microbit || ''}
+                onChange={handleChange}
+              />
             </div>
 
-            <div>{`Test: ${checkedItems}`}</div>
+            <div>
+              Enter Object/Description:
+              <input
+                placeholder="eg Trolley"
+                type="text"
+                name="Object"
+                value={inputs.Object || ''}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              {' '}
+              Preset Objects:
+              <select value={myObject} onChange={handleChange}>
+                <option value="object">Object</option>
+                <option value="Human">Human</option>
+                <option value="car">Car</option>
+              </select>
+            </div>
+            <input type="submit" />
           </div>
-        </div>
-      </form>
-    </main></>
+
+          <div style={styleConfig}>
+            <div>
+              {' '}
+              Preset Objects:
+              <select value={myObject} onChange={handleChange}>
+                <option value="Example">Example</option>
+                <option value="Human">Human</option>
+                <option value="car">Car</option>
+              </select>
+            </div>
+            <div className="app">
+              <div className="checkList">
+                <h3 style={styleHeadText}>Configuration</h3>
+                <div className="list-container">
+                  {checkList.map((item, index) => (
+                    <div key={index}>
+                      <input
+                        value={item}
+                        type="checkbox"
+                        onChange={handleCheck}
+                      />
+                      <span className={isChecked(item)}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>{`Test: ${checkedItems}`}</div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </>
   );
 }
 
