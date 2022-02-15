@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import { getUserDetails } from 'types/user-details';
+import { getUserDetails } from 'types/user-details-old';
 import Link from 'next/link';
 import AppBar from '@/components/app-bar';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Head from 'next/head';
-import { DashboardData } from 'types/dash-queries';
+import { DashboardData } from 'types/dash-queries-old';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Typography } from '@material-ui/core';
 import MapView from '@/components/map-view';

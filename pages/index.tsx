@@ -12,7 +12,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Box from '@mui/material/Box';
 import { ArrowRight } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import { UserDetails, isUserDetails } from '../types/user-details';
+import { UserDetails, isUserDetails } from '../types/user-details-old';
 import { useRouter } from 'next/router';
 
 interface State {

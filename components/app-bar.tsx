@@ -12,7 +12,7 @@ import {
   UserDetails,
   getUserDetails,
   setUserDetails,
-} from '../types/user-details';
+} from '../types/user-details-old';
 import { useRouter } from 'next/router';
 interface State {
   showMenu: boolean;

@@ -1,10 +1,11 @@
 import * as React from 'react';
-// import { render } from 'react-dom';
-// import styles from '@/pages/index.module.css';
 import { useState } from 'react';
-import ReactDOM from 'react-dom';
 import AppBar from '@/components/app-bar';
-function MyForm() {
+
+/**
+ * @return {JSX.Element} a
+ */
+export default function MyForm() {
   const [inputs, setInputs] = useState({});
   const [myObject, setobject] = useState('object');
 
@@ -20,7 +21,7 @@ function MyForm() {
     setobject(event.target.value);
   };
 
-  //checkbox CONFIGURATION
+  // checkbox CONFIGURATION
   // State with list of all checked item
   const [checked, setChecked] = useState([]);
   const checkList = [
@@ -33,7 +34,7 @@ function MyForm() {
 
   // Add/Remove checked item from list
   const handleCheck = (event) => {
-    var updatedList = [...checked];
+    let updatedList = [...checked];
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
     } else {
@@ -45,12 +46,12 @@ function MyForm() {
   // Generate string of checked items
   const checkedItems = checked.length
     ? checked.reduce((total, item) => {
-        return total + ', ' + item;
-      })
+      return total + ', ' + item;
+    })
     : '';
 
   // Return classes based on whether item is checked
-  var isChecked = (item) =>
+  const isChecked = (item) =>
     checked.includes(item) ? 'checked-item' : 'not-checked-item';
 
   const styleObj = {
@@ -165,5 +166,3 @@ function MyForm() {
     </>
   );
 }
-
-ReactDOM.render(<MyForm />, document.getElementById('root'));
