@@ -8,27 +8,20 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 // import Modal from './modal';
 import Button from '@mui/material/Button';
-function createData(
-    id: number,
-    CustomName: string,
-    Type: string,
-    
-    
-  )
- {
+function createData(id: number, CustomName: string, Type: string) {
   return { id, CustomName, Type };
 }
 
 const rows = [
-  createData(1000, "busMicrobit", "bus"),
-  createData(1111, "-", "human"),
-  createData(2222, "humanMicrobit", "car"),
-  createData(3333, "CustomName", "bus"),
-  createData(4444, "-", "car"),
+  createData(1000, 'busMicrobit', 'bus'),
+  createData(1111, '-', 'human'),
+  createData(2222, 'humanMicrobit', 'car'),
+  createData(3333, 'CustomName', 'bus'),
+  createData(4444, '-', 'car'),
 ];
 const handleCellClick = (e) => {
   console.log(e.target.textContent);
-}
+};
 
 export default function BasicTable() {
   return (
@@ -39,8 +32,7 @@ export default function BasicTable() {
             <TableCell>ID</TableCell>
             <TableCell align="right">Name</TableCell>
             <TableCell align="right">Type</TableCell>
-            <TableCell >Configuration</TableCell>
-            
+            <TableCell>Configuration</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,7 +46,7 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="right">{row.CustomName}</TableCell>
               <TableCell align="right">{row.Type}</TableCell>
-              
+
               {/* <Modal/> */}
             </TableRow>
           ))}
