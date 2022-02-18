@@ -6,29 +6,61 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Modal from '../components/modalAndChipAnddrop';
+import Pop from '../components/popupbutton';
 import Button from '@mui/material/Button';
-import * as D from '../types/device';
+import { Device } from 'types/device'; 
+import { Type } from 'types/device';
+// import AppBar from '@/components/app-bar';
+// import { useRouter } from 'next/router';
 
 interface State {
-  devices: D.Device[];
-  device_types: D.Type[];
-}
+  devices: Device[];
+  device_Type: Type[];
+  // device_types: Device.Type[];
+} 
 
-function createData(id: number, CustomName: string, Type: string) {
+// function dashToDeviceGrid(dash: Device): JSX.Element {
+//   const rows =[
+//     { field: 'id', headerName: 'ID' },
+//     { field: 'name', headerName: 'Name' },
+//     { field: 'type_id', headerName: 'Type' },
+//   ];
+//     return(
+//       rows={dash.devices.map((d, n) => ({ ...d, id: n }))}
+//     )
+//     }
+
+function createData(
+    id: number,
+    CustomName: string,
+    Type: string,
+    
+    
+  )
+ {
   return { id, CustomName, Type };
 }
 
 const rows = [
-  createData(1000, 'busMicrobit', 'bus'),
-  createData(1111, '-', 'human'),
-  createData(2222, 'humanMicrobit', 'car'),
-  createData(3333, 'CustomName', 'bus'),
-  createData(4444, '-', 'car'),
+  createData(1000, "busMicrobit", "bus"),
+  createData(1111, "-", "human"),
+  createData(2222, "humanMicrobit", "car"),
+  createData(3333, "CustomName", "bus"),
+  createData(4444, "-", "car"),
 ];
 
 export default function BasicTable() {
+  // const router = useRouter();
+  // const [values, setValues] = React.useState<State>({
+  //   devices: {
+  //     number,
+  //     string,
+  //   },
+  // });
   return (
+    
+    // <AppBar />
+
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -36,7 +68,8 @@ export default function BasicTable() {
             <TableCell>ID</TableCell>
             <TableCell align="right">Name</TableCell>
             <TableCell align="right">Type</TableCell>
-            <TableCell>Configuration</TableCell>
+            <TableCell >Configuration</TableCell>
+            
           </TableRow>
         </TableHead>
         <TableBody>
@@ -50,8 +83,8 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="right">{row.CustomName}</TableCell>
               <TableCell align="right">{row.Type}</TableCell>
-
-              <Modal />
+              
+              <Pop/>
             </TableRow>
           ))}
         </TableBody>
