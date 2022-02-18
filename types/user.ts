@@ -1,11 +1,14 @@
 export interface User {
   id: string;
   created_at: string; // ISO-8601 Compliant
-  display_name: string;
   is_administrator: string;
-  username: string;
 
-  // password_hash: string // not stored in browser!
+  email: string;
+  password_hash?: string; // not normally stored in browser!
+
+  display_name: string;
+  profile_url?: string | null;
+  profile_banner?: string | null;
 }
 
 export interface ReadRight {

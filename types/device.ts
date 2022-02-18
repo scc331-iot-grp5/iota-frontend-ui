@@ -1,18 +1,20 @@
+export interface Config {
+  temperature: boolean;
+  accelerometer: boolean;
+  compass: boolean;
+  location: boolean;
+  volume: boolean;
+  distance: boolean;
+}
+
 export interface Device {
   id: number;
   name: string;
-  sensor_set: string[];
+  sensor_set: (keyof Config)[];
 
-  config: {
-    temperature: boolean;
-    accelerometer: boolean;
-    compass: boolean;
-    location: boolean;
-    volume: boolean;
-    distance: boolean;
-  };
+  config: Config;
 
-  type_name: string; // JOINed on device_types
+  type_id: number;
 }
 
 export interface Type {

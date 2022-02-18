@@ -25,37 +25,59 @@ export const dataAPI = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${CONSTANTS.BACKEND_URL}/` }),
   endpoints: (builder) => ({
     getAll: builder.query<DataState, void>({
-      query: () => 'get-all-v2',
+      query: () => 'get-all',
     }),
-    login: builder.query<U.User, { username: string; password_hash: string }>({
+
+    login: builder.query<U.User, { email: string; password_hash: string }>({
       query: (body) => ({
-        url: 'log-in-v2',
+        url: 'log-in',
         method: 'POST',
         body,
       }),
     }),
 
-    updateDevice: builder.mutation<D.Device, D.Device>({
+    updateDevice: builder.mutation<
+      D.Device,
+      Partial<D.Device> & Pick<D.Device, 'id'>
+    >({
       query: (device) => ({
-        url: 'set-device-state',
-        method: 'POST',
+        url: `device/${device.id}`,
+        method: 'PATCH',
         body: device,
       }),
     }),
 
+    listDevices: builder.query<D.Device, void>({
+      query: () => ({
+        url: `device`,
+        method: `GET`,
+      }),
+    }),
+
+    // get device by id
+    // get all devices
+
     // create zone
+    // get zone by id
+    // get all zones
     // update zone
     // delete zone
 
+    // get all zone groups
+    // get zone group by id
     // create zone group
     // update zone group
     // delete zone group
     // add zone to zone group
 
+    // get rule by id
+    // get all rules
     // create rule
     // update rule
     // delete rule
 
+    // get user by id
+    // get all users
     // create user
     // update user
     // delete user
