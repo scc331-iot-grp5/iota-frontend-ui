@@ -1,21 +1,21 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
 // import Modal from "@mui/material/Modal";
-import Chip from "@mui/material/Chip";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
+import Chip from '@mui/material/Chip';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // import Select from '@mui/material/Select';
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import * as D from "../types/device";
-import IconButton from "@mui/material/IconButton";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import * as D from '../types/device';
+import IconButton from '@mui/material/IconButton';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -26,7 +26,6 @@ interface State {
   devices: D.Device[];
   device_types: D.Type[];
 }
-
 
 function fetchValues(
   values: State,
@@ -48,16 +47,16 @@ function fetchValues(
 }
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 600,
   height: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
-  p: 4
+  p: 4,
 };
 export default function AlertDialog() {
   const [open, setOpen] = React.useState(false);
@@ -70,7 +69,7 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
-  const [type, setType] = React.useState("");
+  const [type, setType] = React.useState('');
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
   };
@@ -79,7 +78,7 @@ export default function AlertDialog() {
     setLoading(false);
   }
   const handleClick = () => {
-    console.info("You clicked the Chip.");
+    console.info('You clicked the Chip.');
   };
 
   return (
@@ -98,7 +97,7 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Configuration"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Configuration'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" variant="h6">
             ID: 0000
@@ -179,7 +178,7 @@ export default function AlertDialog() {
             onClick={handleClick}
             sx={{ ml: 1, minWidth: 110 }}
           />
-          
+
           {/* Backup design */}
           {/* <FormGroup aria-label="position" row>
           <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Compass" />
@@ -190,10 +189,9 @@ export default function AlertDialog() {
           </FormGroup> */}
         </DialogContent>
 
-        <DialogActions >
-        <Button onClick={handleClose} >Confirm</Button>
-        <Button onClick={handleClose}>Close</Button>
-          
+        <DialogActions>
+          <Button onClick={handleClose}>Confirm</Button>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
