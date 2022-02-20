@@ -19,13 +19,31 @@ import IconButton from '@mui/material/IconButton';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-// import EditIcon from '@mui/icons-material/Edit';
-
+import MapView from '@/components/map-view';
+import EditIcon from '@mui/icons-material/Edit';
+import Box from '@mui/material/Box';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 interface State {
   devices: D.Device[];
   device_types: D.Type[];
 }
+
+// function dashToPlaceables(
+//   dash: DashboardData
+// ): { text: string; lat: number; lng: number }[] {
+//   return dash.locations.map((l) => ({
+//     text: `device-${l.microbitId}`,
+//     lat: l.latitude,
+//     lng: l.longitude,
+//   }));
+// }
+
+
+
+
+
+
+
 
 function fetchValues(
   values: State,
@@ -72,6 +90,10 @@ export default function AlertDialog() {
   const [type, setType] = React.useState('');
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
+    // if (event.target.value="30")
+    // {
+    //   (React.useState(true))
+    // }
   };
   const [loading, setLoading] = React.useState(true);
   function handleTextClick() {
@@ -83,12 +105,12 @@ export default function AlertDialog() {
 
   return (
     <React.Fragment>
-      {/* <IconButton onclick={handleClickOpen}>
-      </EditIcon>
-      </IconButton> */}
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <IconButton variant="outlined" onClick={handleClickOpen}>
+        <EditIcon />
+      </IconButton>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
         Configuration
-      </Button>
+      </Button> */}
       <Dialog
         fullWidth={true}
         maxWidth="xl"
@@ -103,7 +125,7 @@ export default function AlertDialog() {
             ID: 0000
             <Typography variant="h6">
               Name: Custom
-              <Button
+              {/* <Button
                 sx={{ ml: 1, minWidth: 110, height: 50 }}
                 variant="contained"
                 color="primary"
@@ -111,20 +133,20 @@ export default function AlertDialog() {
                 onClick={handleTextClick}
               >
                 Edit
-              </Button>
-              {/* <IconButton onclick={handleTextClick}>
-            </EditIcon>
-            </IconButton> */}
+              </Button> */}
+              <IconButton onClick={handleTextClick}>
+                <EditIcon />
+              </IconButton>
               <TextField
                 sx={{ ml: 1, minWidth: 110 }}
                 id="filled-basic"
-                label="Filled"
+                label="Custome Name"
                 variant="filled"
                 size="small"
                 disabled={loading}
               />
             </Typography>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">
                 Type
               </InputLabel>
@@ -138,23 +160,24 @@ export default function AlertDialog() {
                 <MenuItem value="">{/* <em>None</em> */}</MenuItem>
                 <MenuItem value={10}>Human</MenuItem>
                 <MenuItem value={20}>Car</MenuItem>
-                <MenuItem value={30}>More</MenuItem>
+                <MenuItem value={30}>Infastructure</MenuItem>
               </Select>
             </FormControl>
           </DialogContentText>
-          <Chip
+          {/* <Chip
             label="Compass"
             variant="outlined"
             color="primary"
             onClick={handleClick}
             sx={{ ml: 1, minWidth: 110 }}
+            InfoOutlinedIcon
           />
-
           <Chip
             label="location"
             variant="outlined"
             color="primary"
             onClick={handleClick}
+            disabled
             sx={{ ml: 1, minWidth: 110 }}
           />
           <Chip
@@ -177,21 +200,31 @@ export default function AlertDialog() {
             color="primary"
             onClick={handleClick}
             sx={{ ml: 1, minWidth: 110 }}
-          />
-
+          /> */}
           {/* Backup design */}
-          {/* <FormGroup aria-label="position" row>
+          <FormGroup aria-label="position" row>
           <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Compass" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Location" />
+          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Location"/>
           <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Accelerometer" />
           <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Temperture" />
           <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Sound" />
-          </FormGroup> */}
+          </FormGroup>
+
+          {/* <Box sx={{visibility:{handleChange}}}>
+          <MapView placeables={dashToPlaceables(values.dashData)} />
+          </Box> */}
         </DialogContent>
 
         <DialogActions>
           <Button onClick={handleClose}>Confirm</Button>
           <Button onClick={handleClose}>Close</Button>
+          <InfoOutlinedIcon
+            sx={{
+              position: 'absolute',
+              top: 1,
+              right: '1%',
+            }}
+          />
         </DialogActions>
       </Dialog>
     </React.Fragment>
