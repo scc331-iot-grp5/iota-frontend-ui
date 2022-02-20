@@ -6,10 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Pop from './components/popupbutton';
+import Pop from '../components/popupbutton';
 import Button from '@mui/material/Button';
 import { Device } from 'types/device';
 import { Type } from 'types/device';
+import Edit from '../components/edit-user-detail';
 // import AppBar from '@/components/app-bar';
 // import { useRouter } from 'next/router';
 
@@ -108,7 +109,7 @@ export default function BasicTable() {
               <TableCell align="right">{row.UserName}</TableCell>
               <TableCell align="right">{row.Email}</TableCell>
 
-              <Pop />
+              <Edit />
             </TableRow>
           ))}
         </TableBody>
