@@ -12,15 +12,13 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Box from '@mui/material/Box';
 import { ArrowRight } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import { UserDetails, isUserDetails } from '../types/user-details-old';
 import { useRouter } from 'next/router';
+import { dataAPI } from '../redux/data-api';
 
 interface State {
-  showPassword: boolean;
+  email: string;
   password: string;
-  username: string;
-  loading: boolean;
-  userDetails: UserDetails | null;
+  showPassword: boolean;
 }
 
 /**
@@ -30,11 +28,11 @@ export default function Home(): JSX.Element {
   const router = useRouter();
   const [values, setValues] = React.useState<State>({
     showPassword: false,
+    email: '',
     password: '',
-    username: '',
-    loading: false,
-    userDetails: null,
   });
+
+  const [triggerLogin] = dataAPI.endpoints.login.useLazyQuery();
 
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,29 +54,21 @@ export default function Home(): JSX.Element {
 
   const handleLogin = () => {
     // TODO: spinner
+
     window?.sessionStorage.setItem('user_details', 'null');
-    fetch('http://localhost:1880/log-in', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: values.username,
-        password: values.password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(
-        (res) => {
-          console.log('login response', res);
-          if (isUserDetails(res)) {
-            console.log('are user details');
-            values.userDetails = res;
-            window?.sessionStorage.setItem('user_details', JSON.stringify(res));
-            router.push('dash');
-          } else if (res === {}) {
-            console.log('did not receive user details response');
-          }
-        },
-        (err) => console.log('log-in fetch failed', err)
-      );
+    triggerLogin({ email: values.email, password_hash: values.password }).then(
+      (r) => {
+        console.log(r);
+        if (r.isSuccess) {
+          window?.sessionStorage.setItem(
+            'user_details',
+            JSON.stringify(r.data)
+          );
+          router.push('dash');
+        }
+      }
+    );
+
     // TODO stop spinner
   };
 
@@ -97,12 +87,12 @@ export default function Home(): JSX.Element {
           <a className={styles.card}>
             <div>
               <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                <InputLabel htmlFor="outlined-username">Username</InputLabel>
+                <InputLabel htmlFor="outlined-username">Email</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-username"
                   type="text"
-                  value={values.username}
-                  onChange={handleChange('username')}
+                  value={values.email}
+                  onChange={handleChange('email')}
                   label="Username"
                 />
               </FormControl>

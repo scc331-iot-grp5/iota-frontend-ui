@@ -8,16 +8,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {
-  UserDetails,
-  getUserDetails,
-  setUserDetails,
-} from '../types/user-details-old';
+import { User } from '../types/user';
+import { getUserDetails, setUserDetails } from '../types/user-details-local';
 import { useRouter } from 'next/router';
 interface State {
   showMenu: boolean;
   showProfileDetails: boolean;
-  userDetails: UserDetails | null;
+  userDetails: User | null;
 }
 
 /**
@@ -66,7 +63,7 @@ export default function IOTAAppBar(): JSX.Element {
 
           {values.userDetails && (
             <React.Fragment>
-              <Typography>{values.userDetails.username}</Typography>
+              <Typography>{values.userDetails.display_name}</Typography>
               <IconButton
                 size="large"
                 aria-label="account of current user"

@@ -28,7 +28,7 @@ export const dataAPI = createApi({
       }),
     }),
 
-    listDevices: builder.query<D.Device[], void>({
+    listDevices: builder.query<D.Device[], null>({
       query: () => ({
         url: 'device',
         method: 'GET',
@@ -56,7 +56,7 @@ export const dataAPI = createApi({
     }),
 
     // get all device types
-    listDeviceTypes: builder.query<D.Type[], void>({
+    listDeviceTypes: builder.query<D.Type[], null>({
       query: () => ({
         url: 'device_type',
         method: 'GET',
@@ -118,7 +118,7 @@ export const dataAPI = createApi({
     }),
 
     // get all zones
-    listZones: builder.query<M.Zone[], void>({
+    listZones: builder.query<M.Zone[], null>({
       query: () => ({
         url: 'zone',
         method: 'GET',
@@ -158,7 +158,7 @@ export const dataAPI = createApi({
     }),
 
     // get all zone groups
-    listZoneGroups: builder.query<M.ZoneGroup[], void>({
+    listZoneGroups: builder.query<M.ZoneGroup[], null>({
       query: () => ({
         url: 'zone_group',
         method: 'GET',
@@ -217,7 +217,7 @@ export const dataAPI = createApi({
     ),
 
     // list all zone group vars
-    listZoneVars: builder.query<M.ZoneGroup[], void>({
+    listZoneVars: builder.query<M.ZoneGroup[], null>({
       query: () => ({
         url: 'zone_var',
         method: 'GET',
@@ -280,7 +280,7 @@ export const dataAPI = createApi({
     }),
 
     // get all rules
-    listRules: builder.query<R.Rule[], void>({
+    listRules: builder.query<R.Rule[], null>({
       query: () => ({
         url: `rule`,
         method: 'GET',
@@ -323,7 +323,7 @@ export const dataAPI = createApi({
     }),
 
     // list all events
-    listEvents: builder.query<R.Event[], void>({
+    listEvents: builder.query<R.Event[], null>({
       query: () => ({
         url: `event`,
         method: 'GET',
@@ -338,7 +338,7 @@ export const dataAPI = createApi({
     }),
 
     // list all readings
-    listReadings: builder.query<D.Reading[], void>({
+    listReadings: builder.query<D.Reading[], null>({
       query: () => ({
         url: 'reading',
         method: 'GET',
@@ -361,7 +361,7 @@ export const dataAPI = createApi({
     }),
 
     // get all users
-    listUsers: builder.query<U.User, void>({
+    listUsers: builder.query<U.User, null>({
       query: () => ({
         url: 'user',
         method: 'GET',

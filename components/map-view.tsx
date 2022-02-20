@@ -9,13 +9,13 @@ const iconLocator = new L.Icon({
   iconUrl: '/map-marker.png',
   iconRetinaUrl: '/map-marker.png',
   iconSize: new L.Point(20, 22),
-  className: 'leaflet-div-icon',
 });
 
 interface placeable {
   text: string;
   lat: number;
   lng: number;
+  fill?: string;
 }
 
 interface State {
@@ -62,6 +62,8 @@ export default function MapView({
         /* @ts-ignore next-line */ // Attribution is improperly decalared for this module.
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        maxNativeZoom={19}
+        maxZoom={19}
       />
       {markers}
     </MapContainer>

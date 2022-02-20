@@ -6,7 +6,6 @@ export interface Config {
   volume: boolean;
   distance: boolean;
 }
-
 export interface Device {
   id: number;
   name: string;
