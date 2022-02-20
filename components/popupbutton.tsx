@@ -38,13 +38,6 @@ interface State {
 //   }));
 // }
 
-
-
-
-
-
-
-
 function fetchValues(
   values: State,
   setValues: React.Dispatch<React.SetStateAction<State>>
@@ -123,10 +116,14 @@ export default function AlertDialog() {
         <DialogContent>
           <DialogContentText id="alert-dialog-description" variant="h6">
             ID: 0000
-            </DialogContentText>
-            <DialogContentText id="alert-dialog-description" variant="h6" sx={{mt:2}}>
-              Name: Custom
-              {/* <Button
+          </DialogContentText>
+          <DialogContentText
+            id="alert-dialog-description"
+            variant="h6"
+            sx={{ mt: 2 }}
+          >
+            Name: Custom
+            {/* <Button
                 sx={{ ml: 1, minWidth: 110, height: 50 }}
                 variant="contained"
                 color="primary"
@@ -135,37 +132,35 @@ export default function AlertDialog() {
               >
                 Edit
               </Button> */}
-              <IconButton onClick={handleTextClick}>
-                <EditIcon />
-              </IconButton>
-              <TextField
-                sx={{ ml: 1, minWidth: 110 }}
-                id="filled-basic"
-                label="Custome Name"
-                variant="filled"
-                size="small"
-                disabled={loading}
-              />
-            </DialogContentText>
+            <IconButton onClick={handleTextClick}>
+              <EditIcon />
+            </IconButton>
+            <TextField
+              sx={{ ml: 1, minWidth: 110 }}
+              id="filled-basic"
+              label="Custome Name"
+              variant="filled"
+              size="small"
+              disabled={loading}
+            />
+          </DialogContentText>
 
-            <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Type
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={type}
-                onChange={handleChange}
-                label="Type"
-              >
-                <MenuItem value="">{/* <em>None</em> */}</MenuItem>
-                <MenuItem value={10}>Human</MenuItem>
-                <MenuItem value={20}>Car</MenuItem>
-                <MenuItem value={30}>Infastructure</MenuItem>
-              </Select>
-            </FormControl>
-          
+          <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={type}
+              onChange={handleChange}
+              label="Type"
+            >
+              <MenuItem value="">{/* <em>None</em> */}</MenuItem>
+              <MenuItem value={10}>Human</MenuItem>
+              <MenuItem value={20}>Car</MenuItem>
+              <MenuItem value={30}>Infastructure</MenuItem>
+            </Select>
+          </FormControl>
+
           {/* <Chip
             label="Compass"
             variant="outlined"
@@ -205,11 +200,26 @@ export default function AlertDialog() {
           /> */}
           {/* Backup design */}
           <FormGroup aria-label="position" row>
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Compass" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Location"/>
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Accelerometer" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Temperture" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Sound" />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Compass"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Location"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Accelerometer"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Temperture"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Sound"
+            />
           </FormGroup>
 
           {/* <Box sx={{visibility:{handleChange}}}>
