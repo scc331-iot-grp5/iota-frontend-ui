@@ -2,14 +2,15 @@ export interface Rule {
   id: number;
   name: string;
 
-  // TODO: Rule bodies
+  created_by: number;
+  body: any;
 }
 
 export interface Event {
   id: number;
-  type: string;
   created_at: string; // ISO8601
-  triggered_by: number; // Refers to rule by ID
+  rule: number; // Refers to rule by ID
+  severity: number;
 
-  involves: string[]; // List of microbits by ID
+  involves: { device_id: number; reading_id: number }[]; // List of microbits by ID
 }

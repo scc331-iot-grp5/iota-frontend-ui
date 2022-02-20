@@ -33,14 +33,14 @@ export interface Reading {
   heartbeat: number;
   reported_at: string; // ISO8601
 
-  degrees?: number;
   acceleration?: { x: number; y: number; z: number };
-  volume?: number;
-  location?: { latitude: number; longitude: number };
-  heading?: number;
   distances?: {
     distance_from: number; // other m:bit id
     distance: number;
-    rssi: number;
   }[];
+  heading?: number;
+  location?: { latitude?: number; longitude?: number; zone?: number };
+  speed?: number;
+  temperature?: number;
+  volume?: number;
 }

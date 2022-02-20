@@ -5,29 +5,10 @@ import * as M from '../types/map';
 import * as R from '../types/rule';
 import * as U from '../types/user';
 
-interface DataState {
-  devices: D.Device[];
-  readings: D.Reading[];
-  device_types: D.Type[];
-
-  map_zones: M.Zone[];
-  map_zone_groups: M.ZoneGroup[];
-
-  rules: R.Rule[];
-  events: R.Event[];
-
-  users: U.User[];
-  read_rights: U.ReadRight[];
-}
-
 export const dataAPI = createApi({
   reducerPath: 'data',
   baseQuery: fetchBaseQuery({ baseUrl: `${CONSTANTS.BACKEND_URL}/` }),
   endpoints: (builder) => ({
-    getAll: builder.query<DataState, void>({
-      query: () => 'get-all',
-    }),
-
     login: builder.query<U.User, { email: string; password_hash: string }>({
       query: (body) => ({
         url: 'log-in',
@@ -47,43 +28,447 @@ export const dataAPI = createApi({
       }),
     }),
 
-    listDevices: builder.query<D.Device, void>({
+    listDevices: builder.query<D.Device[], void>({
       query: () => ({
-        url: `device`,
-        method: `GET`,
+        url: 'device',
+        method: 'GET',
       }),
     }),
 
     // get device by id
-    // get all devices
+    getDevice: builder.query<D.Device, number>({
+      query: (id) => ({
+        url: `device/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    // update device config
+    editDevice: builder.mutation<
+      D.Device,
+      (Partial<D.Device> & Pick<D.Device, 'id'>) | Omit<D.Device, 'sensor_set'>
+    >({
+      query: (d) => ({
+        url: `device/${d.id}`,
+        method: 'PATCH',
+        body: d,
+      }),
+    }),
+
+    // get all device types
+    listDeviceTypes: builder.query<D.Type[], void>({
+      query: () => ({
+        url: 'device_type',
+        method: 'GET',
+      }),
+    }),
+
+    // get device type by id
+    getDeviceType: builder.query<D.Type, number>({
+      query: (id) => ({
+        url: `device/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    // create device type
+    createDeviceType: builder.mutation<D.Type, Omit<D.Type, 'id'>>({
+      query: (u) => ({
+        url: 'device_type',
+        method: 'POST',
+        body: u,
+      }),
+    }),
+
+    // delete device type
+    deleteDeviceType: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `device_type/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // edit device type
+    editDeviceType: builder.mutation<
+      D.Type,
+      Partial<D.Type> & Pick<D.Type, 'id'>
+    >({
+      query: (t) => ({
+        url: `device/${t.id}`,
+        method: 'PATCH',
+        body: t,
+      }),
+    }),
 
     // create zone
+    createZone: builder.mutation<M.Zone, Omit<M.Zone, 'id'>>({
+      query: (z) => ({
+        url: 'zone',
+        method: 'POST',
+        body: { ...z, geo_json: `"${JSON.stringify(z.geo_json)}"` },
+      }),
+    }),
+
     // get zone by id
+    getZone: builder.query<M.Zone, number>({
+      query: (id) => ({
+        url: `zone/${id}`,
+        method: 'GET',
+      }),
+    }),
+
     // get all zones
+    listZones: builder.query<M.Zone[], void>({
+      query: () => ({
+        url: 'zone',
+        method: 'GET',
+      }),
+    }),
+
     // update zone
+    editZone: builder.mutation<M.Zone, Partial<M.Zone> & Pick<M.Zone, 'id'>>({
+      query: (z) => ({
+        url: `zone/${z.id}`,
+        method: 'PATCH',
+        body: {
+          ...z,
+          geo_json:
+            typeof z.geo_json === 'undefined'
+              ? undefined
+              : `"${JSON.stringify(z.geo_json)}"`,
+        },
+      }),
+    }),
+
     // delete zone
+    deleteZone: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `zone/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // create zone group
+    createZoneGroup: builder.mutation<M.ZoneGroup, Omit<M.ZoneGroup, 'id'>>({
+      query: (z) => ({
+        url: 'zone_group',
+        method: 'POST',
+        body: z,
+      }),
+    }),
 
     // get all zone groups
+    listZoneGroups: builder.query<M.ZoneGroup[], void>({
+      query: () => ({
+        url: 'zone_group',
+        method: 'GET',
+      }),
+    }),
+
     // get zone group by id
-    // create zone group
-    // update zone group
+    getZoneGroup: builder.query<M.ZoneGroup, string>({
+      query: (id) => ({
+        url: `zone/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    // edit zone group
+    editZoneGroup: builder.mutation<
+      M.ZoneGroup,
+      | (Partial<M.ZoneGroup> & Pick<M.ZoneGroup, 'id'>)
+      | Omit<M.ZoneGroup, 'members'>
+    >({
+      query: (zg) => ({
+        url: `zone_group/${zg.id}`,
+        method: 'PATCH',
+      }),
+    }),
+
     // delete zone group
-    // add zone to zone group
+    deleteZoneGroup: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `zone_group/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // set zone group membership
+    setZoneGroupMembership: builder.mutation<
+      void,
+      { zone_id: number; group_id: number; member: boolean }
+    >({
+      query: ({ zone_id: zId, group_id: gId, member }) => ({
+        url: `zone_group/${gId}/member/${zId}`,
+        method: 'PUT',
+        body: { member },
+      }),
+    }),
+
+    // create zone group var
+    createZoneVar: builder.mutation<M.ZoneGroupVar, Omit<M.ZoneGroupVar, 'id'>>(
+      {
+        query: (zv) => ({
+          url: 'zone_var',
+          method: 'POST',
+          body: zv,
+        }),
+      }
+    ),
+
+    // list all zone group vars
+    listZoneVars: builder.query<M.ZoneGroup[], void>({
+      query: () => ({
+        url: 'zone_var',
+        method: 'GET',
+      }),
+    }),
+
+    // get zone group var by id
+    getZoneVar: builder.query<M.ZoneGroup, number>({
+      query: (id) => ({
+        url: `zone_var/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    // delete zone group var
+    deleteZoneVar: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `zone_var/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // edit zone group var
+    editZoneVar: builder.mutation<
+      M.ZoneGroupVar,
+      Partial<M.ZoneGroupVar> & Pick<M.ZoneGroupVar, 'id'>
+    >({
+      query: (zv) => ({
+        url: `zone_var/${zv.id}`,
+        method: 'PATCH',
+      }),
+    }),
+
+    // set zone group var value for zone
+    setZoneVarValue: builder.mutation<
+      any,
+      { var_id: number; zone_id: number; value: any }
+    >({
+      query: ({ value, var_id: vId, zone_id: zId }) => ({
+        url: `zone_var/${vId}/value/${zId}`,
+        method: 'PUT',
+        body: value,
+      }),
+    }),
+
+    // get zone group var value for zone
+    getZoneVarValue: builder.query<any, { var_id: number; zone_id: number }>({
+      query: ({ var_id: vId, zone_id: zId }) => ({
+        url: `zone_var/${vId}/value/${zId}`,
+        method: 'GET',
+      }),
+    }),
 
     // get rule by id
+    getRule: builder.query<R.Rule, number>({
+      query: (id) => ({
+        url: `rule/${id}`,
+        method: 'GET',
+      }),
+    }),
+
     // get all rules
+    listRules: builder.query<R.Rule[], void>({
+      query: () => ({
+        url: `rule`,
+        method: 'GET',
+      }),
+    }),
+
     // create rule
+    createRule: builder.mutation<R.Rule, R.Rule & Omit<R.Rule, 'id'>>({
+      query: (r) => ({
+        url: `rule`,
+        method: 'POST',
+        body: {
+          ...r,
+          body: `"${JSON.stringify(r.body)}"`,
+        },
+      }),
+    }),
+
     // update rule
+    editRule: builder.mutation<R.Rule, Partial<R.Rule> & Pick<R.Rule, 'id'>>({
+      query: (r) => ({
+        url: `rule/${r.body}`,
+        method: 'PATCH',
+        body: {
+          ...r,
+          body:
+            typeof r.body === 'undefined'
+              ? undefined
+              : `"${JSON.stringify(r.body)}"`,
+        },
+      }),
+    }),
+
     // delete rule
+    deleteRule: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `rule/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // list all events
+    listEvents: builder.query<R.Event[], void>({
+      query: () => ({
+        url: `event`,
+        method: 'GET',
+      }),
+    }),
+    // get event by id
+    getEvent: builder.query<R.Event, number>({
+      query: (id) => ({
+        url: `event/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    // list all readings
+    listReadings: builder.query<D.Reading[], void>({
+      query: () => ({
+        url: 'reading',
+        method: 'GET',
+      }),
+    }),
+    // get reading by id
+    getReading: builder.query<D.Reading, number>({
+      query: (id) => ({
+        url: `reading/${id}`,
+        method: 'GET',
+      }),
+    }),
 
     // get user by id
+    getUser: builder.query<U.User, number>({
+      query: (userId) => ({
+        url: `user/${userId}`,
+        method: 'GET',
+      }),
+    }),
+
     // get all users
+    listUsers: builder.query<U.User, void>({
+      query: () => ({
+        url: 'user',
+        method: 'GET',
+      }),
+    }),
+
     // create user
+    createUser: builder.mutation<U.User, Omit<U.User, 'id'>>({
+      query: (u) => ({
+        url: 'user',
+        method: 'POST',
+        body: u,
+      }),
+    }),
+
     // update user
+    editUser: builder.mutation<U.User, Partial<U.User> & Pick<U.User, 'id'>>({
+      query: (u) => ({
+        url: `user/${u.id}`,
+        method: 'PATCH',
+        body: u,
+      }),
+    }),
+
     // delete user
+    deleteUser: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `user/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
     // add device to user
+    grantReadToUser: builder.mutation<
+      boolean,
+      { userId: number; deviceId: number; grant: boolean }
+    >({
+      query: ({ userId, deviceId, grant }) => ({
+        url: `user/${userId}/read/${deviceId}`,
+        method: 'PUT',
+        body: { grant },
+      }),
+    }),
+    checkUserCanAccessDevice: builder.query<
+      boolean,
+      { userId: number; deviceId: number }
+    >({
+      query: ({ userId, deviceId }) => ({
+        url: `user/${userId}/read/${deviceId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetAllQuery, useLoginQuery, useUpdateDeviceMutation } =
-  dataAPI;
+export const {
+  useCreateDeviceTypeMutation,
+  useCreateRuleMutation,
+  useCreateUserMutation,
+  useCreateZoneGroupMutation,
+  useCreateZoneMutation,
+  useCreateZoneVarMutation,
+
+  useDeleteDeviceTypeMutation,
+  useDeleteRuleMutation,
+  useDeleteUserMutation,
+  useDeleteZoneGroupMutation,
+  useDeleteZoneMutation,
+  useDeleteZoneVarMutation,
+
+  useEditDeviceMutation,
+  useEditDeviceTypeMutation,
+  useEditRuleMutation,
+  useEditUserMutation,
+  useEditZoneGroupMutation,
+  useEditZoneMutation,
+  useEditZoneVarMutation,
+
+  useGrantReadToUserMutation,
+
+  useUpdateDeviceMutation,
+
+  useSetZoneGroupMembershipMutation,
+  useSetZoneVarValueMutation,
+
+  useCheckUserCanAccessDeviceQuery,
+
+  useGetDeviceQuery,
+  useGetDeviceTypeQuery,
+  useGetEventQuery,
+  useGetReadingQuery,
+  useGetRuleQuery,
+  useGetUserQuery,
+  useGetZoneGroupQuery,
+  useGetZoneQuery,
+  useGetZoneVarQuery,
+  useGetZoneVarValueQuery,
+
+  useListDevicesQuery,
+  useListDeviceTypesQuery,
+  useListEventsQuery,
+  useListReadingsQuery,
+  useListRulesQuery,
+  useListUsersQuery,
+  useListZoneGroupsQuery,
+  useListZoneVarsQuery,
+  useListZonesQuery,
+
+  useLoginQuery,
+} = dataAPI;
