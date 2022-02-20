@@ -52,12 +52,7 @@ const MenuProps = {
 };
 
 //used for example
-const Newdevices = [
-  '0001',
-  '0002',
-  '0003',
-  '0004',
-];
+const Newdevices = ['0001', '0002', '0003', '0004'];
 
 function fetchValues(
   values: State,
@@ -178,7 +173,7 @@ export default function AlertDialog() {
             variant="h6"
             sx={{ mt: 3 }}
           >
-            Icon URL: 
+            Icon URL:
             <TextField
               sx={{ ml: 5, minWidth: 110 }}
               id="filled-basic"
