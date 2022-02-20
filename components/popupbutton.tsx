@@ -38,13 +38,6 @@ interface State {
 //   }));
 // }
 
-
-
-
-
-
-
-
 function fetchValues(
   values: State,
   setValues: React.Dispatch<React.SetStateAction<State>>
@@ -203,11 +196,26 @@ export default function AlertDialog() {
           /> */}
           {/* Backup design */}
           <FormGroup aria-label="position" row>
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Compass" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Location"/>
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Accelerometer" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Temperture" />
-          <FormControlLabel control={<Checkbox defaultChecked color="success"/>} label="Sound" />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Compass"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Location"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Accelerometer"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Temperture"
+            />
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="success" />}
+              label="Sound"
+            />
           </FormGroup>
 
           {/* <Box sx={{visibility:{handleChange}}}>
