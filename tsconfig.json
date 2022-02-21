@@ -35,7 +35,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "types.d.ts"
+    "types.d.ts",
+    "components/map-view.jsx"
   ],
   "exclude": [
     "node_modules"

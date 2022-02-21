@@ -11,7 +11,7 @@ import { Typography } from '@material-ui/core';
 import MapView from '@/components/map-view';
 import { dataAPI } from 'redux/data-api';
 import { Device, Reading, Type as DeviceType } from 'types/device';
-import { Event } from 'types/rule';
+import { Event, Rule } from 'types/rule';
 
 /**
  * @param {Device[]} devices the device list
@@ -48,15 +48,16 @@ function dashToDeviceGrid(
 
 /**
  * @param {Event[]} events the current dashboard
+ * @param {Rule[]} rules the current dashboard
  * @return {DataGrid} the grid!
  */
-function dashToEventGrid(events: Event[]): JSX.Element {
+function dashToEventGrid(events: Event[], rules: Rule[]): JSX.Element {
   const columns: GridColDef[] = [
-    { field: 'created_at', headerName: 'Timestamp' },
+    { field: 'created_at', headerName: 'Timestamp', flex: 1 },
     { field: 'severity', headerName: 'Severity' },
-    { field: 'involves', headerName: 'Involved IDs' },
+    { field: 'involves', headerName: 'Involved IDs', flex: 1 },
     { field: 'id', headerName: 'Event ID' },
-    { field: 'rule', headerName: 'Rule ID' },
+    { field: 'rule', headerName: 'Rule', flex: 1 },
   ];
 
   return (
@@ -66,6 +67,7 @@ function dashToEventGrid(events: Event[]): JSX.Element {
         id: n,
         timestamp: new Date(`${d.created_at}`),
         involves: d.involves.map((i) => i.device_id).join(', '),
+        rule: rules.filter((r) => r.id === d.rule).at(0)?.name,
       }))}
       autoHeight
       columns={columns}
@@ -98,7 +100,7 @@ function dashToReadingGrid(readings: Reading[]): JSX.Element {
         id: n,
         acceleration: d.acceleration?.x,
         distances: d.distances
-          ?.map((ds) => `${ds.distance_from}:${ds.distance.toFixed(3)}m`)
+          ?.map((ds) => `${ds.distance_from}:${ds.distance.toFixed(2)}m`)
           .join(', '),
       }))}
       autoHeight
@@ -106,60 +108,6 @@ function dashToReadingGrid(readings: Reading[]): JSX.Element {
       pageSize={10}
     />
   );
-}
-
-/**
- * @param {Device[]} devices the dashboard data
- * @param {Reading[]} readings the dashboard data
- * @param {Type[]} deviceTypes the dashboard data
- * @return { any } the extracted placeable items
- */
-function placeables(
-  devices: Device[],
-  readings: Reading[],
-  deviceTypes: DeviceType[]
-): { text: string; lat: number; lng: number }[] {
-  const hasLatLng = (r: Reading) =>
-    typeof r.location !== 'undefined' &&
-    typeof r.location.latitude !== 'undefined' &&
-    typeof r.location.longitude !== 'undefined';
-
-  const getLatest = (rs: Reading[]): Reading | null => {
-    if (rs.length === 0) {
-      return null;
-    }
-
-    let latest: Reading = rs[0];
-    for (let i = 1; i < rs.length; i++) {
-      if (
-        new Date(latest.reported_at).valueOf() <
-        new Date(rs[i].reported_at).valueOf()
-      ) {
-        latest = rs[i];
-      }
-    }
-    return latest;
-  };
-
-  const allLocs = readings.filter(hasLatLng);
-  return devices
-    .map((d) => ({
-      ...d,
-      latestLocation: getLatest(allLocs.filter((r) => r.device_id === d.id)),
-      deviceType: deviceTypes.filter((dt) => dt.id === d.type_id).at(0),
-    }))
-    .filter((d) => d.latestLocation !== null)
-    .map((l) => ({
-      text:
-        `${l.name}: ${l.id}` +
-        (typeof l.deviceType !== undefined ? ` (${l.deviceType?.name})` : ''),
-      fill:
-        typeof l.deviceType !== 'undefined'
-          ? `rgb(${l.deviceType.colour.r}, ${l.deviceType.colour.g}, ${l.deviceType.colour.b})`
-          : undefined,
-      lat: l.latestLocation?.location?.latitude ?? 0,
-      lng: l.latestLocation?.location?.longitude ?? 0,
-    }));
 }
 
 /**
@@ -185,16 +133,22 @@ export default function Dash(): JSX.Element {
   const { data: devices } = dataAPI.endpoints.listDevices.useQuery(null, {
     pollingInterval: 5000,
   });
+  const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
+    null,
+    { pollingInterval: 5000 }
+  );
   const { data: events } = dataAPI.endpoints.listEvents.useQuery(null, {
     pollingInterval: 5000,
   });
   const { data: readings } = dataAPI.endpoints.listReadings.useQuery(null, {
     pollingInterval: 5000,
   });
-  const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
-    null,
-    { pollingInterval: 5000 }
-  );
+  const { data: rules } = dataAPI.endpoints.listRules.useQuery(null, {
+    pollingInterval: 5000,
+  });
+  const { data: zones } = dataAPI.endpoints.listZones.useQuery(null, {
+    pollingInterval: 5000,
+  });
 
   return (
     <div>
@@ -210,21 +164,23 @@ export default function Dash(): JSX.Element {
           <Grid item xs={12}>
             <Typography variant="h6">Map</Typography>
             <MapView
-              placeables={placeables(
-                devices ?? [],
-                readings ?? [],
-                deviceTypes ?? []
-              )}
+              placeables={{
+                devices: devices ?? [],
+                readings: readings ?? [],
+                deviceTypes: deviceTypes ?? [],
+              }}
+              zones={zones}
             />
           </Grid>
 
-          <Grid item sm={6} xs={12} style={{ height: '50%' }}>
+          <Grid item xs={12} style={{ height: '50%' }}>
+            <Typography variant="h6">Events</Typography>
+            {dashToEventGrid(events ?? [], rules ?? [])}
+          </Grid>
+
+          <Grid item xs={12} style={{ height: '50%' }}>
             <Typography variant="h6">Devices</Typography>
             {dashToDeviceGrid(devices ?? [], deviceTypes ?? [])}
-          </Grid>
-          <Grid item sm={6} xs={12} style={{ height: '50%' }}>
-            <Typography variant="h6">Crashes</Typography>
-            {dashToEventGrid(events ?? [])}
           </Grid>
 
           <Grid item xs={12} style={{ height: '50%' }}>

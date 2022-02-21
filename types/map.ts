@@ -1,5 +1,6 @@
 export interface Zone {
   id: number;
+  name: string;
   geo_json: any;
   created_by: number; // User by ID
   created_at: string; // ISO8601
@@ -11,7 +12,7 @@ export interface Zone {
 }
 
 export interface ZoneGroup {
-  id: string;
+  id: number;
   name: string;
   created_by: number; // User by ID
 

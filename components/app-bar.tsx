@@ -11,6 +11,7 @@ import Menu from '@mui/material/Menu';
 import { User } from '../types/user';
 import { getUserDetails, setUserDetails } from '../types/user-details-local';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 interface State {
   showMenu: boolean;
   showProfileDetails: boolean;
@@ -22,26 +23,33 @@ interface State {
  */
 export default function IOTAAppBar(): JSX.Element {
   const router = useRouter();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [acctMenuAnchorEl, acctMenuSetAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const [navMenuAnchorEl, navMenuSetAnchorEl] =
+    React.useState<null | HTMLElement>(null);
   const [values] = React.useState<State>({
     showMenu: false,
     showProfileDetails: false,
     userDetails: getUserDetails(),
   });
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleAccountMenu = (event: React.MouseEvent<HTMLElement>) => {
+    acctMenuSetAnchorEl(event.currentTarget);
   };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleAccountMenuClose = () => {
+    acctMenuSetAnchorEl(null);
   };
-
   const handleLogout = () => {
-    handleClose();
-
+    handleAccountMenuClose();
     setUserDetails(null);
     router.push('/');
+  };
+
+  const handleNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    navMenuSetAnchorEl(event.currentTarget);
+  };
+  const handleNavMenuClose = () => {
+    navMenuSetAnchorEl(null);
   };
 
   return (
@@ -53,10 +61,39 @@ export default function IOTAAppBar(): JSX.Element {
             edge="start"
             color="inherit"
             aria-label="menu"
+            onClick={handleNavMenu}
             sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={navMenuAnchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(navMenuAnchorEl)}
+            onClose={handleNavMenuClose}
+          >
+            <MenuItem>
+              <Link href="/dash">dashboard</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/device-config">device configuration</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/user-config">user configuration</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/map-config">map configuration</Link>
+            </MenuItem>
+          </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             IOTA
           </Typography>
@@ -69,7 +106,7 @@ export default function IOTAAppBar(): JSX.Element {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleAccountMenu}
                 color="inherit"
               >
                 <AccountCircle />
@@ -78,7 +115,7 @@ export default function IOTAAppBar(): JSX.Element {
           )}
           <Menu
             id="menu-appbar"
-            anchorEl={anchorEl}
+            anchorEl={acctMenuAnchorEl}
             anchorOrigin={{
               vertical: 'top',
               horizontal: 'right',
@@ -88,8 +125,8 @@ export default function IOTAAppBar(): JSX.Element {
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
+            open={Boolean(acctMenuAnchorEl)}
+            onClose={handleAccountMenuClose}
           >
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>

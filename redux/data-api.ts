@@ -129,13 +129,13 @@ export const dataAPI = createApi({
     editZone: builder.mutation<M.Zone, Partial<M.Zone> & Pick<M.Zone, 'id'>>({
       query: (z) => ({
         url: `zone/${z.id}`,
-        method: 'PATCH',
+        method: 'POST',
         body: {
           ...z,
           geo_json:
             typeof z.geo_json === 'undefined'
               ? undefined
-              : `"${JSON.stringify(z.geo_json)}"`,
+              : JSON.stringify(z.geo_json),
         },
       }),
     }),
@@ -166,9 +166,9 @@ export const dataAPI = createApi({
     }),
 
     // get zone group by id
-    getZoneGroup: builder.query<M.ZoneGroup, string>({
+    getZoneGroup: builder.query<M.ZoneGroup, number>({
       query: (id) => ({
-        url: `zone/${id}`,
+        url: `zone_group/${id}`,
         method: 'GET',
       }),
     }),
@@ -181,7 +181,8 @@ export const dataAPI = createApi({
     >({
       query: (zg) => ({
         url: `zone_group/${zg.id}`,
-        method: 'PATCH',
+        method: 'POST',
+        body: zg,
       }),
     }),
 
@@ -217,7 +218,7 @@ export const dataAPI = createApi({
     ),
 
     // list all zone group vars
-    listZoneVars: builder.query<M.ZoneGroup[], null>({
+    listZoneVars: builder.query<M.ZoneGroupVar[], null>({
       query: () => ({
         url: 'zone_var',
         method: 'GET',
@@ -225,7 +226,7 @@ export const dataAPI = createApi({
     }),
 
     // get zone group var by id
-    getZoneVar: builder.query<M.ZoneGroup, number>({
+    getZoneVar: builder.query<M.ZoneGroupVar, number>({
       query: (id) => ({
         url: `zone_var/${id}`,
         method: 'GET',
@@ -361,7 +362,7 @@ export const dataAPI = createApi({
     }),
 
     // get all users
-    listUsers: builder.query<U.User, null>({
+    listUsers: builder.query<U.User[], null>({
       query: () => ({
         url: 'user',
         method: 'GET',
