@@ -13,7 +13,11 @@ export default function LabelBottomNavigation() {
   };
 
   return (
-    <BottomNavigation sx={{ width: 500, position:'absolute', bottom:1 }} value={value} onChange={handleChange}>
+    <BottomNavigation
+      sx={{ width: 500, position: 'absolute', bottom: 1 }}
+      value={value}
+      onChange={handleChange}
+    >
       <BottomNavigationAction
         label="Home"
         value="recents"
@@ -29,7 +33,11 @@ export default function LabelBottomNavigation() {
         value="nearby"
         icon={<DevicesOtherIcon />}
       />
-      <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+      <BottomNavigationAction
+        label="Folder"
+        value="folder"
+        icon={<FolderIcon />}
+      />
     </BottomNavigation>
   );
 }
