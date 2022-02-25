@@ -58,10 +58,11 @@ const DeviceConfigModal: React.FC<{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Configuration'}
-        <IconButton onClick={handleTextClick}>
-              <EditIcon />
-            </IconButton>
+        <DialogTitle id="alert-dialog-title">
+          {'Configuration'}
+          <IconButton onClick={handleTextClick}>
+            <EditIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" variant="h6">
@@ -73,7 +74,6 @@ const DeviceConfigModal: React.FC<{
             sx={{ mt: 2 }}
           >
             Name: {device.name}
-            
             <TextField
               sx={{ ml: 1, minWidth: 110 }}
               id="filled-basic"
@@ -101,19 +101,16 @@ const DeviceConfigModal: React.FC<{
             </Select>
           </FormControl>
           <TextField
-              sx={{ ml: 1, mt:2, minWidth: 110 }}
-              id="filled-basic"
-              label="Custome Type"
-              variant="filled"
-              size="small"
-              disabled={loading}
-            />
-            <Button 
-            variant="contained"
-              sx={{mt:3, ml:1}}
-            >
-              Confirm New Type
-              </Button>
+            sx={{ ml: 1, mt: 2, minWidth: 110 }}
+            id="filled-basic"
+            label="Custome Type"
+            variant="filled"
+            size="small"
+            disabled={loading}
+          />
+          <Button variant="contained" sx={{ mt: 3, ml: 1 }}>
+            Confirm New Type
+          </Button>
 
           <FormGroup aria-label="position" row>
             <FormControlLabel
