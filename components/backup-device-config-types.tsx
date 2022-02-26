@@ -3,10 +3,9 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 const top100Films = [
-  { label: 'Human'},
-  { label: 'Car',},
-  { label: 'Infastructure',},
-  
+  { label: 'Human' },
+  { label: 'Car' },
+  { label: 'Infastructure' },
 ];
 export default function ComboBox() {
   return (
@@ -21,4 +20,3 @@ export default function ComboBox() {
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-
