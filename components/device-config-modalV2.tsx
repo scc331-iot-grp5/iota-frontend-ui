@@ -45,17 +45,13 @@ const DeviceConfigModal: React.FC<{
     return <></>;
   }
 
-  const [name, setName] = React.useState("");
-
-
+  const [name, setName] = React.useState('');
 
   //in this submit would be the code to add the value of textfield to the database
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    alert(`The name you entered was: ${name}`) //test
-  }
-
-
+    alert(`The name you entered was: ${name}`); //test
+  };
 
   return (
     <React.Fragment>
@@ -70,10 +66,11 @@ const DeviceConfigModal: React.FC<{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Configuration'}
-        <IconButton onClick={handleTextClick}>
-              <EditIcon />
-            </IconButton>
+        <DialogTitle id="alert-dialog-title">
+          {'Configuration'}
+          <IconButton onClick={handleTextClick}>
+            <EditIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" variant="h6">
@@ -85,7 +82,6 @@ const DeviceConfigModal: React.FC<{
             sx={{ mt: 2 }}
           >
             Name: {device.name}
-            
             <TextField
               sx={{ ml: 1, minWidth: 110 }}
               id="filled-basic"
@@ -113,22 +109,24 @@ const DeviceConfigModal: React.FC<{
             </Select>
           </FormControl>
           <TextField
-              sx={{ ml: 1, mt:2, minWidth: 110 }}
-              id="filled-basic"
-              label="Custome Type"
-              variant="filled"
-              size="small"
-              value={name}
-              onChange={(e: { target: { value: any; }; }) => setName(e.target.value)}
-              disabled={loading}
-            />
-            <Button 
+            sx={{ ml: 1, mt: 2, minWidth: 110 }}
+            id="filled-basic"
+            label="Custome Type"
+            variant="filled"
+            size="small"
+            value={name}
+            onChange={(e: { target: { value: any } }) =>
+              setName(e.target.value)
+            }
+            disabled={loading}
+          />
+          <Button
             variant="contained"
-              sx={{mt:3, ml:1}}
+            sx={{ mt: 3, ml: 1 }}
             onClick={handleSubmit}
-            >
-              Confirm New Type
-              </Button>
+          >
+            Confirm New Type
+          </Button>
 
           <FormGroup aria-label="position" row>
             <FormControlLabel
