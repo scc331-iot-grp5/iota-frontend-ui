@@ -80,7 +80,7 @@ interface State {
 const geoToPolygon = (geo: any): [number, number][] => {
   const coords = geo?.features?.at(0)?.geometry?.coordinates?.at(0) ?? null;
   if (Array.isArray(coords)) {
-    return coords;
+    return coords.map(([lng, lat]) => [lat, lng]);
   }
   return [];
 };

@@ -10,7 +10,7 @@ import Pop from '../components/device-config-modal';
 import { dataAPI } from 'redux/data-api';
 import Head from 'next/head';
 import AppBar from '@/components/app-bar';
-import Bottomnav from '../components/bottomnav';
+import Bottomnav from '../components/bottom-nav';
 // import { useRouter } from 'next/router';
 
 /**

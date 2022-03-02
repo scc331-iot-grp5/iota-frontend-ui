@@ -5,40 +5,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Typography from '@mui/material/Typography';
 // import Modal from "@mui/material/Modal";
-import Chip from '@mui/material/Chip';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // import Select from '@mui/material/Select';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import * as D from '../types/device';
 import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import MapView from '@/components/map-view';
 import EditIcon from '@mui/icons-material/Edit';
-import Box from '@mui/material/Box';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
-interface State {
-  devices: D.Device[];
-  device_types: D.Type[];
-}
-
-// function dashToPlaceables(
-//   dash: DashboardData
-// ): { text: string; lat: number; lng: number }[] {
-//   return dash.locations.map((l) => ({
-//     text: `device-${l.microbitId}`,
-//     lat: l.latitude,
-//     lng: l.longitude,
-//   }));
-// }
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -51,41 +29,13 @@ const MenuProps = {
   },
 };
 
-//used for example
+// used for example
 const Newdevices = ['0001', '0002', '0003', '0004'];
 
-function fetchValues(
-  values: State,
-  setValues: React.Dispatch<React.SetStateAction<State>>
-): void {
-  fetch('http://localhost:1880/Device')
-    .then((res) => res.json())
-    .then(
-      (res) => {
-        console.log('Configuration data fetched');
-        if (res === {}) {
-          console.log('no data retrieved');
-          return;
-        }
-        setValues({ ...values, devices: res });
-      },
-      (err) => console.log('Configuration data fetch failed', err)
-    );
-}
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  height: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-export default function AlertDialog() {
+/**
+ * @return {JSX.Element} the dialog
+ */
+export default function AlertDialog(): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -96,16 +46,8 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
-  const [type, setType] = React.useState('');
-  const handleChange = (event: SelectChangeEvent) => {
-    setType(event.target.value);
-  };
-  const [loading, setLoading] = React.useState(true);
-  function handleTextClick() {
-    setLoading(false);
-  }
-
   const [personName, setPersonName] = React.useState<string[]>([]);
+  const loading = false;
 
   const handleChangeDrop = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -119,7 +61,7 @@ export default function AlertDialog() {
 
   return (
     <React.Fragment>
-      <IconButton variant="outlined" onClick={handleClickOpen}>
+      <IconButton onClick={handleClickOpen}>
         <EditIcon />
       </IconButton>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -135,7 +77,7 @@ export default function AlertDialog() {
       >
         <DialogTitle id="alert-dialog-title">
           {'User Detail'}
-          <IconButton onClick={handleTextClick}>
+          <IconButton>
             <EditIcon />
           </IconButton>
         </DialogTitle>
@@ -213,7 +155,7 @@ export default function AlertDialog() {
                 multiple
                 value={personName}
                 onChange={handleChangeDrop}
-                nput={<OutlinedInput label="Tag" />}
+                input={<OutlinedInput label="Tag" />}
                 renderValue={(selected) => selected.join(',  ')}
                 MenuProps={MenuProps}
               >

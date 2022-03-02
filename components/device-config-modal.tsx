@@ -41,9 +41,16 @@ const DeviceConfigModal: React.FC<{
   const [loading, setLoading] = React.useState(true);
   const handleTextClick = () => setLoading(false);
 
+  const [name, setName] = React.useState('');
   if (typeof device === 'undefined') {
     return <></>;
   }
+
+  // in this submit would be the code to add the value of textfield to the database
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    alert(`The name you entered was: ${name}`); // test
+  };
 
   return (
     <React.Fragment>
@@ -58,7 +65,12 @@ const DeviceConfigModal: React.FC<{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Configuration'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {'Configuration'}
+          <IconButton onClick={handleTextClick}>
+            <EditIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" variant="h6">
             ID: {device.id}
@@ -69,9 +81,6 @@ const DeviceConfigModal: React.FC<{
             sx={{ mt: 2 }}
           >
             Name: {device.name}
-            <IconButton onClick={handleTextClick}>
-              <EditIcon />
-            </IconButton>
             <TextField
               sx={{ ml: 1, minWidth: 110 }}
               id="filled-basic"
@@ -98,6 +107,25 @@ const DeviceConfigModal: React.FC<{
               ))}
             </Select>
           </FormControl>
+          <TextField
+            sx={{ ml: 1, mt: 2, minWidth: 110 }}
+            id="filled-basic"
+            label="Custome Type"
+            variant="filled"
+            size="small"
+            value={name}
+            onChange={(e: { target: { value: any } }) =>
+              setName(e.target.value)
+            }
+            disabled={loading}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 3, ml: 1 }}
+            onClick={handleSubmit}
+          >
+            Confirm New Type
+          </Button>
 
           <FormGroup aria-label="position" row>
             <FormControlLabel

@@ -5,7 +5,11 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
-export default function LabelBottomNavigation() {
+
+/**
+ * @return {JSX.Element} the bottom nav
+ */
+export default function LabelBottomNavigation(): JSX.Element {
   const [value, setValue] = React.useState('recents');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

@@ -23,7 +23,7 @@ export const dataAPI = createApi({
     >({
       query: (device) => ({
         url: `device/${device.id}`,
-        method: 'PATCH',
+        method: 'POST',
         body: device,
       }),
     }),
@@ -50,7 +50,7 @@ export const dataAPI = createApi({
     >({
       query: (d) => ({
         url: `device/${d.id}`,
-        method: 'PATCH',
+        method: 'POST',
         body: d,
       }),
     }),
@@ -95,7 +95,7 @@ export const dataAPI = createApi({
     >({
       query: (t) => ({
         url: `device/${t.id}`,
-        method: 'PATCH',
+        method: 'POST',
         body: t,
       }),
     }),
@@ -248,7 +248,7 @@ export const dataAPI = createApi({
     >({
       query: (zv) => ({
         url: `zone_var/${zv.id}`,
-        method: 'PATCH',
+        method: 'POST',
       }),
     }),
 
@@ -304,7 +304,7 @@ export const dataAPI = createApi({
     editRule: builder.mutation<R.Rule, Partial<R.Rule> & Pick<R.Rule, 'id'>>({
       query: (r) => ({
         url: `rule/${r.body}`,
-        method: 'PATCH',
+        method: 'POST',
         body: {
           ...r,
           body:
@@ -382,7 +382,7 @@ export const dataAPI = createApi({
     editUser: builder.mutation<U.User, Partial<U.User> & Pick<U.User, 'id'>>({
       query: (u) => ({
         url: `user/${u.id}`,
-        method: 'PATCH',
+        method: 'POST',
         body: u,
       }),
     }),
