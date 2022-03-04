@@ -10,9 +10,9 @@ import {
 import { ValueScale } from '@devexpress/dx-react-chart';
 
 interface IDataItem {
-  month: string,
-  device: number,
-  temp: number,
+  month: string;
+  device: number;
+  temp: number;
 }
 
 const chartData: IDataItem[] = [
@@ -28,15 +28,24 @@ export default class Demo extends React.Component<object, object> {
   public render(): React.ReactNode {
     return (
       <Paper>
-        <Chart
-          data={chartData}
-        >
+        <Chart data={chartData}>
           <ValueScale name="device" />
           <ValueScale name="temp" />
 
           <ArgumentAxis />
-          <ValueAxis scaleName="device" showGrid={false} showLine={true} showTicks={true} />
-          <ValueAxis scaleName="temp" position="right" showGrid={false} showLine={true} showTicks={true} />
+          <ValueAxis
+            scaleName="device"
+            showGrid={false}
+            showLine={true}
+            showTicks={true}
+          />
+          <ValueAxis
+            scaleName="temp"
+            position="right"
+            showGrid={false}
+            showLine={true}
+            showTicks={true}
+          />
 
           <BarSeries
             name="Temperture"
