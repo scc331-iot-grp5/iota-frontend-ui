@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  id: number;
   created_at: string; // ISO-8601 Compliant
   is_administrator: string;
 
@@ -12,6 +12,6 @@ export interface User {
 }
 
 export interface ReadRight {
-  user_id: string;
-  device_id: string;
+  user_id: number;
+  device_id: number;
 }

@@ -12,6 +12,7 @@ import { User } from '../types/user';
 import { getUserDetails, setUserDetails } from '../types/user-details-local';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Avatar } from '@material-ui/core';
 interface State {
   showMenu: boolean;
   showProfileDetails: boolean;
@@ -109,7 +110,11 @@ export default function IOTAAppBar(): JSX.Element {
                 onClick={handleAccountMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                {values.userDetails.profile_url !== null ? (
+                  <Avatar src={values.userDetails.profile_url} />
+                ) : (
+                  <AccountCircle />
+                )}
               </IconButton>
             </React.Fragment>
           )}

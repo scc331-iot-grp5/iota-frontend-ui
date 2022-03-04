@@ -23,7 +23,7 @@ export interface ZoneGroupVar {
   id: number;
   group_id: number;
   name: string;
-  type: string;
+  type: 'number' | 'string' | 'boolean';
 }
 
 export type ZoneVarValue = any;

@@ -28,9 +28,10 @@ export const dataAPI = createApi({
       }),
     }),
 
-    listDevices: builder.query<D.Device[], null>({
-      query: () => ({
+    listDevices: builder.query<D.Device[], { userId?: number }>({
+      query: ({ userId }) => ({
         url: 'device',
+        params: userId ? { user_id: userId } : undefined,
         method: 'GET',
       }),
     }),
@@ -281,9 +282,10 @@ export const dataAPI = createApi({
     }),
 
     // get all rules
-    listRules: builder.query<R.Rule[], null>({
-      query: () => ({
+    listRules: builder.query<R.Rule[], { userId?: number }>({
+      query: ({ userId }) => ({
         url: `rule`,
+        params: userId ? { user_id: userId } : undefined,
         method: 'GET',
       }),
     }),
@@ -324,9 +326,10 @@ export const dataAPI = createApi({
     }),
 
     // list all events
-    listEvents: builder.query<R.Event[], null>({
-      query: () => ({
+    listEvents: builder.query<R.Event[], { userId?: number }>({
+      query: ({ userId }) => ({
         url: `event`,
+        params: userId ? { user_id: userId } : undefined,
         method: 'GET',
       }),
     }),
@@ -339,9 +342,16 @@ export const dataAPI = createApi({
     }),
 
     // list all readings
-    listReadings: builder.query<D.Reading[], null>({
-      query: () => ({
+    listReadings: builder.query<
+      D.Reading[],
+      { userId?: number; deviceId?: number }
+    >({
+      query: ({ userId, deviceId }) => ({
         url: 'reading',
+        params:
+          userId || deviceId
+            ? { user_id: userId, device_id: deviceId }
+            : undefined,
         method: 'GET',
       }),
     }),

@@ -130,22 +130,34 @@ export default function Dash(): JSX.Element {
     );
   }
 
-  const { data: devices } = dataAPI.endpoints.listDevices.useQuery(null, {
-    pollingInterval: 5000,
-  });
+  const { data: devices } = dataAPI.endpoints.listDevices.useQuery(
+    {},
+    {
+      pollingInterval: 5000,
+    }
+  );
   const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
     null,
     { pollingInterval: 5000 }
   );
-  const { data: events } = dataAPI.endpoints.listEvents.useQuery(null, {
-    pollingInterval: 5000,
-  });
-  const { data: readings } = dataAPI.endpoints.listReadings.useQuery(null, {
-    pollingInterval: 5000,
-  });
-  const { data: rules } = dataAPI.endpoints.listRules.useQuery(null, {
-    pollingInterval: 5000,
-  });
+  const { data: events } = dataAPI.endpoints.listEvents.useQuery(
+    {},
+    {
+      pollingInterval: 5000,
+    }
+  );
+  const { data: readings } = dataAPI.endpoints.listReadings.useQuery(
+    {},
+    {
+      pollingInterval: 5000,
+    }
+  );
+  const { data: rules } = dataAPI.endpoints.listRules.useQuery(
+    {},
+    {
+      pollingInterval: 5000,
+    }
+  );
   const { data: zones } = dataAPI.endpoints.listZones.useQuery(null, {
     pollingInterval: 5000,
   });
