@@ -18,7 +18,7 @@ export default function SimpleAccordion() {
           <Typography>Bar/line chart </Typography>
         </AccordionSummary>
         <AccordionDetails>
-         <LineBar/>
+          <LineBar />
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -30,10 +30,9 @@ export default function SimpleAccordion() {
           <Typography>Scatter chart</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <Scatter/>
+          <Scatter />
         </AccordionDetails>
       </Accordion>
-      
     </div>
   );
 }
