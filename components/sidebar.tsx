@@ -117,12 +117,21 @@ export default function PersistentDrawerLeft() {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'User configuration', 'Device Configuration', 'Rule engine'].map((text, index) => (
+          {[
+            'Dashboard',
+            'User configuration',
+            'Device Configuration',
+            'Rule engine',
+          ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 1 === 0 ? <MouseIcon /> : <MailIcon />}
@@ -145,7 +154,6 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        
       </Main>
     </Box>
   );
