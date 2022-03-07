@@ -60,12 +60,10 @@ export default function AlertDialog(): JSX.Element {
     );
   };
 
-
   const Rule_Preimter = [
-    { label: 'Rule perimeter'},
-    { label: 'Rule perimeter'},
-    { label: 'Rule perimeter'},
-    
+    { label: 'Rule perimeter' },
+    { label: 'Rule perimeter' },
+    { label: 'Rule perimeter' },
   ];
   return (
     <React.Fragment>
@@ -93,15 +91,16 @@ export default function AlertDialog(): JSX.Element {
           <DialogContentText id="alert-dialog-description" variant="h6">
             Rule perimeter
             <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-           options={Rule_Preimter}
-            sx={{ width: 300 }}
-             renderInput={(params) => <TextField {...params} label="perimeter" />}
-             />
+              disablePortal
+              id="combo-box-demo"
+              options={Rule_Preimter}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="perimeter" />
+              )}
+            />
           </DialogContentText>
 
-        
           <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
             <DialogContentText
               id="alert-dialog-description"
@@ -126,15 +125,14 @@ export default function AlertDialog(): JSX.Element {
                   </MenuItem>
                 ))}
               </Select>
-              
             </DialogContentText>
             <DialogContentText
               id="alert-dialog-description"
               variant="h6"
               sx={{ mt: 3 }}
             >
-                <Button onClick={handleClose}>Confirm Rule</Button>
-          </DialogContentText>
+              <Button onClick={handleClose}>Confirm Rule</Button>
+            </DialogContentText>
           </FormControl>
         </DialogContent>
 

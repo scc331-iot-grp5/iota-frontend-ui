@@ -7,13 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pop from './components/add-rule-modal';
-function createData(
-  number: number,
-  rule: string,
-  
-  
-) {
-  return { number, rule};
+function createData(number: number, rule: string) {
+  return { number, rule };
 }
 
 const rows = [
@@ -33,9 +28,8 @@ export default function BasicTable() {
             <TableCell>Rule number</TableCell>
             <TableCell align="right">Rule</TableCell>
             <TableCell align="right">
-            <Pop/>
+              <Pop />
             </TableCell>
-            
           </TableRow>
         </TableHead>
         <TableBody>
