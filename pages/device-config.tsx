@@ -12,6 +12,8 @@ import Head from 'next/head';
 import AppBar from '@/components/app-bar';
 import Bottomnav from '../components/bottom-nav';
 // import { useRouter } from 'next/router';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 /**
  * @return {JSX.Element} a
@@ -42,6 +44,7 @@ export default function BasicTable(): JSX.Element {
               <TableCell align="right">Name</TableCell>
               <TableCell align="right">Type</TableCell>
               <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
 
@@ -63,6 +66,13 @@ export default function BasicTable(): JSX.Element {
                 <TableCell>
                   <Pop device={d} deviceTypes={deviceTypes ?? []} />
                 </TableCell>
+                
+                <TableCell>
+                <IconButton >
+                <DeleteIcon/>
+               </IconButton>
+                </TableCell>
+                
               </TableRow>
             ))}
           </TableBody>
