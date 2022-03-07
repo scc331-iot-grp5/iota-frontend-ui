@@ -11,6 +11,8 @@ import { dataAPI } from 'redux/data-api';
 import Head from 'next/head';
 import AppBar from '@/components/app-bar';
 import Bottomnav from '../components/bottom-nav';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 // import AppBar from '@/components/app-bar';
 // import { useRouter } from 'next/router';
 
@@ -39,6 +41,7 @@ export default function BasicTable() {
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Is Admin</TableCell>
               <TableCell>Edit Detail</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
 
@@ -57,6 +60,11 @@ export default function BasicTable() {
 
                 <TableCell>
                   <Edit />
+                </TableCell>
+                <TableCell>
+                <IconButton >
+                <DeleteIcon/>
+               </IconButton>
                 </TableCell>
               </TableRow>
             ))}
