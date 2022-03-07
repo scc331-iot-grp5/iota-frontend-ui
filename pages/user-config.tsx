@@ -62,9 +62,9 @@ export default function BasicTable() {
                   <Edit />
                 </TableCell>
                 <TableCell>
-                <IconButton >
-                <DeleteIcon/>
-               </IconButton>
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
