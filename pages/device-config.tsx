@@ -66,13 +66,12 @@ export default function BasicTable(): JSX.Element {
                 <TableCell>
                   <Pop device={d} deviceTypes={deviceTypes ?? []} />
                 </TableCell>
-                
+
                 <TableCell>
-                <IconButton >
-                <DeleteIcon/>
-               </IconButton>
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
-                
               </TableRow>
             ))}
           </TableBody>
