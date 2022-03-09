@@ -127,10 +127,7 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[
-            'Dashboard',
-          
-          ].map((text, index) => (
+          {['Dashboard'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 1 === 0 ? <HomeIcon /> : <MailIcon />}
@@ -141,7 +138,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['User Configuration', ].map((text, index) => (
+          {['User Configuration'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 1 === 0 ? <PersonIcon /> : <MailIcon />}
@@ -152,7 +149,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['Device Configuration' ].map((text, index) => (
+          {['Device Configuration'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 1 === 0 ? <DevicesIcon /> : <MailIcon />}
@@ -163,7 +160,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['Rule Engine' ].map((text, index) => (
+          {['Rule Engine'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 1 === 0 ? <RuleIcon /> : <MailIcon />}
