@@ -18,8 +18,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
-import MouseIcon from '@mui/icons-material/Mouse';
-
+import RuleIcon from '@mui/icons-material/Rule';
+import DevicesIcon from '@mui/icons-material/Devices';
+import PersonIcon from '@mui/icons-material/Person';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -128,13 +129,11 @@ export default function PersistentDrawerLeft() {
         <List>
           {[
             'Dashboard',
-            'User configuration',
-            'Device Configuration',
-            'Rule engine',
+          
           ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 1 === 0 ? <MouseIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <HomeIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -142,10 +141,32 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['More', 'More', 'More'].map((text, index) => (
+          {['User Configuration', ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <PersonIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['Device Configuration' ].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 1 === 0 ? <DevicesIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['Rule Engine' ].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 1 === 0 ? <RuleIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
