@@ -99,15 +99,10 @@ export default function AlertDialog(): JSX.Element {
     setMicroID(event.target.value as string);
   };
 
- 
-
-  
-
   const Rule_Preimter = [
-    { label: 'Rule perimeter'},
-    { label: 'Rule perimeter'},
-    { label: 'Rule perimeter'},
-    
+    { label: 'Rule perimeter' },
+    { label: 'Rule perimeter' },
+    { label: 'Rule perimeter' },
   ];
   return (
     <React.Fragment>
@@ -117,7 +112,7 @@ export default function AlertDialog(): JSX.Element {
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Configuration
       </Button> */}
-      
+
       <Dialog
         fullWidth={true}
         maxWidth="xl"
@@ -133,63 +128,70 @@ export default function AlertDialog(): JSX.Element {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-        <DialogContentText id="alert-dialog-description" variant="h6" sx={{ mb: 3, minWidth: 120 }}>
-        <TextField id="outlined-basic" label="Rule name" variant="outlined" />
-        </DialogContentText>
+          <DialogContentText
+            id="alert-dialog-description"
+            variant="h6"
+            sx={{ mb: 3, minWidth: 120 }}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Rule name"
+              variant="outlined"
+            />
+          </DialogContentText>
 
-        
-        <DialogContentText id="alert-dialog-description" variant="h6" sx={{ mb: 6, minWidth: 120 }}>
-        <FormControl  sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Zone</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={zone}
-          label="Zone"
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>Zone 1</MenuItem>
-          <MenuItem value={20}>Zone 2</MenuItem>
-          <MenuItem value={30}>Zone 3</MenuItem>
-        </Select>
-        </FormControl>
-        </DialogContentText>
-        
+          <DialogContentText
+            id="alert-dialog-description"
+            variant="h6"
+            sx={{ mb: 6, minWidth: 120 }}
+          >
+            <FormControl sx={{ minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-label">Zone</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={zone}
+                label="Zone"
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Zone 1</MenuItem>
+                <MenuItem value={20}>Zone 2</MenuItem>
+                <MenuItem value={30}>Zone 3</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContentText>
 
-        <FormControl  sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Fact</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={fact}
-          label="Fact"
-          onChange={handleFact}
-        >
-          <MenuItem value={10}>Fact 1</MenuItem>
-          <MenuItem value={20}>Fact 2</MenuItem>
-          <MenuItem value={30}>Fact 3</MenuItem>
-        </Select>
-        </FormControl>
+          <FormControl sx={{ minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-label">Fact</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={fact}
+              label="Fact"
+              onChange={handleFact}
+            >
+              <MenuItem value={10}>Fact 1</MenuItem>
+              <MenuItem value={20}>Fact 2</MenuItem>
+              <MenuItem value={30}>Fact 3</MenuItem>
+            </Select>
+          </FormControl>
 
-        
-        
-        <FormControl  sx={{ ml:2, minWidth: 120 }}>
-          
-        <InputLabel id="demo-simple-select-label">operator</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={operator}
-          label="operator"
-          onChange={handleOperator}
-        >
-          <MenuItem value={10}>Operator 1</MenuItem>
-          <MenuItem value={20}>Operator 2</MenuItem>
-          <MenuItem value={30}>Operator 3</MenuItem>
-        </Select>
-        </FormControl>
+          <FormControl sx={{ ml: 2, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-label">operator</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={operator}
+              label="operator"
+              onChange={handleOperator}
+            >
+              <MenuItem value={10}>Operator 1</MenuItem>
+              <MenuItem value={20}>Operator 2</MenuItem>
+              <MenuItem value={30}>Operator 3</MenuItem>
+            </Select>
+          </FormControl>
 
-        <FormControl sx={{ ml: 2, minWidth: 120 }}>
+          <FormControl sx={{ ml: 2, minWidth: 120 }}>
             <DialogContentText
               id="alert-dialog-description"
               variant="h6"
@@ -203,71 +205,67 @@ export default function AlertDialog(): JSX.Element {
             </DialogContentText>
           </FormControl>
 
-        <FormControl  sx={{ ml:2, minWidth: 120 }}>
-          
-        <InputLabel id="demo-simple-select-label">MicrobitGroup</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={microGroup}
-          label="MicrobitGroup"
-          onChange={handleGroup}
-        >
-          <MenuItem value={10}>MicrobitGroup 1</MenuItem>
-          <MenuItem value={20}>MicrobitGroup 2</MenuItem>
-          <MenuItem value={30}>MicrobitGroup 3</MenuItem>
-        </Select>
-        
-        </FormControl>
+          <FormControl sx={{ ml: 2, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-label">MicrobitGroup</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={microGroup}
+              label="MicrobitGroup"
+              onChange={handleGroup}
+            >
+              <MenuItem value={10}>MicrobitGroup 1</MenuItem>
+              <MenuItem value={20}>MicrobitGroup 2</MenuItem>
+              <MenuItem value={30}>MicrobitGroup 3</MenuItem>
+            </Select>
+          </FormControl>
 
-        <FormControl  sx={{ ml:2, minWidth: 120 }}>
-          
-        <InputLabel id="demo-simple-select-label">MicrobitID</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={microID}
-          label="MicrobitID"
-          onChange={handleID}
-        >
-          <MenuItem value={10}>MicrobitID 1</MenuItem>
-          <MenuItem value={20}>MicrobitID 2</MenuItem>
-          <MenuItem value={30}>MicrobitID 3</MenuItem>
-        </Select>
-        
-        </FormControl>
-        <MoreRules/>
-        
-        <DialogContentText id="alert-dialog-description" variant="h6" >
-        <FormControl  sx={{ minWidth: 120, mb: 3, mt:4}}>
-        <InputLabel id="demo-simple-select-label">Event</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={event}
-          label="Fact"
-          onChange={handleEvent}
-        >
-          <MenuItem value={10}>Event 1</MenuItem>
-          <MenuItem value={20}>Event 2</MenuItem>
-          <MenuItem value={30}>Event 3</MenuItem>
-        </Select>
+          <FormControl sx={{ ml: 2, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-label">MicrobitID</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={microID}
+              label="MicrobitID"
+              onChange={handleID}
+            >
+              <MenuItem value={10}>MicrobitID 1</MenuItem>
+              <MenuItem value={20}>MicrobitID 2</MenuItem>
+              <MenuItem value={30}>MicrobitID 3</MenuItem>
+            </Select>
+          </FormControl>
+          <MoreRules />
 
-        <MoreEvent/>
-        </FormControl>
-        </DialogContentText>
-        
+          <DialogContentText id="alert-dialog-description" variant="h6">
+            <FormControl sx={{ minWidth: 120, mb: 3, mt: 4 }}>
+              <InputLabel id="demo-simple-select-label">Event</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={event}
+                label="Fact"
+                onChange={handleEvent}
+              >
+                <MenuItem value={10}>Event 1</MenuItem>
+                <MenuItem value={20}>Event 2</MenuItem>
+                <MenuItem value={30}>Event 3</MenuItem>
+              </Select>
 
+              <MoreEvent />
+            </FormControl>
+          </DialogContentText>
 
-        <DialogContentText id="alert-dialog-description" variant="h6" sx={{ mb: 2, }}>
-
-        <TextField id="outlined-basic" label="Message/Severity" variant="outlined" />
-        </DialogContentText>
-        
-        
-        
-        
-
+          <DialogContentText
+            id="alert-dialog-description"
+            variant="h6"
+            sx={{ mb: 2 }}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Message/Severity"
+              variant="outlined"
+            />
+          </DialogContentText>
 
           {/* <DialogContentText id="alert-dialog-description" variant="h6">
 
@@ -312,11 +310,13 @@ export default function AlertDialog(): JSX.Element {
           </FormControl> */}
 
           <DialogContentText
-              id="alert-dialog-description"
-              variant="h6"
-              sx={{ mt: 3 }}
-            >
-                <Button onClick={handleClose} variant="contained" color="success">Confirm Rule</Button>
+            id="alert-dialog-description"
+            variant="h6"
+            sx={{ mt: 3 }}
+          >
+            <Button onClick={handleClose} variant="contained" color="success">
+              Confirm Rule
+            </Button>
           </DialogContentText>
         </DialogContent>
 

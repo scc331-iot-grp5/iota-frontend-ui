@@ -133,8 +133,6 @@ export default function AlertDialog(): JSX.Element {
             </Select>
           </FormControl>
 
-
-
           <FormControl sx={{ ml: 2, minWidth: 120 }}>
             <DialogContentText
               id="alert-dialog-description"

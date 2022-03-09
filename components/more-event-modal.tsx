@@ -39,25 +39,23 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Add More Events"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Add More Events'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <FormControl  sx={{ minWidth: 120, mt:5}}>
-        <InputLabel id="demo-simple-select-label">Event</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={event}
-          label="Fact"
-          onChange={handleEvent}
-        >
-          <MenuItem value={10}>Event 1</MenuItem>
-          <MenuItem value={20}>Event 2</MenuItem>
-          <MenuItem value={30}>Event 3</MenuItem>
-        </Select>
-        </FormControl>
+            <FormControl sx={{ minWidth: 120, mt: 5 }}>
+              <InputLabel id="demo-simple-select-label">Event</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={event}
+                label="Fact"
+                onChange={handleEvent}
+              >
+                <MenuItem value={10}>Event 1</MenuItem>
+                <MenuItem value={20}>Event 2</MenuItem>
+                <MenuItem value={30}>Event 3</MenuItem>
+              </Select>
+            </FormControl>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -74,6 +72,6 @@ export default function AlertDialog() {
           />
         </DialogActions>
       </Dialog>
-      </React.Fragment>
+    </React.Fragment>
   );
 }
