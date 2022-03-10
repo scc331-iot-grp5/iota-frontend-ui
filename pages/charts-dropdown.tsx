@@ -20,7 +20,7 @@ export default function SimpleAccordion() {
           <Typography>Bar/line chart </Typography>
         </AccordionSummary>
         <AccordionDetails>
-         <LineBar/>
+          <LineBar />
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -32,7 +32,7 @@ export default function SimpleAccordion() {
           <Typography>Scatter chart</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <Scatter/>
+          <Scatter />
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -44,7 +44,7 @@ export default function SimpleAccordion() {
           <Typography>line chart</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <Line/>
+          <Line />
         </AccordionDetails>
       </Accordion>
 
@@ -54,13 +54,12 @@ export default function SimpleAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-        <Typography>pie chart</Typography>
+          <Typography>pie chart</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <Pie/>
+          <Pie />
         </AccordionDetails>
       </Accordion>
-      
     </React.Fragment>
   );
 }
