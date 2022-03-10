@@ -14,11 +14,9 @@ import {
   TextField,
   InputLabel,
   MenuItem,
-} from '@material-ui/core';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import { AddCircle, Edit as EditIcon } from '@mui/icons-material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+} from '@mui/material';
+import { Grid, IconButton, Select, SelectChangeEvent } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 
 const ZoneModal: (props: {
   zone: M.Zone;
@@ -97,7 +95,7 @@ const ZoneModal: (props: {
   return (
     <>
       <IconButton onClick={handleClickOpen}>
-        {createMode ? <AddCircle /> : <EditIcon />}
+        {createMode ? <Icons.AddCircle /> : <Icons.Edit />}
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{createMode ? 'create' : 'edit'} zone</DialogTitle>

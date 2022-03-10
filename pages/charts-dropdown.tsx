@@ -1,19 +1,25 @@
 import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import LineBar from './components/line-bar-Chart';
-import Scatter from './components/scatter-chart';
-import Line from './components/line-chart';
-import Pie from './components/pie-chart';
-export default function SimpleAccordion() {
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
+import LineBar from '../components/line-bar-chart';
+import Scatter from '../components/scatter-chart';
+import Line from '../components/line-chart';
+import Pie from '../components/pie-chart';
+
+/**
+ * @return {JSX.Element} Charts DropDown
+ */
+export default function DropDown() {
   return (
     <React.Fragment>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<Icons.ExpandMore />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
@@ -25,7 +31,7 @@ export default function SimpleAccordion() {
       </Accordion>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<Icons.ExpandMore />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
@@ -37,7 +43,7 @@ export default function SimpleAccordion() {
       </Accordion>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<Icons.ExpandMore />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
@@ -50,7 +56,7 @@ export default function SimpleAccordion() {
 
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<Icons.ExpandMore />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >

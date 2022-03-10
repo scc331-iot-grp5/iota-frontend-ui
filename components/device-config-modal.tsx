@@ -1,21 +1,23 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import EditIcon from '@mui/icons-material/Edit';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  TextField,
+  Select,
+  SelectChangeEvent,
+  IconButton,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import * as D from '../types/device';
 
 /**
@@ -55,7 +57,7 @@ const DeviceConfigModal: React.FC<{
   return (
     <React.Fragment>
       <IconButton onClick={handleClickOpen}>
-        <EditIcon />
+        <Icons.Edit />
       </IconButton>
       <Dialog
         fullWidth={true}
@@ -68,7 +70,7 @@ const DeviceConfigModal: React.FC<{
         <DialogTitle id="alert-dialog-title">
           {'Configuration'}
           <IconButton onClick={handleTextClick}>
-            <EditIcon />
+            <Icons.Edit />
           </IconButton>
         </DialogTitle>
         <DialogContent>
@@ -150,7 +152,7 @@ const DeviceConfigModal: React.FC<{
         <DialogActions>
           <Button onClick={handleClose}>Confirm</Button>
           <Button onClick={handleClose}>Close</Button>
-          <InfoOutlinedIcon
+          <Icons.InfoOutlined
             sx={{
               position: 'absolute',
               top: 1,

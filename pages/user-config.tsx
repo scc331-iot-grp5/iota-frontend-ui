@@ -1,20 +1,20 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Edit from '../components/edit-user-detail';
 import { dataAPI } from 'redux/data-api';
 import Head from 'next/head';
-import AppBar from '@/components/app-bar';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
+import Edit from '../components/edit-user-detail';
+import AppBar from '../components/app-bar';
 import Bottomnav from '../components/bottom-nav';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
-// import AppBar from '@/components/app-bar';
-// import { useRouter } from 'next/router';
 
 /**
  * @return {JSX.Element} a
@@ -63,7 +63,7 @@ export default function BasicTable() {
                 </TableCell>
                 <TableCell>
                   <IconButton>
-                    <DeleteIcon />
+                    <Icons.Delete />
                   </IconButton>
                 </TableCell>
               </TableRow>

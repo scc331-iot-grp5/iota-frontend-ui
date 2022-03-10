@@ -1,10 +1,6 @@
 import * as React from 'react';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import FolderIcon from '@mui/icons-material/Folder';
-import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import HomeIcon from '@mui/icons-material/Home';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 
 /**
  * @return {JSX.Element} the bottom nav
@@ -25,22 +21,22 @@ export default function LabelBottomNavigation(): JSX.Element {
       <BottomNavigationAction
         label="Home"
         value="recents"
-        icon={<HomeIcon />}
+        icon={<Icons.Home />}
       />
       <BottomNavigationAction
         label="Users"
         value="favorites"
-        icon={<AccountBoxIcon />}
+        icon={<Icons.AccountBox />}
       />
       <BottomNavigationAction
         label="Devices"
         value="nearby"
-        icon={<DevicesOtherIcon />}
+        icon={<Icons.DevicesOther />}
       />
       <BottomNavigationAction
         label="Folder"
         value="folder"
-        icon={<FolderIcon />}
+        icon={<Icons.Folder />}
       />
     </BottomNavigation>
   );

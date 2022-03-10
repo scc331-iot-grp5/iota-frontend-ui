@@ -1,27 +1,29 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Pop from '../components/device-config-modal';
 import { dataAPI } from 'redux/data-api';
 import Head from 'next/head';
-import AppBar from '@/components/app-bar';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
+import AppBar from '../components/app-bar';
 import Bottomnav from '../components/bottom-nav';
-// import { useRouter } from 'next/router';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
+import Pop from '../components/device-config-modal';
 
 /**
  * @return {JSX.Element} a
  */
 export default function BasicTable(): JSX.Element {
-  const { data: devices } = dataAPI.endpoints.listDevices.useQuery(null, {
-    pollingInterval: 5000,
-  });
+  const { data: devices } = dataAPI.endpoints.listDevices.useQuery(
+    {},
+    { pollingInterval: 5000 }
+  );
   const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
     null,
     { pollingInterval: 5000 }
@@ -69,7 +71,7 @@ export default function BasicTable(): JSX.Element {
 
                 <TableCell>
                   <IconButton>
-                    <DeleteIcon />
+                    <Icons.Delete />
                   </IconButton>
                 </TableCell>
               </TableRow>

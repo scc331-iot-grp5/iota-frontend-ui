@@ -1,26 +1,22 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import HomeIcon from '@mui/icons-material/Home';
-import RuleIcon from '@mui/icons-material/Rule';
-import DevicesIcon from '@mui/icons-material/Devices';
-import PersonIcon from '@mui/icons-material/Person';
+import {
+  Box,
+  Drawer,
+  CssBaseline,
+  AppBar as MuiAppBar,
+  AppBarProps as MuiAppBarProps,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  ListItem,
+  styled,
+  useTheme,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -72,6 +68,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+/**
+ * @return {JSX.Element} Left App Drawer
+ */
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -96,7 +95,7 @@ export default function PersistentDrawerLeft() {
             edge="start"
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
-            <MenuIcon />
+            <Icons.Menu />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             IOTA
@@ -119,9 +118,9 @@ export default function PersistentDrawerLeft() {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
+              <Icons.ChevronLeft />
             ) : (
-              <ChevronRightIcon />
+              <Icons.ChevronRight />
             )}
           </IconButton>
         </DrawerHeader>
@@ -130,7 +129,7 @@ export default function PersistentDrawerLeft() {
           {['Dashboard'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 1 === 0 ? <HomeIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <Icons.Home /> : <Icons.Mail />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -141,7 +140,7 @@ export default function PersistentDrawerLeft() {
           {['User Configuration'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 1 === 0 ? <PersonIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <Icons.Person /> : <Icons.Mail />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -152,7 +151,7 @@ export default function PersistentDrawerLeft() {
           {['Device Configuration'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 1 === 0 ? <DevicesIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <Icons.Devices /> : <Icons.Mail />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -163,7 +162,7 @@ export default function PersistentDrawerLeft() {
           {['Rule Engine'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 1 === 0 ? <RuleIcon /> : <MailIcon />}
+                {index % 1 === 0 ? <Icons.Rule /> : <Icons.Mail />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

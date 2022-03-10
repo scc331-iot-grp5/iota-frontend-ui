@@ -1,11 +1,16 @@
-export interface Config {
-  temperature: boolean;
-  accelerometer: boolean;
-  compass: boolean;
-  location: boolean;
-  volume: boolean;
-  distance: boolean;
-}
+export const Sensors = [
+  'temperature',
+  'acceleration',
+  'compass',
+  'location',
+  'volume',
+  'distance',
+  'speed',
+  'zone',
+] as const;
+
+export type Config = Record<typeof Sensors[number], boolean>;
+
 export interface Device {
   id: number;
   name: string;

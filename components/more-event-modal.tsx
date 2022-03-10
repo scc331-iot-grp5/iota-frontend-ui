@@ -1,18 +1,24 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import { Box, InputLabel } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import AddIcon from '@mui/icons-material/Add';
-import IconButton from '@mui/material/IconButton';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-export default function AlertDialog() {
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
+
+/**
+ * @return {JSX.Element} Modal
+ */
+export default function Modal() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -31,7 +37,7 @@ export default function AlertDialog() {
   return (
     <React.Fragment>
       <IconButton onClick={handleClickOpen}>
-        <AddIcon />
+        <Icons.Add />
       </IconButton>
       <Dialog
         open={open}
@@ -63,7 +69,7 @@ export default function AlertDialog() {
           <Button onClick={handleClose} autoFocus>
             Decline
           </Button>
-          <InfoOutlinedIcon
+          <Icons.InfoOutlined
             sx={{
               position: 'absolute',
               top: 1,

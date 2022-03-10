@@ -1,39 +1,21 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-// import Modal from "@mui/material/Modal";
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-// import Select from '@mui/material/Select';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import Checkbox from '@mui/material/Checkbox';
-import EditIcon from '@mui/icons-material/Edit';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  MenuItem,
+  FormControl,
+  TextField,
+  Select,
+  SelectChangeEvent,
+  IconButton,
+  InputLabel,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Box, InputLabel } from '@mui/material';
-import MoreEvent from './components/more-event';
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-// used for example
-const Newdevices = ['0001', '0002', '0003', '0004'];
 
 /**
  * @return {JSX.Element} the dialog
@@ -93,7 +75,7 @@ export default function AlertDialog(): JSX.Element {
         <DialogTitle id="alert-dialog-title">
           {'More Rules'}
           <IconButton>
-            <EditIcon />
+            <Icons.Edit />
           </IconButton>
         </DialogTitle>
         <DialogContent>
@@ -181,7 +163,7 @@ export default function AlertDialog(): JSX.Element {
         <DialogActions>
           <Button onClick={handleClose}>Confirm</Button>
           <Button onClick={handleClose}>Close</Button>
-          <InfoOutlinedIcon
+          <Icons.InfoOutlined
             sx={{
               position: 'absolute',
               top: 1,

@@ -1,12 +1,12 @@
+import React, { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
-import L from 'leaflet';
 import 'leaflet-draw';
-import { Zone } from 'types/map';
+import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import { Device, Reading, Type as DeviceType } from 'types/device';
+import { Zone } from 'types/map';
 
 const iconLocator = new L.Icon({
   iconUrl: '/map-marker.png',

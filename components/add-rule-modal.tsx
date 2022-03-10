@@ -1,40 +1,22 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-// import Modal from "@mui/material/Modal";
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-// import Select from '@mui/material/Select';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import Checkbox from '@mui/material/Checkbox';
-import EditIcon from '@mui/icons-material/Edit';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import AddIcon from '@mui/icons-material/Add';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Box, InputLabel } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  TextField,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import MoreEvent from './more-event-modal';
 import MoreRules from './more-rule-group-modal';
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-// used for example
-const Newdevices = ['0001', '0002', '0003', '0004'];
 
 /**
  * @return {JSX.Element} the dialog
@@ -48,19 +30,6 @@ export default function AlertDialog(): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const [personName, setPersonName] = React.useState<string[]>([]);
-  const loading = false;
-
-  const handleChangeDrop = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
   };
 
   const [zone, setZone] = React.useState('');
@@ -99,15 +68,10 @@ export default function AlertDialog(): JSX.Element {
     setMicroID(event.target.value as string);
   };
 
-  const Rule_Preimter = [
-    { label: 'Rule perimeter' },
-    { label: 'Rule perimeter' },
-    { label: 'Rule perimeter' },
-  ];
   return (
     <React.Fragment>
       <IconButton onClick={handleClickOpen}>
-        <AddIcon />
+        <Icons.Add />
       </IconButton>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Configuration
@@ -124,7 +88,7 @@ export default function AlertDialog(): JSX.Element {
         <DialogTitle id="alert-dialog-title">
           {'Rule Engine'}
           <IconButton>
-            <EditIcon />
+            <Icons.Edit />
           </IconButton>
         </DialogTitle>
         <DialogContent>
@@ -279,7 +243,7 @@ export default function AlertDialog(): JSX.Element {
              />
           </DialogContentText>
 
-        
+
           <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
             <DialogContentText
               id="alert-dialog-description"
@@ -304,9 +268,9 @@ export default function AlertDialog(): JSX.Element {
                   </MenuItem>
                 ))}
               </Select>
-              
+
             </DialogContentText>
-            
+
           </FormControl> */}
 
           <DialogContentText
@@ -323,7 +287,7 @@ export default function AlertDialog(): JSX.Element {
         <DialogActions>
           <Button onClick={handleClose}>Confirm</Button>
           <Button onClick={handleClose}>Close</Button>
-          <InfoOutlinedIcon
+          <Icons.InfoOutlined
             sx={{
               position: 'absolute',
               top: 1,

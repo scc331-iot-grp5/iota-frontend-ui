@@ -1,17 +1,15 @@
-import { useRouter } from 'next/router';
-import { getUserDetails } from 'types/user-details-local';
-import Link from 'next/link';
-import AppBar from '@/components/app-bar';
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Head from 'next/head';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Typography } from '@material-ui/core';
-import MapView from '@/components/map-view';
 import { dataAPI } from 'redux/data-api';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Box, Grid, Typography } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import MapView from '../components/map-view';
+import AppBar from '../components/app-bar';
 import { Device, Reading, Type as DeviceType } from 'types/device';
 import { Event, Rule } from 'types/rule';
+import { getUserDetails } from 'types/user-details-local';
 
 /**
  * @param {Device[]} devices the device list

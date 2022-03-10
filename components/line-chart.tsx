@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
+import { Paper } from '@mui/material';
 import {
   ArgumentAxis,
   ValueAxis,
-  BarSeries,
   Chart,
   LineSeries,
 } from '@devexpress/dx-react-chart-material-ui';
@@ -24,37 +23,38 @@ const chartData: IDataItem[] = [
   { month: 'June', device: 150, temp: 7500 },
 ];
 
-export default class Demo extends React.Component<object, object> {
-  public render(): React.ReactNode {
-    return (
-      <Paper>
-        <Chart data={chartData}>
-          <ValueScale name="device" />
-          <ValueScale name="temp" />
+/**
+ * @return {JSX.Element} LineChart
+ */
+export default function LineChart(): JSX.Element {
+  return (
+    <Paper>
+      <Chart data={chartData}>
+        <ValueScale name="device" />
+        <ValueScale name="temp" />
 
-          <ArgumentAxis />
-          <ValueAxis
-            scaleName="device"
-            showGrid={false}
-            showLine={true}
-            showTicks={true}
-          />
-          <ValueAxis
-            scaleName="temp"
-            position="right"
-            showGrid={false}
-            showLine={true}
-            showTicks={true}
-          />
+        <ArgumentAxis />
+        <ValueAxis
+          scaleName="device"
+          showGrid={false}
+          showLine={true}
+          showTicks={true}
+        />
+        <ValueAxis
+          scaleName="temp"
+          position="right"
+          showGrid={false}
+          showLine={true}
+          showTicks={true}
+        />
 
-          <LineSeries
-            name="Line Temperture"
-            valueField="temp"
-            argumentField="month"
-            scaleName="temp"
-          />
-        </Chart>
-      </Paper>
-    );
-  }
+        <LineSeries
+          name="Line Temperture"
+          valueField="temp"
+          argumentField="month"
+          scaleName="temp"
+        />
+      </Chart>
+    </Paper>
+  );
 }

@@ -1,18 +1,19 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { User } from '../types/user';
-import { getUserDetails, setUserDetails } from '../types/user-details-local';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  IconButton,
+  MenuItem,
+  Menu,
+  Avatar,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Avatar } from '@material-ui/core';
+import { User } from '../types/user';
+import { getUserDetails, setUserDetails } from '../types/user-details-local';
 interface State {
   showMenu: boolean;
   showProfileDetails: boolean;
@@ -65,7 +66,7 @@ export default function IOTAAppBar(): JSX.Element {
             onClick={handleNavMenu}
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Icons.Menu />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -113,7 +114,7 @@ export default function IOTAAppBar(): JSX.Element {
                 {values.userDetails.profile_url !== null ? (
                   <Avatar src={values.userDetails.profile_url} />
                 ) : (
-                  <AccountCircle />
+                  <Icons.AccountCircle />
                 )}
               </IconButton>
             </React.Fragment>

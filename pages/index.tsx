@@ -1,19 +1,18 @@
-import Head from 'next/head';
-import styles from '@/pages/index.module.css';
-
 import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Box from '@mui/material/Box';
-import { ArrowRight } from '@mui/icons-material';
-import Button from '@mui/material/Button';
-import { useRouter } from 'next/router';
 import { dataAPI } from '../redux/data-api';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import styles from 'index.module.css';
+import {
+  IconButton,
+  OutlinedInput,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+  Box,
+  Button,
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
 
 interface State {
   email: string;
@@ -115,9 +114,9 @@ export default function Home(): JSX.Element {
                         edge="end"
                       >
                         {values.showPassword ? (
-                          <VisibilityOff />
+                          <Icons.VisibilityOff />
                         ) : (
-                          <Visibility />
+                          <Icons.Visibility />
                         )}
                       </IconButton>
                     </InputAdornment>
@@ -130,7 +129,7 @@ export default function Home(): JSX.Element {
                 <Button
                   sx={{ m: 1 }}
                   variant="outlined"
-                  endIcon={<ArrowRight />}
+                  endIcon={<Icons.ArrowRight />}
                   onClick={handleLogin}
                 >
                   Login

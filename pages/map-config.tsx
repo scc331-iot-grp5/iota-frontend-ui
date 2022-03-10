@@ -1,25 +1,17 @@
 import React from 'react';
-
 import { dataAPI } from 'redux/data-api';
-import { rgbToHex } from '../utilities/colour';
-import * as M from '../types/map';
-import AppBar from '@/components/app-bar';
-import EditZoneModal from '@/components/map-zone-config-modal';
-
 import Head from 'next/head';
-
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import MapView from '@/components/map-view';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import {
+  Box,
+  Grid,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  Paper,
+  IconButton,
   DialogTitle,
   Dialog,
   DialogActions,
@@ -33,9 +25,14 @@ import {
   Checkbox,
   ListItemText,
   Avatar,
-} from '@material-ui/core';
-import { Remove, Edit as EditIcon, CropSquare } from '@mui/icons-material';
-import { getUserDetails } from 'types/user-details-local';
+} from '@mui/material';
+import * as Icons from '@mui/icons-material';
+import AppBar from '../components/app-bar';
+import MapView from '../components/map-view';
+import EditZoneModal from '../components/map-zone-config-modal';
+import * as M from '../types/map';
+import { getUserDetails } from '../types/user-details-local';
+import { rgbToHex } from '../utilities/colour';
 
 const EditZoneGroupModal: (props: {
   zoneGroup?: M.ZoneGroup;
@@ -75,7 +72,7 @@ const EditZoneGroupModal: (props: {
   return (
     <>
       <IconButton disabled onClick={handleClickOpen}>
-        <EditIcon />
+        <Icons.Edit />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Zone Group</DialogTitle>
@@ -198,7 +195,7 @@ export default function MapConfig(): JSX.Element {
                       <TableCell>{z.name}</TableCell>
                       <TableCell>
                         <Avatar style={{ backgroundColor: rgbToHex(z.colour) }}>
-                          <CropSquare />
+                          <Icons.CropSquare />
                         </Avatar>
                       </TableCell>
                       <TableCell>
@@ -217,7 +214,7 @@ export default function MapConfig(): JSX.Element {
                           aria-label="remove"
                           onClick={() => deleteZone(z.id)}
                         >
-                          <Remove />
+                          <Icons.Remove />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -260,7 +257,7 @@ export default function MapConfig(): JSX.Element {
                           <EditZoneGroupModal zoneGroup={zg} zones={zones} />
                           <IconButton aria-label="remove">
                             {/* TODO: Removal hook */}
-                            <Remove />
+                            <Icons.Remove />
                           </IconButton>
                         </TableCell>
                       </TableRow>
