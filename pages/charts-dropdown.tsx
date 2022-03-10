@@ -6,9 +6,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LineBar from './components/line-bar-Chart';
 import Scatter from './components/scatter-chart';
+import Line from './components/line-chart';
+import Pie from './components/pie-chart';
 export default function SimpleAccordion() {
   return (
-    <div>
+    <React.Fragment>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -18,7 +20,7 @@ export default function SimpleAccordion() {
           <Typography>Bar/line chart </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <LineBar />
+         <LineBar/>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -30,9 +32,35 @@ export default function SimpleAccordion() {
           <Typography>Scatter chart</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Scatter />
+        <Scatter/>
         </AccordionDetails>
       </Accordion>
-    </div>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>line chart</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Line/>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+        <Typography>pie chart</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Pie/>
+        </AccordionDetails>
+      </Accordion>
+      
+    </React.Fragment>
   );
 }
