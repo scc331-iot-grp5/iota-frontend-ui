@@ -2,7 +2,7 @@ import * as React from 'react';
 import { dataAPI } from '../redux/data-api';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import styles from 'index.module.css';
+import styles from './index.module.css';
 import {
   IconButton,
   OutlinedInput,
