@@ -4,9 +4,14 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  FormControl,
+  MenuItem,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import LineBar from '../components/line-bar-chart';
+import LineBar from '../components/bar-chart';
 import Scatter from '../components/scatter-chart';
 import Line from '../components/line-chart';
 import Pie from '../components/pie-chart';
@@ -14,9 +19,33 @@ import Pie from '../components/pie-chart';
 /**
  * @return {JSX.Element} Charts DropDown
  */
-export default function ChartsDropdown(): JSX.Element {
+
+
+
+
+
+export default function DropDown() {
+  const [device, setDevice] = React.useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setDevice(event.target.value as string);
+  };
   return (
     <React.Fragment>
+      <FormControl sx={{ minWidth: 120 }}>
+      <InputLabel id="demo-simple-select-label">Device</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={device}
+          label="Device"
+          onChange={handleChange}
+        >
+          <MenuItem value={10}>0001</MenuItem>
+          <MenuItem value={20}>0003</MenuItem>
+          <MenuItem value={30}>0004</MenuItem>
+        </Select>
+      </FormControl>
       <Accordion>
         <AccordionSummary
           expandIcon={<Icons.ExpandMore />}
