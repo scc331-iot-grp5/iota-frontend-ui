@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Paper } from '@mui/material';
 import {
   ArgumentAxis,
-  ValueAxis,
   Chart,
   PieSeries,
 } from '@devexpress/dx-react-chart-material-ui';
@@ -32,21 +31,9 @@ export default function PieChart(): JSX.Element {
       <Chart data={chartData}>
         <ValueScale name="device" />
         <ValueScale name="temp" />
+        <ValueScale name="month" />
 
         <ArgumentAxis />
-        <ValueAxis
-          scaleName="device"
-          showGrid={false}
-          showLine={true}
-          showTicks={true}
-        />
-        <ValueAxis
-          scaleName="temp"
-          position="right"
-          showGrid={false}
-          showLine={true}
-          showTicks={true}
-        />
 
         <PieSeries valueField="device" argumentField="temp" />
       </Chart>

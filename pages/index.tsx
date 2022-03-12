@@ -18,6 +18,9 @@ interface State {
   email: string;
   password: string;
   showPassword: boolean;
+
+  badLogin: boolean;
+  notAdmin: boolean;
 }
 
 /**
@@ -29,6 +32,9 @@ export default function Home(): JSX.Element {
     showPassword: false,
     email: '',
     password: '',
+
+    badLogin: false,
+    notAdmin: false,
   });
 
   const [triggerLogin] = dataAPI.endpoints.login.useLazyQuery();
@@ -57,13 +63,13 @@ export default function Home(): JSX.Element {
     window?.sessionStorage.setItem('user_details', 'null');
     triggerLogin({ email: values.email, password_hash: values.password }).then(
       (r) => {
-        console.log(r);
+        // console.log(r);
         if (r.isSuccess) {
           window?.sessionStorage.setItem(
             'user_details',
             JSON.stringify(r.data)
           );
-          router.push('dash');
+          if (r.data.is_administrator) router.push('dash');
         }
       }
     );

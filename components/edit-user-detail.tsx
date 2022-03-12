@@ -4,10 +4,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   MenuItem,
-  FormControl,
   TextField,
   Select,
   SelectChangeEvent,
@@ -15,8 +13,12 @@ import {
   Checkbox,
   OutlinedInput,
   ListItemText,
+  Typography,
+  Grid,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
+import { User } from 'types/user';
+import { Device } from 'types/device';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,159 +31,117 @@ const MenuProps = {
   },
 };
 
-// used for example
-const Newdevices = ['0001', '0002', '0003', '0004'];
-
-/**
- * @return {JSX.Element} the dialog
- */
-export default function AlertDialog(): JSX.Element {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+const EditUserModal: React.FC<{
+  user?: User;
+  devices: Device[];
+}> = ({ user, devices }) => {
+  const createMode = !user;
+  const localUser: User = user ?? {
+    id: 0,
+    created_at: '',
+    is_administrator: false,
+    email: '',
+    password_hash: '',
+    display_name: '',
+    profile_url: '',
+    profile_banner: '',
   };
-
-  const handleClose = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => setOpen(true);
+  const handleCloseNoSave = () => setOpen(false);
+  const handleCloseWithSave = () => {
+    // todo: save
     setOpen(false);
   };
 
-  const [personName, setPersonName] = React.useState<string[]>([]);
-  const loading = false;
+  const [readableDevices, setReadableDevices] = React.useState<number[]>([]);
 
-  const handleChangeDrop = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChangeDrop = (
+    event: SelectChangeEvent<typeof readableDevices>
+  ) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setReadableDevices(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
+      typeof value === 'string' ? value.split(',').map(Number) : value
     );
   };
 
   return (
     <React.Fragment>
       <IconButton onClick={handleClickOpen}>
-        <Icons.Edit />
+        {createMode ? <Icons.AddCircle /> : <Icons.Edit />}
       </IconButton>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Configuration
-      </Button> */}
       <Dialog
-        fullWidth={true}
-        maxWidth="xl"
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseNoSave}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'User Detail'}
-          <IconButton>
-            <Icons.Edit />
-          </IconButton>
+          <Icons.Edit />
+          <Typography variant="h6">Edit User</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description" variant="h6">
-            Name: Nima
-            <TextField
-              sx={{ ml: 1, minWidth: 110 }}
-              id="filled-basic"
-              label="Edit Name"
-              variant="filled"
-              size="small"
-              disabled={loading}
-            />
-          </DialogContentText>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Name"
+                value={localUser.display_name}
+              />
+            </Grid>
 
-          <DialogContentText
-            id="alert-dialog-description"
-            variant="h6"
-            sx={{ mt: 3 }}
-          >
-            ID: 0000
-            <TextField
-              sx={{ ml: 5.5, minWidth: 110 }}
-              id="filled-basic"
-              label="Edit ID"
-              variant="filled"
-              size="small"
-              disabled={loading}
-            />
-          </DialogContentText>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Icon URL"
+                value={localUser.profile_url}
+              />
+            </Grid>
 
-          <DialogContentText
-            id="alert-dialog-description"
-            variant="h6"
-            sx={{ mt: 3 }}
-          >
-            Icon URL:
-            <TextField
-              sx={{ ml: 5, minWidth: 110 }}
-              id="filled-basic"
-              label="Edit Icon URL"
-              variant="filled"
-              size="small"
-              disabled={loading}
-            />
-          </DialogContentText>
+            <Grid item xs={12}>
+              <TextField fullWidth label="Banner URL" />
+            </Grid>
 
-          <DialogContentText
-            id="alert-dialog-description"
-            variant="h6"
-            sx={{ mt: 4 }}
-          >
-            Banner URL:
-            <TextField
-              sx={{ ml: 2.6, minWidth: 50 }}
-              id="filled-basic"
-              label="Edit Banner URL"
-              variant="filled"
-              size="small"
-              disabled={loading}
-            />
-          </DialogContentText>
-
-          <FormControl variant="standard" sx={{ m: 1, mb: 6, minWidth: 120 }}>
-            <DialogContentText
-              id="alert-dialog-description"
-              variant="h6"
-              sx={{ mt: 3 }}
-            >
-              New Device:
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                value={personName}
-                onChange={handleChangeDrop}
-                input={<OutlinedInput label="Tag" />}
-                renderValue={(selected) => selected.join(',  ')}
-                MenuProps={MenuProps}
-              >
-                {Newdevices.map((device) => (
-                  <MenuItem key={device} value={device}>
-                    <Checkbox checked={personName.indexOf(device) > -1} />
-                    <ListItemText primary={device} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </DialogContentText>
-          </FormControl>
+            {!localUser.is_administrator && (
+              <Grid item xs={12}>
+                <Typography>Can See Devices:</Typography>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={readableDevices}
+                  onChange={handleChangeDrop}
+                  input={<OutlinedInput label="Tag" />}
+                  renderValue={(selected) => selected.join(',  ')}
+                  MenuProps={MenuProps}
+                >
+                  {devices.map((device) => (
+                    <MenuItem key={device.id} value={device.name}>
+                      <Checkbox
+                        checked={readableDevices.indexOf(device.id) > -1}
+                      />
+                      <ListItemText
+                        primary={device.name}
+                        secondary={`id: ${device.id}`}
+                      />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+            )}
+          </Grid>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose}>Confirm</Button>
-          <Button onClick={handleClose}>Close</Button>
-          <Icons.InfoOutlined
-            sx={{
-              position: 'absolute',
-              top: 1,
-              right: '1%',
-            }}
-          />
+          <Button onClick={handleCloseWithSave}>Confirm</Button>
+          <Button onClick={handleCloseNoSave}>Close</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
   );
-}
+};
+
+export default EditUserModal;

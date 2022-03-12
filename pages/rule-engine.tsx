@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import Pop from '../components/add-rule-modal';
+import RuleModal from '../components/add-rule-modal';
 
 const createData = (number: number, rule: string) => ({ number, rule });
 
@@ -32,7 +32,7 @@ export default function RulesTable(): JSX.Element {
             <TableCell>Rule number</TableCell>
             <TableCell align="right">Rule</TableCell>
             <TableCell align="right">
-              <Pop />
+              <RuleModal />
             </TableCell>
           </TableRow>
         </TableHead>

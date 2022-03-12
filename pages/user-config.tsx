@@ -10,6 +10,7 @@ import {
   TableRow,
   Paper,
   IconButton,
+  Avatar,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import Edit from '../components/edit-user-detail';
@@ -23,45 +24,57 @@ export default function BasicTable() {
   const { data: users } = dataAPI.endpoints.listUsers.useQuery(null, {
     pollingInterval: 5000,
   });
+  const { data: devices } = dataAPI.endpoints.listDevices.useQuery(
+    {},
+    { pollingInterval: 5000 }
+  );
   return (
     <React.Fragment>
       <Head>
-        <title>IOTA: Device Configuration</title>
+        <title>IOTA: User Configuration</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <AppBar />
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="users table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Is Admin</TableCell>
-              <TableCell>Edit Detail</TableCell>
-              <TableCell>Delete</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell></TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Is Admin</TableCell>
+              <TableCell>
+                <Edit devices={devices ?? []} />
+              </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {users?.map((u) => (
-              <TableRow
-                key={u.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {u.id}
-                </TableCell>
-                <TableCell align="right">{u.display_name}</TableCell>
-                <TableCell align="right">{u.email}</TableCell>
-                <TableCell align="right">{u.is_administrator}</TableCell>
+              <TableRow key={u.id}>
+                <TableCell>{u.id}</TableCell>
+
+                <TableCell>{u.display_name}</TableCell>
 
                 <TableCell>
-                  <Edit />
+                  <Avatar src={u.profile_url ? u.profile_url : undefined} />
                 </TableCell>
+
+                <TableCell>{u.email}</TableCell>
+
                 <TableCell>
+                  {u.is_administrator ? (
+                    <Icons.CheckCircle />
+                  ) : (
+                    <Icons.DoNotDisturb />
+                  )}
+                </TableCell>
+
+                <TableCell>
+                  <Edit user={u} devices={devices ?? []} />
                   <IconButton>
                     <Icons.Delete />
                   </IconButton>

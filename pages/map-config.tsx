@@ -34,10 +34,10 @@ import * as M from '../types/map';
 import { getUserDetails } from '../types/user-details-local';
 import { rgbToHex } from '../utilities/colour';
 
-const EditZoneGroupModal: (props: {
+const EditZoneGroupModal: React.FC<{
   zoneGroup?: M.ZoneGroup;
   zones?: M.Zone[];
-}) => JSX.Element = ({ zoneGroup, zones }) => {
+}> = ({ zoneGroup, zones }) => {
   const [open, setOpen] = React.useState(false);
   const [internalState, setInternalState] = React.useState({
     ...zoneGroup,
@@ -71,7 +71,7 @@ const EditZoneGroupModal: (props: {
   };
   return (
     <>
-      <IconButton disabled onClick={handleClickOpen}>
+      <IconButton onClick={handleClickOpen}>
         <Icons.Edit />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>

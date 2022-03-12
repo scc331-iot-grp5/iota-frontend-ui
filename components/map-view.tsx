@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import L from 'leaflet';
 import 'leaflet-draw';
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polygon,
+  useMap,
+} from 'react-leaflet';
 import { Device, Reading, Type as DeviceType } from 'types/device';
 import { Zone } from 'types/map';
 
@@ -51,11 +58,12 @@ function toPlaceables({
     return latest;
   };
 
-  const allLocs = readings.filter(hasLatLng);
   return devices
     .map((d) => ({
       ...d,
-      latestLocation: getLatest(allLocs.filter((r) => r.device_id === d.id)),
+      latestLocation: getLatest(
+        readings.filter((r) => hasLatLng(r) && r.device_id === d.id)
+      ),
       deviceType: deviceTypes.filter((dt) => dt.id === d.type_id).at(0),
     }))
     .filter((d) => d.latestLocation !== null)
@@ -70,11 +78,6 @@ function toPlaceables({
       lat: l.latestLocation?.location?.latitude ?? 0,
       lng: l.latestLocation?.location?.longitude ?? 0,
     }));
-}
-
-interface State {
-  lat: number;
-  lng: number;
 }
 
 const geoToPolygon = (geo: any): [number, number][] => {
@@ -100,12 +103,12 @@ export default function MapView({
   };
   zones?: Zone[];
 }): JSX.Element {
-  const [values] = useState<State>({
-    lat: 54.010381,
-    lng: -2.785917,
-  });
+  const initPolyBounds = L.latLngBounds(
+    L.latLng(54.00219507114389, -2.8007069424889863),
+    L.latLng(54.014191036720014, -2.7737234587944926)
+  );
 
-  // setup leaflet draw
+  const [hasZoomed, setHasZoomed] = useState(false);
 
   const markers = toPlaceables(
     placeables ?? { deviceTypes: [], devices: [], readings: [] }
@@ -122,36 +125,67 @@ export default function MapView({
     );
   });
 
-  const polygons = (zones ?? []).map((z, n) => {
-    return (
-      <Polygon
-        key={z.id}
-        pathOptions={{
-          color: `rgb(${z.colour.r}, ${z.colour.g}, ${z.colour.b})`,
-          fill: true,
-          fillColor: `rgb(${z.colour.r}, ${z.colour.g}, ${z.colour.b})`,
-          fillOpacity: 0.25,
-        }}
-        positions={geoToPolygon(z.geo_json)}
-      />
-    );
-  });
+  const polygons = (zones ?? []).map((z) => (
+    <Polygon
+      key={z.id}
+      pathOptions={{
+        color: `rgb(${z.colour.r}, ${z.colour.g}, ${z.colour.b})`,
+        fill: true,
+        fillColor: `rgb(${z.colour.r}, ${z.colour.g}, ${z.colour.b})`,
+        fillOpacity: 0.25,
+      }}
+      positions={geoToPolygon(z.geo_json)}
+    />
+  ));
+
+  const BoundsChecker: React.FC<{ zones: Zone[] }> = ({ zones }) => {
+    const m = useMap();
+    useEffect(() => {
+      if (!zones || hasZoomed) return;
+
+      // With input from Luke Halpin, who provided some valuable insight into thinking about points,
+      // not polygons
+      const lls = zones
+        .map((z) => geoToPolygon(z.geo_json))
+        .reduce(
+          (allPoints: { lats: number[]; lngs: number[] }, z) => {
+            return {
+              lats: [...allPoints.lats, ...z.map((p) => p[0])],
+              lngs: [...allPoints.lngs, ...z.map((p) => p[1])],
+            };
+          },
+          { lats: [], lngs: [] }
+        );
+
+      if (lls.lats.length && lls.lngs.length) {
+        m.flyToBounds(
+          L.latLngBounds(
+            L.latLng(Math.min(...lls.lats), Math.min(...lls.lngs)),
+            L.latLng(Math.max(...lls.lats), Math.max(...lls.lngs))
+          )
+        );
+        setHasZoomed(true);
+      }
+    }, [zones, m]);
+    return <></>;
+  };
 
   return (
     // Important! Always set the container height explicitly
     <MapContainer
-      center={[values.lat, values.lng]}
+      bounds={initPolyBounds}
       zoom={17.5}
       scrollWheelZoom
       style={{ height: '50vh', width: '100%' }}
     >
       <TileLayer
-        /* @ts-ignore next-line */ // Attribution is improperly decalared for this module.
+        /* @ts-ignore next-line */ // Attribution is improperly declared for this module.
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         maxNativeZoom={19}
         maxZoom={19}
       />
+      <BoundsChecker zones={zones ?? []} />
       {markers}
       {polygons}
     </MapContainer>

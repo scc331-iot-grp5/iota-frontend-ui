@@ -1,7 +1,7 @@
 export interface User {
   id: number;
   created_at: string; // ISO-8601 Compliant
-  is_administrator: string;
+  is_administrator: boolean;
 
   email: string;
   password_hash: string; // not normally stored in browser!

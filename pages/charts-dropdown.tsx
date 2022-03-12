@@ -14,7 +14,7 @@ import Pie from '../components/pie-chart';
 /**
  * @return {JSX.Element} Charts DropDown
  */
-export default function DropDown() {
+export default function ChartsDropdown(): JSX.Element {
   return (
     <React.Fragment>
       <Accordion>
