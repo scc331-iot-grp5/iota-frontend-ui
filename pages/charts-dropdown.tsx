@@ -20,10 +20,6 @@ import Pie from '../components/pie-chart';
  * @return {JSX.Element} Charts DropDown
  */
 
-
-
-
-
 export default function DropDown() {
   const [device, setDevice] = React.useState('');
 
@@ -33,7 +29,7 @@ export default function DropDown() {
   return (
     <React.Fragment>
       <FormControl sx={{ minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-label">Device</InputLabel>
+        <InputLabel id="demo-simple-select-label">Device</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
