@@ -55,8 +55,6 @@ export default function LineBarChart(): JSX.Element {
           argumentField="month"
           scaleName="device"
         />
-
-        
       </Chart>
     </Paper>
   );
