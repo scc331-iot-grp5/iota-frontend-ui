@@ -114,7 +114,11 @@ export const dataAPI = createApi({
       query: (z) => ({
         url: 'zone',
         method: 'POST',
-        body: { ...z, geo_json: JSON.stringify(z.geo_json) },
+        body: {
+          ...z,
+          geo_json: JSON.stringify(z.geo_json),
+          created_at: normaliseDateString(z.created_at),
+        },
       }),
     }),
 
@@ -145,6 +149,11 @@ export const dataAPI = createApi({
             typeof z.geo_json === 'undefined'
               ? undefined
               : JSON.stringify(z.geo_json),
+
+          created_at:
+            typeof z.created_at === 'undefined'
+              ? undefined
+              : normaliseDateString(z.created_at),
         },
       }),
     }),
