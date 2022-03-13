@@ -269,8 +269,8 @@ const EditUserModal: React.FC<{
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCloseWithSave}>Confirm</Button>
-          <Button onClick={handleCloseNoSave}>Close</Button>
+          <Button onClick={handleCloseNoSave}>cancel</Button>
+          <Button onClick={handleCloseWithSave}>save</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

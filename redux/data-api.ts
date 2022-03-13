@@ -109,6 +109,17 @@ export const dataAPI = createApi({
       }),
     }),
 
+    setDeviceDefaultLocation: builder.mutation<
+      {},
+      { deviceId: number; lat: number; lng: number }
+    >({
+      query: ({ deviceId, lat, lng }) => ({
+        url: `device/${deviceId}/default_location`,
+        method: 'POST',
+        body: { latitude: lat, longitude: lng },
+      }),
+    }),
+
     // create zone
     createZone: builder.mutation<M.Zone, Omit<M.Zone, 'id'>>({
       query: (z) => ({
@@ -314,7 +325,7 @@ export const dataAPI = createApi({
         method: 'POST',
         body: {
           ...r,
-          body: `"${JSON.stringify(r.body)}"`,
+          body: JSON.stringify(r.body),
         },
       }),
     }),
@@ -327,9 +338,7 @@ export const dataAPI = createApi({
         body: {
           ...r,
           body:
-            typeof r.body === 'undefined'
-              ? undefined
-              : `"${JSON.stringify(r.body)}"`,
+            typeof r.body === 'undefined' ? undefined : JSON.stringify(r.body),
         },
       }),
     }),

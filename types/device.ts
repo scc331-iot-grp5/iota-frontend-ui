@@ -1,6 +1,6 @@
 export const Sensors = [
   'temperature',
-  'acceleration',
+  'accelerometer',
   'compass',
   'location',
   'volume',

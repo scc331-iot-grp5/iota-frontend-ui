@@ -28,7 +28,7 @@ export type Condition = {
   fact: typeof Sensors[number];
 
   /** What's being compared against */
-  value: string | number;
+  value: string;
 
   /** how to compare the value */
   operator: typeof Comparators[number];
@@ -43,6 +43,7 @@ export type Condition = {
       microbitID: number;
       microbitGroup?: never;
     }
+  | { microbitID?: never; microbitGroup?: never }
 );
 
 export interface Body {

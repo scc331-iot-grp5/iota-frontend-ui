@@ -8,13 +8,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  IconButton,
+  Typography,
+  Grid,
+  Box,
 } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import AppBar from '../components/app-bar';
-import Bottomnav from '../components/bottom-nav';
-import Pop from '../components/modals/device-config';
+import DeviceModal from '../components/modals/device-config';
 
 /**
  * @return {JSX.Element} a
@@ -38,48 +37,63 @@ export default function BasicTable(): JSX.Element {
 
       <AppBar />
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Type</TableCell>
-              <TableCell>Edit</TableCell>
-              <TableCell>Delete</TableCell>
-            </TableRow>
-          </TableHead>
+      <Box sx={{ flexGrow: 1 }} margin={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h6">devices</Typography>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Type</TableCell>
+                    <TableCell>Edit</TableCell>
+                  </TableRow>
+                </TableHead>
 
-          <TableBody>
-            {devices?.map((d) => (
-              <TableRow
-                key={d.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {d.id}
-                </TableCell>
-                <TableCell align="right">{d.name}</TableCell>
-                <TableCell align="right">
-                  {deviceTypes?.filter((dt) => dt.id === d.type_id).at(0)
-                    ?.name || 'unknown'}
-                </TableCell>
+                <TableBody>
+                  {devices?.map((d) => (
+                    <TableRow key={d.id}>
+                      <TableCell>{d.id}</TableCell>
+                      <TableCell>{d.name}</TableCell>
+                      <TableCell>
+                        {deviceTypes?.filter((dt) => dt.id === d.type_id).at(0)
+                          ?.name || 'unknown'}
+                      </TableCell>
 
-                <TableCell>
-                  <Pop device={d} deviceTypes={deviceTypes ?? []} />
-                </TableCell>
+                      <TableCell>
+                        <DeviceModal
+                          device={d}
+                          deviceTypes={deviceTypes ?? []}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
 
-                <TableCell>
-                  <IconButton>
-                    <Icons.Delete />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Bottomnav />
+          <Grid item xs={12}>
+            <Typography variant="h6">device types</Typography>
+
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Type</TableCell>
+                    <TableCell>Edit</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody></TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Grid>
+      </Box>
     </React.Fragment>
   );
 }

@@ -32,7 +32,7 @@ function dashToDeviceGrid(
         // console.log(d.sensor_set);
         return {
           ...d,
-          id: n,
+          id: d.id,
           sensor_set: d.sensor_set.join(', ') || 'None reported',
           type: deviceTypes.filter((dt) => dt.id === d.type_id).at(0)?.name,
         };
