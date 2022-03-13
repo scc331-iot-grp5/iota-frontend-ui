@@ -7,7 +7,9 @@ import * as U from '../types/user';
 
 const normaliseDateString = (dStr: string) =>
   ((d) =>
-    `${d.getFullYear()}-${d.getMonth()}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)(
+    `${d.getFullYear()}-${
+      d.getMonth() + 1
+    }-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)(
     new Date(dStr)
   );
 

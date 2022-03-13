@@ -18,6 +18,7 @@ import {
   SelectChangeEvent,
   OutlinedInput,
   InputLabel,
+  InputAdornment,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { ReadRight, User } from '../../types/user';
@@ -50,6 +51,7 @@ const EditUserModal: React.FC<{
       ?.map((rr) => rr.device_id) ?? []
   );
   const [open, setOpen] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const [editUser] = dataAPI.endpoints.editUser.useMutation();
   const [createUser] = dataAPI.endpoints.createUser.useMutation();
@@ -115,6 +117,9 @@ const EditUserModal: React.FC<{
   const handleEmailEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalUser({ ...localUser, email: event.target.value });
   };
+  const handlePasswordEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalUser({ ...localUser, password_hash: event.target.value });
+  };
   const handleIconURLEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalUser({ ...localUser, profile_url: event.target.value });
   };
@@ -123,6 +128,14 @@ const EditUserModal: React.FC<{
   };
   const handleIsAdminEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalUser({ ...localUser, is_administrator: event.target.checked });
+  };
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -166,6 +179,36 @@ const EditUserModal: React.FC<{
                 label="Email"
                 value={localUser.email}
                 onChange={handleEmailEdit}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <InputLabel htmlFor={`edit-password-for-${localUser.id}`}>
+                Password
+              </InputLabel>
+              <OutlinedInput
+                fullWidth
+                id={`edit-password-for-${localUser.id}`}
+                type={showPassword ? 'text' : 'password'}
+                value={localUser.password_hash}
+                onChange={handlePasswordEdit}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={toggleShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <Icons.VisibilityOff />
+                      ) : (
+                        <Icons.Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
               />
             </Grid>
 
