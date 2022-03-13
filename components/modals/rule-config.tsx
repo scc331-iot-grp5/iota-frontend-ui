@@ -15,8 +15,8 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import MoreEvent from './more-event-modal';
-import MoreRules from './more-rule-group-modal';
+import MoreEvent from './event-config';
+import MoreRules from './rule-group-config';
 
 /**
  * @return {JSX.Element} the dialog

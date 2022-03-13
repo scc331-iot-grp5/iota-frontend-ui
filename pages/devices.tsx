@@ -10,71 +10,66 @@ import {
   TableRow,
   Paper,
   IconButton,
-  Avatar,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import Edit from '../components/edit-user-detail';
 import AppBar from '../components/app-bar';
 import Bottomnav from '../components/bottom-nav';
+import Pop from '../components/modals/device-config';
 
 /**
  * @return {JSX.Element} a
  */
-export default function BasicTable() {
-  const { data: users } = dataAPI.endpoints.listUsers.useQuery(null, {
-    pollingInterval: 5000,
-  });
+export default function BasicTable(): JSX.Element {
   const { data: devices } = dataAPI.endpoints.listDevices.useQuery(
     {},
     { pollingInterval: 5000 }
   );
+  const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
+    null,
+    { pollingInterval: 5000 }
+  );
+
   return (
     <React.Fragment>
       <Head>
-        <title>IOTA: User Configuration</title>
+        <title>IOTA: Device Configuration</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <AppBar />
 
       <TableContainer component={Paper}>
-        <Table aria-label="users table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell></TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Is Admin</TableCell>
-              <TableCell>
-                <Edit devices={devices ?? []} />
-              </TableCell>
+              <TableCell align="right">Name</TableCell>
+              <TableCell align="right">Type</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {users?.map((u) => (
-              <TableRow key={u.id}>
-                <TableCell>{u.id}</TableCell>
-
-                <TableCell>{u.display_name}</TableCell>
-
-                <TableCell>
-                  <Avatar src={u.profile_url ? u.profile_url : undefined} />
+            {devices?.map((d) => (
+              <TableRow
+                key={d.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {d.id}
                 </TableCell>
-
-                <TableCell>{u.email}</TableCell>
-
-                <TableCell>
-                  {u.is_administrator ? (
-                    <Icons.CheckCircle />
-                  ) : (
-                    <Icons.DoNotDisturb />
-                  )}
+                <TableCell align="right">{d.name}</TableCell>
+                <TableCell align="right">
+                  {deviceTypes?.filter((dt) => dt.id === d.type_id).at(0)
+                    ?.name || 'unknown'}
                 </TableCell>
 
                 <TableCell>
-                  <Edit user={u} devices={devices ?? []} />
+                  <Pop device={d} deviceTypes={deviceTypes ?? []} />
+                </TableCell>
+
+                <TableCell>
                   <IconButton>
                     <Icons.Delete />
                   </IconButton>

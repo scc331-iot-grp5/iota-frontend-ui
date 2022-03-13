@@ -5,7 +5,6 @@ import {
   ValueAxis,
   BarSeries,
   Chart,
-  LineSeries,
 } from '@devexpress/dx-react-chart-material-ui';
 import { ValueScale } from '@devexpress/dx-react-chart';
 

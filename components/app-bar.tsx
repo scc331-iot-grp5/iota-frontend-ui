@@ -87,13 +87,13 @@ export default function IOTAAppBar(): JSX.Element {
               <Link href="/dash">dashboard</Link>
             </MenuItem>
             <MenuItem>
-              <Link href="/device-config">device configuration</Link>
+              <Link href="/devices">device configuration</Link>
             </MenuItem>
             <MenuItem>
-              <Link href="/user-config">user configuration</Link>
+              <Link href="/users">user configuration</Link>
             </MenuItem>
             <MenuItem>
-              <Link href="/map-config">map configuration</Link>
+              <Link href="/map">map configuration</Link>
             </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

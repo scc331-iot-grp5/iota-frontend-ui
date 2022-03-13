@@ -5,6 +5,12 @@ import * as M from '../types/map';
 import * as R from '../types/rule';
 import * as U from '../types/user';
 
+const normaliseDateString = (dStr: string) =>
+  ((d) =>
+    `${d.getFullYear()}-${d.getMonth()}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)(
+    new Date(dStr)
+  );
+
 export const dataAPI = createApi({
   reducerPath: 'data',
   baseQuery: fetchBaseQuery({ baseUrl: `${CONSTANTS.BACKEND_URL}/` }),
@@ -384,7 +390,10 @@ export const dataAPI = createApi({
       query: (u) => ({
         url: 'user',
         method: 'POST',
-        body: u,
+        body: {
+          ...u,
+          created_at: normaliseDateString(u.created_at),
+        },
       }),
     }),
 
@@ -393,7 +402,13 @@ export const dataAPI = createApi({
       query: (u) => ({
         url: `user/${u.id}`,
         method: 'POST',
-        body: u,
+        body: {
+          ...u,
+          created_at:
+            typeof u.created_at === 'undefined'
+              ? undefined
+              : normaliseDateString(u.created_at),
+        },
       }),
     }),
 
@@ -402,6 +417,14 @@ export const dataAPI = createApi({
       query: (id) => ({
         url: `user/${id}`,
         method: 'DELETE',
+      }),
+    }),
+
+    // read all device access values for user
+    getReadRights: builder.query<U.ReadRight[], {}>({
+      query: () => ({
+        url: `user_can_read_devices`,
+        method: 'GET',
       }),
     }),
 
@@ -470,6 +493,7 @@ export const {
   useGetZoneQuery,
   useGetZoneVarQuery,
   useGetZoneVarValueQuery,
+  useGetReadRightsQuery,
 
   useListDevicesQuery,
   useListDeviceTypesQuery,

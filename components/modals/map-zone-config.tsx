@@ -1,8 +1,8 @@
 import React from 'react';
 
-import * as M from '../types/map';
+import * as M from '../../types/map';
 import { dataAPI } from 'redux/data-api';
-import { rgbToHex, hexToRGB } from '../utilities/colour';
+import { rgbToHex, hexToRGB } from '../../utilities/colour';
 
 import {
   DialogTitle,

@@ -29,7 +29,7 @@ import {
 import * as Icons from '@mui/icons-material';
 import AppBar from '../components/app-bar';
 import MapView from '../components/map-view';
-import EditZoneModal from '../components/map-zone-config-modal';
+import EditZoneModal from '../components/modals/map-zone-config';
 import * as M from '../types/map';
 import { getUserDetails } from '../types/user-details-local';
 import { rgbToHex } from '../utilities/colour';

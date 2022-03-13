@@ -8,7 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import RuleModal from '../components/add-rule-modal';
+import RuleModal from '../components/modals/rule-config';
 
 const createData = (number: number, rule: string) => ({ number, rule });
 

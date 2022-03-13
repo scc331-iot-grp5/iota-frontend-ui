@@ -18,7 +18,7 @@ import {
   Checkbox,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import * as D from '../types/device';
+import * as D from '../../types/device';
 
 /**
  * @return {JSX.Element} a

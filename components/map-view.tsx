@@ -103,12 +103,13 @@ export default function MapView({
   };
   zones?: Zone[];
 }): JSX.Element {
+  const [hasZoomed, setHasZoomed] = useState(false);
+
+  if (typeof window === 'undefined') return <></>;
   const initPolyBounds = L.latLngBounds(
     L.latLng(54.00219507114389, -2.8007069424889863),
     L.latLng(54.014191036720014, -2.7737234587944926)
   );
-
-  const [hasZoomed, setHasZoomed] = useState(false);
 
   const markers = toPlaceables(
     placeables ?? { deviceTypes: [], devices: [], readings: [] }

@@ -11,15 +11,14 @@ import {
   MenuItem,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import LineBar from '../components/bar-chart';
-import Scatter from '../components/scatter-chart';
-import Line from '../components/line-chart';
-import Pie from '../components/pie-chart';
+import LineBar from '../components/charts/bar-chart';
+import Scatter from '../components/charts/scatter-chart';
+import Line from '../components/charts/line-chart';
+import Pie from '../components/charts/pie-chart';
 
 /**
  * @return {JSX.Element} Charts DropDown
  */
-
 export default function DropDown() {
   const [device, setDevice] = React.useState('');
 
