@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  
 } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 export default function AlertDialog() {
@@ -23,7 +22,12 @@ export default function AlertDialog() {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen} startIcon={<ErrorIcon />} endIcon={<ErrorIcon />}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        startIcon={<ErrorIcon />}
+        endIcon={<ErrorIcon />}
+      >
         Change Domain
       </Button>
       <Dialog
@@ -33,21 +37,28 @@ export default function AlertDialog() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure you would like to switch domains?"}
+          {'Are you sure you would like to switch domains?'}
         </DialogTitle>
-        <DialogContent>
-          
-        </DialogContent>
+        <DialogContent></DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{
+          <Button
+            onClick={handleClose}
+            sx={{
               position: 'absolute',
-              
+
               left: '1%',
             }}
             variant="outlined"
             color="success"
-            >Yes</Button>
-          <Button onClick={handleClose} autoFocus variant="outlined" color="error">
+          >
+            Yes
+          </Button>
+          <Button
+            onClick={handleClose}
+            autoFocus
+            variant="outlined"
+            color="error"
+          >
             No
           </Button>
         </DialogActions>
