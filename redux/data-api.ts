@@ -114,7 +114,7 @@ export const dataAPI = createApi({
       query: (z) => ({
         url: 'zone',
         method: 'POST',
-        body: { ...z, geo_json: `"${JSON.stringify(z.geo_json)}"` },
+        body: { ...z, geo_json: JSON.stringify(z.geo_json) },
       }),
     }),
 
