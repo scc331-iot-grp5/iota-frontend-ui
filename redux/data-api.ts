@@ -178,7 +178,10 @@ export const dataAPI = createApi({
     }),
 
     // create zone group
-    createZoneGroup: builder.mutation<M.ZoneGroup, Omit<M.ZoneGroup, 'id'>>({
+    createZoneGroup: builder.mutation<
+      M.ZoneGroup,
+      Omit<M.ZoneGroup, 'id' | 'members'>
+    >({
       query: (z) => ({
         url: 'zone_group',
         method: 'POST',
@@ -278,6 +281,7 @@ export const dataAPI = createApi({
       query: (zv) => ({
         url: `zone_var/${zv.id}`,
         method: 'POST',
+        body: zv,
       }),
     }),
 

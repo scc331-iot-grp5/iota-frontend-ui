@@ -1,6 +1,8 @@
 import React from 'react';
 import { dataAPI } from 'redux/data-api';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Box,
   Grid,
@@ -12,119 +14,16 @@ import {
   TableCell,
   Paper,
   IconButton,
-  DialogTitle,
-  Dialog,
-  DialogActions,
-  Button,
-  DialogContent,
   Typography,
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
   Avatar,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import AppBar from '../components/app-bar';
 import MapView from '../components/map-view';
 import EditZoneModal from '../components/modals/map-zone-config';
-import * as M from '../types/map';
 import { getUserDetails } from '../types/user-details-local';
 import { rgbToHex } from '../utilities/colour';
-
-const EditZoneGroupModal: React.FC<{
-  zoneGroup?: M.ZoneGroup;
-  zones?: M.Zone[];
-}> = ({ zoneGroup, zones }) => {
-  const [open, setOpen] = React.useState(false);
-  const [internalState, setInternalState] = React.useState({
-    ...zoneGroup,
-    id: zoneGroup?.id ?? 0,
-  });
-  const [editZoneGroup] = dataAPI.endpoints.editZoneGroup.useMutation();
-
-  if (typeof zoneGroup === 'undefined') {
-    return <></>;
-  }
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInternalState({
-      ...internalState,
-      name: event.target.value,
-    });
-  };
-
-  // const handleMembersChange = (event: SelectChangeEvent<string[]>) => {
-  //   const { target: value } = event;
-  // };
-
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const saveAndClose = () => {
-    editZoneGroup({
-      id: internalState.id,
-      name: internalState.name,
-    });
-    setOpen(false);
-  };
-  return (
-    <>
-      <IconButton onClick={handleClickOpen}>
-        <Icons.Edit />
-      </IconButton>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Zone Group</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1">
-                ID: {internalState.id}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth={true}
-                variant="outlined"
-                label="name"
-                value={internalState.name ?? ''}
-                onChange={handleNameChange}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <InputLabel id="edit-zone-group-members-label">
-                Members
-              </InputLabel>
-              <Select
-                labelId="edit-zone-group-members-label"
-                fullWidth={true}
-                variant="outlined"
-                label="name"
-                value={internalState?.members?.join(', ') ?? ''}
-              >
-                {zones?.map((z) => (
-                  <MenuItem key={z.id}>
-                    <Checkbox checked={internalState.members?.includes(z.id)} />
-                    <ListItemText primary={z.name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-
-            <Grid item xs={12}></Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={saveAndClose}>Save</Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-};
+import ZoneGroupModal from '../components/modals/map-zone-group-config';
 
 /**
  * @return {JSX.Element} the map config view
@@ -141,6 +40,21 @@ export default function MapConfig(): JSX.Element {
   });
 
   const [deleteZone] = dataAPI.endpoints.deleteZone.useMutation();
+  const [deleteZoneGroup] = dataAPI.endpoints.deleteZoneGroup.useMutation();
+
+  const router = useRouter();
+  const userDetails = getUserDetails();
+  if (userDetails === null) {
+    router.push('/');
+    return (
+      <div>
+        <p>
+          You&apos;re not logged in, redirecting... If you are not redirected in
+          5 seconds please click <Link href="/">here</Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -189,9 +103,7 @@ export default function MapConfig(): JSX.Element {
                 <TableBody>
                   {zones?.map((z) => (
                     <TableRow key={z.id}>
-                      <TableCell component="th" scope="row">
-                        {z.id}
-                      </TableCell>
+                      <TableCell>{z.id}</TableCell>
                       <TableCell>{z.name}</TableCell>
                       <TableCell>
                         <Avatar style={{ backgroundColor: rgbToHex(z.colour) }}>
@@ -227,13 +139,19 @@ export default function MapConfig(): JSX.Element {
           <Grid item xs={6}>
             <Typography variant="h6">zone groups</Typography>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table>
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Members</TableCell>
-                    <TableCell>Edit</TableCell>
+                    <TableCell>
+                      <ZoneGroupModal
+                        userId={userDetails.id}
+                        zoneVars={zoneVars ?? []}
+                        zones={zones ?? []}
+                      />
+                    </TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -241,9 +159,7 @@ export default function MapConfig(): JSX.Element {
                   {zoneGroups?.map((zg) => {
                     return (
                       <TableRow key={zg.id}>
-                        <TableCell component="th" scope="row">
-                          {zg.id}
-                        </TableCell>
+                        <TableCell>{zg.id}</TableCell>
                         <TableCell>{zg.name}</TableCell>
                         <TableCell>
                           {zg.members
@@ -254,9 +170,16 @@ export default function MapConfig(): JSX.Element {
                         </TableCell>
 
                         <TableCell>
-                          <EditZoneGroupModal zoneGroup={zg} zones={zones} />
-                          <IconButton aria-label="remove">
-                            {/* TODO: Removal hook */}
+                          <ZoneGroupModal
+                            userId={userDetails.id}
+                            zones={zones ?? []}
+                            zoneVars={zoneVars ?? []}
+                            zoneGroup={zg}
+                          />
+                          <IconButton
+                            aria-label="remove"
+                            onClick={() => deleteZoneGroup(zg.id)}
+                          >
                             <Icons.Remove />
                           </IconButton>
                         </TableCell>

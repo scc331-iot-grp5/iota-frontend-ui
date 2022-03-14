@@ -135,7 +135,6 @@ const RuleCreator: React.FC<{
 
   const handleAddNewCondition = () => {
     setLocalConditions([
-      ...localConditions,
       {
         id: getId(),
         fact: D.Sensors[0],
@@ -143,6 +142,7 @@ const RuleCreator: React.FC<{
         operator: 'equals',
         apply: 'all',
       },
+      ...localConditions,
     ]);
   };
   const handleRemoveCondition = (id: number) => () => {
@@ -233,15 +233,15 @@ const RuleCreator: React.FC<{
 
   const handleAddNewEvent = () => {
     setLocalEvents([
-      ...localEvents,
       {
         id: getId(),
         type: 'triggerAlert',
       },
+      ...localEvents,
     ]);
   };
   const handleRemoveEvent = (id: number) => () => {
-    setLocalEvents([...localEvents.filter((e) => e.id !== id)]);
+    setLocalEvents(localEvents.filter((e) => e.id !== id));
   };
   const handleEditEventType =
     (id: number) => (event: SelectChangeEvent<HTMLInputElement>) => {
@@ -385,130 +385,132 @@ const RuleCreator: React.FC<{
               />
             </Grid>
             <Grid item xs={12}>
-              {localConditions.map((c) => (
-                <>
-                  <Grid key={c.id} container spacing={2}>
-                    <Grid item xs={2}>
-                      <IconButton onClick={handleRemoveCondition(c.id)}>
-                        <Icons.Remove />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <FormControl fullWidth>
-                        <InputLabel id="fact-select-label">Fact</InputLabel>
-                        <Select
-                          labelId="fact-select-label"
-                          value={c.fact as unknown as HTMLInputElement}
-                          onChange={handleEditConditionFact(c.id)}
-                          label="Fact"
-                        >
-                          {D.Sensors.map((s) => (
-                            <MenuItem key={s} value={s}>
-                              {s}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <FormControl fullWidth>
-                        <InputLabel id="operator-select-label">
-                          Operator
-                        </InputLabel>
-                        <Select
-                          labelId="operator-select-label"
-                          value={c.operator as unknown as HTMLInputElement}
-                          onChange={handleEditConditionOperator(c.id)}
-                          label="Operator"
-                        >
-                          {Object.entries(R.ComparatorSymbols).map(
-                            ([name, render]) => (
-                              <MenuItem key={name} value={name}>
-                                {render}
+              {localConditions
+                .sort((a, b) => a.id - b.id)
+                .map((c) => (
+                  <>
+                    <Grid key={c.id} container spacing={2}>
+                      <Grid item xs={2}>
+                        <IconButton onClick={handleRemoveCondition(c.id)}>
+                          <Icons.Remove />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth>
+                          <InputLabel id="fact-select-label">Fact</InputLabel>
+                          <Select
+                            labelId="fact-select-label"
+                            value={c.fact as unknown as HTMLInputElement}
+                            onChange={handleEditConditionFact(c.id)}
+                            label="Fact"
+                          >
+                            {D.Sensors.map((s) => (
+                              <MenuItem key={s} value={s}>
+                                {s}
                               </MenuItem>
-                            )
-                          )}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        fullWidth
-                        label="Value"
-                        value={c.value}
-                        onChange={handleEditConditionValue(c.id)}
-                      />
-                    </Grid>
-                    <Grid item xs={2} />
-                    <Grid item xs={5}>
-                      <FormControl fullWidth>
-                        <InputLabel id="apply-type-select-label">
-                          Apply To
-                        </InputLabel>
-                        <Select
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <FormControl fullWidth>
+                          <InputLabel id="operator-select-label">
+                            Operator
+                          </InputLabel>
+                          <Select
+                            labelId="operator-select-label"
+                            value={c.operator as unknown as HTMLInputElement}
+                            onChange={handleEditConditionOperator(c.id)}
+                            label="Operator"
+                          >
+                            {Object.entries(R.ComparatorSymbols).map(
+                              ([name, render]) => (
+                                <MenuItem key={name} value={name}>
+                                  {render}
+                                </MenuItem>
+                              )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextField
                           fullWidth
-                          labelId="apply-type-select-label"
-                          value={c.apply as unknown as HTMLInputElement}
-                          onChange={handleEditConditionApply(c.id)}
-                          label="Apply To"
-                        >
-                          <MenuItem value={'all'}>all</MenuItem>
-                          <MenuItem value={'one'}>one</MenuItem>
-                          <MenuItem value={'group'}>type</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={5}>
-                      <FormControl fullWidth>
-                        <InputLabel id="apply-target-select-label">
-                          Apply Target
-                        </InputLabel>
-                        <Select
-                          fullWidth
-                          input={<OutlinedInput label="Apply Target" />}
-                          disabled={c.apply === 'all'}
-                          labelId="apply-target-select-label"
-                          value={
-                            (c.apply === 'all'
-                              ? -1
-                              : c.apply === 'one'
-                              ? c.microbitID ?? -1
-                              : c.microbitGroup ??
-                                -1) as unknown as HTMLInputElement
-                          }
-                          onChange={handleEditConditionTarget(c.id)}
-                          label="Apply To"
-                        >
-                          {c.apply === 'all' ? (
-                            <MenuItem value={-1}>
-                              <ListItemText primary="none" />
-                            </MenuItem>
-                          ) : c.apply === 'one' ? (
-                            devices.map((d) => (
-                              <MenuItem key={d.id} value={d.id}>
-                                <ListItemText
-                                  primary={d.name}
-                                  secondary={d.id}
-                                />
+                          label="Value"
+                          value={c.value}
+                          onChange={handleEditConditionValue(c.id)}
+                        />
+                      </Grid>
+                      <Grid item xs={2} />
+                      <Grid item xs={5}>
+                        <FormControl fullWidth>
+                          <InputLabel id="apply-type-select-label">
+                            Apply To
+                          </InputLabel>
+                          <Select
+                            fullWidth
+                            labelId="apply-type-select-label"
+                            value={c.apply as unknown as HTMLInputElement}
+                            onChange={handleEditConditionApply(c.id)}
+                            label="Apply To"
+                          >
+                            <MenuItem value={'all'}>all</MenuItem>
+                            <MenuItem value={'one'}>one</MenuItem>
+                            <MenuItem value={'group'}>type</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <FormControl fullWidth>
+                          <InputLabel id="apply-target-select-label">
+                            Apply Target
+                          </InputLabel>
+                          <Select
+                            fullWidth
+                            input={<OutlinedInput label="Apply Target" />}
+                            disabled={c.apply === 'all'}
+                            labelId="apply-target-select-label"
+                            value={
+                              (c.apply === 'all'
+                                ? -1
+                                : c.apply === 'one'
+                                ? c.microbitID ?? -1
+                                : c.microbitGroup ??
+                                  -1) as unknown as HTMLInputElement
+                            }
+                            onChange={handleEditConditionTarget(c.id)}
+                            label="Apply To"
+                          >
+                            {c.apply === 'all' ? (
+                              <MenuItem value={-1}>
+                                <ListItemText primary="none" />
                               </MenuItem>
-                            ))
-                          ) : (
-                            deviceTypes.map((dt) => (
-                              <MenuItem key={dt.id} value={dt.id}>
-                                <ListItemText
-                                  primary={dt.name}
-                                  secondary={dt.id}
-                                />
-                              </MenuItem>
-                            ))
-                          )}
-                        </Select>
-                      </FormControl>
+                            ) : c.apply === 'one' ? (
+                              devices.map((d) => (
+                                <MenuItem key={d.id} value={d.id}>
+                                  <ListItemText
+                                    primary={d.name}
+                                    secondary={d.id}
+                                  />
+                                </MenuItem>
+                              ))
+                            ) : (
+                              deviceTypes.map((dt) => (
+                                <MenuItem key={dt.id} value={dt.id}>
+                                  <ListItemText
+                                    primary={dt.name}
+                                    secondary={dt.id}
+                                  />
+                                </MenuItem>
+                              ))
+                            )}
+                          </Select>
+                        </FormControl>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <br />
-                </>
-              ))}
+                    <br />
+                  </>
+                ))}
             </Grid>
 
             <Grid item xs={6}>
@@ -525,67 +527,69 @@ const RuleCreator: React.FC<{
               />
             </Grid>
             <Grid item xs={12}>
-              {localEvents.map((e) => (
-                <>
-                  <Grid key={e.id} container spacing={2}>
-                    <Grid item xs={2}>
-                      <IconButton onClick={handleRemoveEvent(e.id)}>
-                        <Icons.Remove />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={5}>
-                      <FormControl fullWidth>
-                        <InputLabel id="event-type-select-label">
-                          Emit
-                        </InputLabel>
-                        <Select
-                          fullWidth
-                          labelId="event-type-select-label"
-                          value={e.type as unknown as HTMLInputElement}
-                          onChange={handleEditEventType(e.id)}
-                          label="Emit"
-                        >
-                          <MenuItem value={'reportIncident'}>
-                            Report Incident
-                          </MenuItem>
-                          <MenuItem value={'triggerAlert'}>
-                            Trigger Alert
-                          </MenuItem>
-                          <MenuItem value={'sendMessage'}>
-                            Send Message
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
+              {localEvents
+                .sort((a, b) => a.id - b.id)
+                .map((e) => (
+                  <>
+                    <Grid key={e.id} container spacing={2}>
+                      <Grid item xs={2}>
+                        <IconButton onClick={handleRemoveEvent(e.id)}>
+                          <Icons.Remove />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <FormControl fullWidth>
+                          <InputLabel id="event-type-select-label">
+                            Emit
+                          </InputLabel>
+                          <Select
+                            fullWidth
+                            labelId="event-type-select-label"
+                            value={e.type as unknown as HTMLInputElement}
+                            onChange={handleEditEventType(e.id)}
+                            label="Emit"
+                          >
+                            <MenuItem value={'reportIncident'}>
+                              Report Incident
+                            </MenuItem>
+                            <MenuItem value={'triggerAlert'}>
+                              Trigger Alert
+                            </MenuItem>
+                            <MenuItem value={'sendMessage'}>
+                              Send Message
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
 
-                    <Grid item xs={5}>
-                      <TextField
-                        fullWidth
-                        label={
-                          e.type === 'sendMessage'
-                            ? 'Message'
-                            : e.type === 'reportIncident'
-                            ? 'Severity'
-                            : 'N/A'
-                        }
-                        disabled={e.type === 'triggerAlert'}
-                        type={
-                          e.type === 'reportIncident' ? 'number' : undefined
-                        }
-                        value={
-                          e.type === 'sendMessage'
-                            ? e.message
-                            : e.type === 'reportIncident'
-                            ? e.severity
-                            : ''
-                        }
-                        onChange={handleEditEventContent(e.id)}
-                      />
+                      <Grid item xs={5}>
+                        <TextField
+                          fullWidth
+                          label={
+                            e.type === 'sendMessage'
+                              ? 'Message'
+                              : e.type === 'reportIncident'
+                              ? 'Severity'
+                              : 'N/A'
+                          }
+                          disabled={e.type === 'triggerAlert'}
+                          type={
+                            e.type === 'reportIncident' ? 'number' : undefined
+                          }
+                          value={
+                            e.type === 'sendMessage'
+                              ? e.message
+                              : e.type === 'reportIncident'
+                              ? e.severity
+                              : ''
+                          }
+                          onChange={handleEditEventContent(e.id)}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <br />
-                </>
-              ))}
+                    <br />
+                  </>
+                ))}
             </Grid>
           </Grid>
         </DialogContent>
