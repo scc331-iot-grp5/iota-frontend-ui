@@ -287,21 +287,29 @@ export const dataAPI = createApi({
 
     // set zone group var value for zone
     setZoneVarValue: builder.mutation<
-      any,
-      { var_id: number; zone_id: number; value: any }
+      string,
+      { var_id: number; zone_id: number; value: string }
     >({
       query: ({ value, var_id: vId, zone_id: zId }) => ({
         url: `zone_var/${vId}/value/${zId}`,
         method: 'PUT',
-        body: value,
+        body: { value },
       }),
     }),
 
     // get zone group var value for zone
-    getZoneVarValue: builder.query<any, { var_id: number; zone_id: number }>({
-      query: ({ var_id: vId, zone_id: zId }) => ({
-        url: `zone_var/${vId}/value/${zId}`,
-        method: 'GET',
+    getZoneVarValue: builder.query<string, { var_id: number; zone_id: number }>(
+      {
+        query: ({ var_id: vId, zone_id: zId }) => ({
+          url: `zone_var/${vId}/value/${zId}`,
+          method: 'GET',
+        }),
+      }
+    ),
+
+    listZoneVarValues: builder.query<M.ZoneVarValue[], {}>({
+      query: () => ({
+        url: `zone_var_value`,
       }),
     }),
 
@@ -528,6 +536,7 @@ export const {
   useListZoneGroupsQuery,
   useListZoneVarsQuery,
   useListZonesQuery,
+  useListZoneVarValuesQuery,
 
   useLoginQuery,
 } = dataAPI;

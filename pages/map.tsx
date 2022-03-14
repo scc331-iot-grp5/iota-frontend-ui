@@ -38,6 +38,12 @@ export default function MapConfig(): JSX.Element {
   const { data: zoneVars } = dataAPI.endpoints.listZoneVars.useQuery(null, {
     pollingInterval: 2000,
   });
+  const { data: zoneVarValues } = dataAPI.endpoints.listZoneVarValues.useQuery(
+    {},
+    {
+      pollingInterval: 2000,
+    }
+  );
 
   const [deleteZone] = dataAPI.endpoints.deleteZone.useMutation();
   const [deleteZoneGroup] = dataAPI.endpoints.deleteZoneGroup.useMutation();
@@ -93,6 +99,7 @@ export default function MapConfig(): JSX.Element {
                         }}
                         groups={zoneGroups ?? []}
                         vars={zoneVars ?? []}
+                        varValues={zoneVarValues ?? []}
                         createMode={true}
                         userId={getUserDetails()?.id || 0}
                       />
@@ -120,6 +127,7 @@ export default function MapConfig(): JSX.Element {
                         <EditZoneModal
                           zone={z}
                           groups={zoneGroups ?? []}
+                          varValues={zoneVarValues ?? []}
                           vars={zoneVars ?? []}
                         />
                         <IconButton

@@ -13,18 +13,21 @@ import {
   Typography,
   TextField,
   InputLabel,
-  MenuItem,
+  FormControlLabel,
+  Switch,
+  Grid,
+  IconButton,
 } from '@mui/material';
-import { Grid, IconButton, Select, SelectChangeEvent } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 
 const ZoneModal: (props: {
   zone: M.Zone;
   groups: M.ZoneGroup[];
   vars: M.ZoneGroupVar[];
+  varValues: M.ZoneVarValue[];
   createMode?: boolean;
   userId?: number;
-}) => JSX.Element = ({ zone, groups, vars, createMode, userId }) => {
+}) => JSX.Element = ({ zone, groups, vars, varValues, createMode, userId }) => {
   const [open, setOpen] = React.useState(false);
   const [internalState, setInternalState] = React.useState({
     ...zone,
@@ -36,10 +39,23 @@ const ZoneModal: (props: {
   });
   const [editZone] = dataAPI.endpoints.editZone.useMutation();
   const [createZone] = dataAPI.endpoints.createZone.useMutation();
+  const [setVarValue] = dataAPI.endpoints.setZoneVarValue.useMutation();
 
-  if (typeof zone === 'undefined') {
-    return <></>;
-  }
+  const [localVarValues, setLocalVarValues] = React.useState(
+    vars
+      .filter(
+        (v) =>
+          v.group_id ===
+          (groups.find((g) => g.members.includes(zone.id))?.id ?? -1)
+      )
+      .map((v) => ({
+        ...v,
+        value:
+          varValues.find((vv) => vv.var_id === v.id && vv.zone_id === zone.id)
+            ?.value ??
+          (v.type === 'boolean' ? 'false' : v.type === 'number' ? '0' : ''),
+      }))
+  );
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInternalState({
@@ -59,15 +75,24 @@ const ZoneModal: (props: {
       geo_json: JSON.parse(event.target.value),
     });
   };
-  const handleGroupChange = (event: SelectChangeEvent) => {
-    setInternalState({
-      ...internalState,
-      chosenGroup:
-        event.target.value === '-1'
-          ? null
-          : groups?.find((g) => g.id === Number(event.target.value)) ?? null,
-    });
-  };
+
+  const handleZoneVarValueChange =
+    (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const toUpdate = localVarValues.find((v) => v.id === id);
+      if (typeof toUpdate === 'undefined') return;
+
+      setLocalVarValues([
+        {
+          ...toUpdate,
+          value: String(
+            toUpdate.type === 'boolean'
+              ? event.target.checked
+              : event.target.value
+          ),
+        },
+        ...localVarValues.filter((v) => v.id !== id),
+      ]);
+    };
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -87,8 +112,10 @@ const ZoneModal: (props: {
         colour: internalState.colour,
         geo_json: internalState.geo_json,
       });
-      // save zone group
       // save group var values
+      for (const v of localVarValues) {
+        setVarValue({ var_id: v.id, zone_id: zone.id, value: v.value });
+      }
     }
     setOpen(false);
   };
@@ -142,28 +169,43 @@ const ZoneModal: (props: {
               />
             </Grid>
 
-            {!createMode && (
-              <>
-                <Grid item xs={12}>
-                  <Select
-                    fullWidth={true}
-                    variant="outlined"
-                    label="group"
-                    value={internalState.chosenGroup?.id.toString() || '-1'}
-                    onChange={handleGroupChange}
-                  >
-                    <MenuItem value={-1}>
-                      <em>None</em>
-                    </MenuItem>
-                    {groups?.map((g) => (
-                      <MenuItem key={g.id} value={g.id}>
-                        {g.name}
-                      </MenuItem>
+            {((g?: M.ZoneGroup) =>
+              typeof g === 'undefined' ? (
+                <></>
+              ) : (
+                <>
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle1">Zone group vars</Typography>
+                  </Grid>
+                  {localVarValues
+                    .sort((a, b) => a.id - b.id)
+                    .map((v) => (
+                      <React.Fragment key={v.id}>
+                        <Grid item xs={12}>
+                          {v.type === 'boolean' ? (
+                            <FormControlLabel
+                              control={
+                                <Switch
+                                  checked={v.value === 'true'}
+                                  onChange={handleZoneVarValueChange(v.id)}
+                                />
+                              }
+                              label={v.name}
+                            />
+                          ) : (
+                            <TextField
+                              fullWidth={true}
+                              label={v.name}
+                              type={v.type === 'string' ? 'text' : 'number'}
+                              value={v.value}
+                              onChange={handleZoneVarValueChange(v.id)}
+                            />
+                          )}
+                        </Grid>
+                      </React.Fragment>
                     ))}
-                  </Select>
-                </Grid>
-              </>
-            )}
+                </>
+              ))(groups.find((g) => g.members.includes(internalState.id)))}
           </Grid>
         </DialogContent>
         <DialogActions>

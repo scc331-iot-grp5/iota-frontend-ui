@@ -89,8 +89,8 @@ export default function BasicTable() {
                       devices={devices ?? []}
                       readRights={readRights?.filter((r) => r.user_id === u.id)}
                     />
-                    <IconButton>
-                      <Icons.Remove onClick={handleDelete(u.id)} />
+                    <IconButton onClick={handleDelete(u.id)}>
+                      <Icons.Remove />
                     </IconButton>
                   </TableCell>
                 </TableRow>

@@ -261,8 +261,8 @@ const ZoneGroupModal: React.FC<{
                   {localVars
                     .sort((v1, v2) => v1.id - v2.id)
                     .map((v) => (
-                      <>
-                        <Grid key={v.id} container spacing={2}>
+                      <React.Fragment key={v.id}>
+                        <Grid container spacing={2}>
                           <Grid item xs={2}>
                             <IconButton onClick={handleRemoveZoneVar(v.id)}>
                               <Icons.Remove />
@@ -295,7 +295,7 @@ const ZoneGroupModal: React.FC<{
                           </Grid>
                         </Grid>
                         <br />
-                      </>
+                      </React.Fragment>
                     ))}
                 </Grid>
               </>

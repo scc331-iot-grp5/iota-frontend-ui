@@ -26,4 +26,4 @@ export interface ZoneGroupVar {
   type: 'number' | 'string' | 'boolean';
 }
 
-export type ZoneVarValue = any;
+export type ZoneVarValue = { var_id: number; zone_id: number; value: string };

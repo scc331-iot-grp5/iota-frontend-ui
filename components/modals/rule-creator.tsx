@@ -388,8 +388,8 @@ const RuleCreator: React.FC<{
               {localConditions
                 .sort((a, b) => a.id - b.id)
                 .map((c) => (
-                  <>
-                    <Grid key={c.id} container spacing={2}>
+                  <React.Fragment key={c.id}>
+                    <Grid container spacing={2}>
                       <Grid item xs={2}>
                         <IconButton onClick={handleRemoveCondition(c.id)}>
                           <Icons.Remove />
@@ -509,7 +509,7 @@ const RuleCreator: React.FC<{
                       </Grid>
                     </Grid>
                     <br />
-                  </>
+                  </React.Fragment>
                 ))}
             </Grid>
 
@@ -530,8 +530,8 @@ const RuleCreator: React.FC<{
               {localEvents
                 .sort((a, b) => a.id - b.id)
                 .map((e) => (
-                  <>
-                    <Grid key={e.id} container spacing={2}>
+                  <React.Fragment key={e.id}>
+                    <Grid container spacing={2}>
                       <Grid item xs={2}>
                         <IconButton onClick={handleRemoveEvent(e.id)}>
                           <Icons.Remove />
@@ -588,7 +588,7 @@ const RuleCreator: React.FC<{
                       </Grid>
                     </Grid>
                     <br />
-                  </>
+                  </React.Fragment>
                 ))}
             </Grid>
           </Grid>

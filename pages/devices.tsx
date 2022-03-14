@@ -102,25 +102,23 @@ export default function BasicTable(): JSX.Element {
                 </TableHead>
                 <TableBody>
                   {deviceTypes?.map((dt) => (
-                    <>
-                      <TableRow key={dt.id}>
-                        <TableCell>{dt.id}</TableCell>
-                        <TableCell>{dt.name}</TableCell>
-                        <TableCell>
-                          <Avatar
-                            style={{ backgroundColor: rgbToHex(dt.colour) }}
-                          >
-                            <Icons.CropSquare />
-                          </Avatar>
-                        </TableCell>
-                        <TableCell>
-                          <TypeModal type={dt} />
-                          <IconButton onClick={handleDeleteDeviceType(dt.id)}>
-                            <Icons.Remove />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    </>
+                    <TableRow key={dt.id}>
+                      <TableCell>{dt.id}</TableCell>
+                      <TableCell>{dt.name}</TableCell>
+                      <TableCell>
+                        <Avatar
+                          style={{ backgroundColor: rgbToHex(dt.colour) }}
+                        >
+                          <Icons.CropSquare />
+                        </Avatar>
+                      </TableCell>
+                      <TableCell>
+                        <TypeModal type={dt} />
+                        <IconButton onClick={handleDeleteDeviceType(dt.id)}>
+                          <Icons.Remove />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
                   ))}
                 </TableBody>
               </Table>
