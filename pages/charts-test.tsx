@@ -1,16 +1,14 @@
 import * as React from 'react';
+import Head from 'next/head';
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
-  FormControl,
-  MenuItem,
+  Box,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
+import AppBar from '../components/app-bar';
 import LineBar from '../components/charts/bar-chart';
 import Scatter from '../components/charts/scatter-chart';
 import Line from '../components/charts/line-chart';
@@ -20,76 +18,50 @@ import Pie from '../components/charts/pie-chart';
  * @return {JSX.Element} Charts DropDown
  */
 export default function DropDown() {
-  const [device, setDevice] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setDevice(event.target.value as string);
-  };
   return (
     <React.Fragment>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Device</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={device}
-          label="Device"
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>0001</MenuItem>
-          <MenuItem value={20}>0003</MenuItem>
-          <MenuItem value={30}>0004</MenuItem>
-        </Select>
-      </FormControl>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<Icons.ExpandMore />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Bar/line chart </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <LineBar />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<Icons.ExpandMore />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Scatter chart</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Scatter />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<Icons.ExpandMore />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>line chart</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Line />
-        </AccordionDetails>
-      </Accordion>
+      <Head>
+        <title>IOTA: Charts Preview</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<Icons.ExpandMore />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>pie chart</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Pie />
-        </AccordionDetails>
-      </Accordion>
+      <AppBar />
+
+      <Box sx={{ flexGrow: 1 }} margin={2}>
+        <Accordion>
+          <AccordionSummary expandIcon={<Icons.ExpandMore />}>
+            <Typography>Bar/line chart </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <LineBar />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<Icons.ExpandMore />}>
+            <Typography>Scatter chart</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Scatter />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<Icons.ExpandMore />}>
+            <Typography>line chart</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Line />
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion>
+          <AccordionSummary expandIcon={<Icons.ExpandMore />}>
+            <Typography>pie chart</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Pie />
+          </AccordionDetails>
+        </Accordion>
+      </Box>
     </React.Fragment>
   );
 }

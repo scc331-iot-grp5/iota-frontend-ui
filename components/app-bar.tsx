@@ -98,6 +98,11 @@ export default function IOTAAppBar(): JSX.Element {
             <MenuItem>
               <Link href="/rules">rule configuration</Link>
             </MenuItem>
+            <MenuItem>
+              <Link href="/charts-test" passHref>
+                <em>charts preview</em>
+              </Link>
+            </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             IOTA
