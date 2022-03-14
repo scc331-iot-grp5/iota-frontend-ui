@@ -75,7 +75,7 @@ export const dataAPI = createApi({
     // get device type by id
     getDeviceType: builder.query<D.Type, number>({
       query: (id) => ({
-        url: `device/${id}`,
+        url: `device_type/${id}`,
         method: 'GET',
       }),
     }),
@@ -103,7 +103,7 @@ export const dataAPI = createApi({
       Partial<D.Type> & Pick<D.Type, 'id'>
     >({
       query: (t) => ({
-        url: `device/${t.id}`,
+        url: `device_type/${t.id}`,
         method: 'POST',
         body: t,
       }),

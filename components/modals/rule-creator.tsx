@@ -88,8 +88,12 @@ const RuleCreator: React.FC<{
       ...localRule,
       body: {
         zone: selectedZoneGroupID === -1 ? undefined : selectedZoneGroupID,
-        conditions: localConditions,
-        events: localEvents,
+        conditions: localConditions.map((c) => ({
+          ...c,
+          id: undefined,
+          apply: undefined,
+        })),
+        events: localEvents.map((e) => ({ ...e, id: undefined })),
       },
     };
 

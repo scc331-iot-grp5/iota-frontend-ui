@@ -102,7 +102,7 @@ const DeviceConfigModal: React.FC<{
     };
 
   return (
-    <React.Fragment>
+    <>
       <IconButton onClick={handleClickOpen}>
         <Icons.Edit />
       </IconButton>
@@ -200,7 +200,7 @@ const DeviceConfigModal: React.FC<{
           <Button onClick={handleCloseWithSave}>save</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 };
 

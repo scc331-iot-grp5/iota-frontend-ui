@@ -11,9 +11,15 @@ import {
   Typography,
   Grid,
   Box,
+  Avatar,
+  Paper,
+  IconButton,
 } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import AppBar from '../components/app-bar';
 import DeviceModal from '../components/modals/device-config';
+import TypeModal from '../components/modals/device-type-config';
+import { rgbToHex } from '../utilities/colour';
 
 /**
  * @return {JSX.Element} a
@@ -21,12 +27,16 @@ import DeviceModal from '../components/modals/device-config';
 export default function BasicTable(): JSX.Element {
   const { data: devices } = dataAPI.endpoints.listDevices.useQuery(
     {},
-    { pollingInterval: 5000 }
+    { pollingInterval: 2000 }
   );
   const { data: deviceTypes } = dataAPI.endpoints.listDeviceTypes.useQuery(
     null,
-    { pollingInterval: 5000 }
+    { pollingInterval: 2000 }
   );
+  const [deleteDeviceType] = dataAPI.endpoints.deleteDeviceType.useMutation();
+  const handleDeleteDeviceType = (id: number) => () => {
+    deleteDeviceType(id);
+  };
 
   return (
     <React.Fragment>
@@ -39,9 +49,9 @@ export default function BasicTable(): JSX.Element {
 
       <Box sx={{ flexGrow: 1 }} margin={2}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item sm={6} xs={12}>
             <Typography variant="h6">devices</Typography>
-            <TableContainer>
+            <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -75,20 +85,44 @@ export default function BasicTable(): JSX.Element {
             </TableContainer>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item sm={6} xs={12}>
             <Typography variant="h6">device types</Typography>
 
-            <TableContainer>
+            <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Edit</TableCell>
+                    <TableCell>Colour</TableCell>
+                    <TableCell>
+                      <TypeModal />
+                    </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody></TableBody>
+                <TableBody>
+                  {deviceTypes?.map((dt) => (
+                    <>
+                      <TableRow key={dt.id}>
+                        <TableCell>{dt.id}</TableCell>
+                        <TableCell>{dt.name}</TableCell>
+                        <TableCell>
+                          <Avatar
+                            style={{ backgroundColor: rgbToHex(dt.colour) }}
+                          >
+                            <Icons.CropSquare />
+                          </Avatar>
+                        </TableCell>
+                        <TableCell>
+                          <TypeModal type={dt} />
+                          <IconButton onClick={handleDeleteDeviceType(dt.id)}>
+                            <Icons.Remove />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  ))}
+                </TableBody>
               </Table>
             </TableContainer>
           </Grid>

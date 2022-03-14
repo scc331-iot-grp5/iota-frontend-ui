@@ -11,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
   Typography,
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
@@ -75,7 +76,7 @@ export default function RulesTable(): JSX.Element {
 
       <Box sx={{ flexGrow: 1 }} margin={2}>
         <Typography variant="h6">Rules</Typography>
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
